@@ -1,0 +1,9 @@
+.typing {
+  position: relative;
+
+  &__words {
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 25px;
+  }
+}

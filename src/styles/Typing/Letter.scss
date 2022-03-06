@@ -1,0 +1,16 @@
+.letter {
+  color: var(--clr-none);
+
+  &--active {
+    background-color: #fff;
+    color: #000;
+  }
+
+  &--correct {
+    color: var(--clr-correct);
+  }
+
+  &--incorrect {
+    color: var(--clr-incorrect);
+  }
+}
