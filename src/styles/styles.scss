@@ -3,12 +3,10 @@
 :root {
   --clr-bg-dark: #0d0d1d;
   --clr-dark: #000;
-  --clr-none: #DCDCDC;
-  // --clr-none: #B2BEB5;
-  // --clr-none: #89ddff;
-  // --clr-correct: #f8aa35;
-  --clr-correct: #00faa7;
-  --clr-incorrect: #fc626a;
+  --clr-letter: #dcdcdc;
+  --clr-letter-correct: #00faa7;
+  --clr-letter-incorrect: #fc626a;
+  --clr-caret: #f8aa35;
 
   --font-family-default: 'Roboto Condensed', sans-serif;
   --font-weight-regular: 400;

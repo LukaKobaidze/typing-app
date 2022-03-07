@@ -6,18 +6,23 @@ interface Props {
     letter: string;
     state: 'correct' | 'incorrect' | 'none';
   }[];
-  currentLetter?: number;
+  isCurrentWord: boolean;
+  currentLetter: number;
 }
 
-const Word = ({ word, currentLetter }: Props) => {
+const Word = ({ word, isCurrentWord, currentLetter }: Props) => {
   return (
-    <div className="word">
+    <div
+      className={`word ${
+        isCurrentWord && currentLetter > word.length - 1 ? 'active' : ''
+      }`}
+    >
       {word.map((letter, index) => (
         <Letter
           key={index}
           letter={letter.letter}
           state={letter.state}
-          isCurrentLetter={!!(currentLetter && index === currentLetter)}
+          isCurrentLetter={isCurrentWord && index === currentLetter}
         />
       ))}
     </div>

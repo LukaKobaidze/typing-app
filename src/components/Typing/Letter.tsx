@@ -9,8 +9,8 @@ interface Props {
 const Letter = ({ letter, state, isCurrentLetter }: Props) => {
   return (
     <span
-      className={`letter ${isCurrentLetter ? 'letter--active' : ''} ${
-        state !== 'none' ? `letter--${state}` : ''
+      className={`letter ${state !== 'none' ? `letter--${state}` : ''} ${
+        isCurrentLetter ? 'active' : ''
       }`}
     >
       {letter}

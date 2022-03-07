@@ -1,3 +1,13 @@
+@use './typing-animations' as typingAnimations;
+
 .word {
-  margin: 3px;
+  margin: 2px;
+  border-right: 1px solid transparent;
+
+  &.active {
+    @include typingAnimations.caretColorFade(
+      wordCaretColorFade,
+      border-right-color
+    );
+  }
 }

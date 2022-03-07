@@ -1,16 +1,22 @@
-.letter {
-  color: var(--clr-none);
+@use './typing-animations' as typingAnimations;
 
-  &--active {
-    background-color: #fff;
-    color: #000;
+.letter {
+  display: inline-block;
+  color: var(--clr-letter);
+  border-left: 1px solid transparent;
+
+  &.active {
+    @include typingAnimations.caretColorFade(
+      letterCaretColorFade,
+      border-left-color
+    );
   }
 
   &--correct {
-    color: var(--clr-correct);
+    color: var(--clr-letter-correct);
   }
 
   &--incorrect {
-    color: var(--clr-incorrect);
+    color: var(--clr-letter-incorrect);
   }
 }

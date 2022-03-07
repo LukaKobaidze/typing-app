@@ -1,7 +1,6 @@
 import { useReducer } from 'react';
 import { typeReducer } from './typing-reducer';
 import Word from './Word';
-import Caret from './Caret';
 import 'styles/Typing/Typing.scss';
 
 export type typeState = {
@@ -47,17 +46,13 @@ const Typing = ({ sentence }: Props) => {
 
   return (
     <div className="typing" tabIndex={-1} onKeyDown={typeHandler}>
-      {/* <Caret currentLetterRef={currentLetterRef} /> */}
       <div className="typing__words">
         {typeState.sentence.map((word, index) => (
           <Word
             key={index}
             word={word}
-            currentLetter={
-              index === typeState.currentWord
-                ? typeState.currentLetter
-                : undefined
-            }
+            isCurrentWord={index === typeState.currentWord}
+            currentLetter={typeState.currentLetter}
           />
         ))}
       </div>
