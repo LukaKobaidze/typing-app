@@ -5,15 +5,15 @@ import 'styles/Footer/Footer.scss';
 const Footer = () => {
   return (
     <footer className="footer">
-      <a
-        href="https://github.com/LukaKobaidze/typing-app"
-        rel="noreferrer"
-        target="_blank"
-      >
-        <TextOnHover text="GitHub">
+      <TextOnHover text="GitHub">
+        <a
+          href="https://github.com/LukaKobaidze/typing-app"
+          rel="noreferrer"
+          target="_blank"
+        >
           <IconGithub className="footer__icon" />
-        </TextOnHover>
-      </a>
+        </a>
+      </TextOnHover>
     </footer>
   );
 };
