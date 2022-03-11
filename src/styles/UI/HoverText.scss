@@ -1,0 +1,9 @@
+.hover-text {
+  position: relative;
+
+  &__text {
+    position: absolute;
+    bottom: 0;
+    transform: translateY(100%)
+  }
+}

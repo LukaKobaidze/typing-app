@@ -1,0 +1,11 @@
+.quick-settings {
+  &__setting {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2px;
+  }
+
+  &__button {
+    margin-left: 2px;
+  }
+}

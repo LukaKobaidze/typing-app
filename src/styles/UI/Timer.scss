@@ -1,0 +1,7 @@
+.timer {
+  color: var(--clr-letter-correct);
+
+  &--red {
+    color: var(--clr-letter-incorrect);
+  }
+}

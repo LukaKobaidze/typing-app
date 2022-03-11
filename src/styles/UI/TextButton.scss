@@ -1,0 +1,18 @@
+.text-button {
+  font-family: inherit;
+  font-weight: inherit;
+  font-size: inherit;
+  background: none;
+  border: none;
+  color: var(--clr-letter-incorrect);
+  cursor: pointer;
+  transition: color 125ms ease-out;
+
+  &:hover {
+    color: var(--clr-letter);
+  }
+
+  &.active {
+    color: var(--clr-letter-correct);
+  }
+}

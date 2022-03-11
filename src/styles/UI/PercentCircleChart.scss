@@ -1,0 +1,69 @@
+.percent-circle-chart {
+  --percent: 95;
+
+  width: 120px;
+  height: 120px;
+  position: relative;
+  animation: fillRight 1s;
+
+  &__empty,
+  &__filled,
+  &__middle {
+    position: absolute;
+    border-radius: 50%;
+  }
+
+  &__empty,
+  &__filled {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+
+  &__empty {
+    z-index: 1;
+    background-color: var(--clr-letter-incorrect);
+  }
+  &__filled {
+    z-index: 2;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border-radius: 50%;
+    background: conic-gradient(
+      var(--clr-letter-correct) calc(var(--percent) * 1%),
+      #0000 0
+    );
+  }
+
+  &__middle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80%;
+    height: 80%;
+    background-color: var(--clr-bg-dark);
+    z-index: 3;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 30px;
+    font-weight: var(--font-weight-bold);
+
+    &::before {
+      content: '';
+      background-image: url(../../assets/images/percent.svg);
+      background-repeat: no-repeat;
+      background-size: 100%;
+      position: absolute;
+      font-weight: var(--font-weight-bold);
+      width: 70%;
+      height: 70%;
+      z-index: -1;
+      opacity: 0.15;
+    }
+  }
+}

@@ -1,10 +1,11 @@
 import Letter from './Letter';
 import 'styles/Typing/Word.scss';
+import { TypingLetterType } from 'shared/types/typing.type';
 
 interface Props {
   word: {
     letter: string;
-    state: 'correct' | 'incorrect' | 'none';
+    type: TypingLetterType;
   }[];
   isCurrentWord: boolean;
   currentLetter: number;
@@ -21,7 +22,7 @@ const Word = ({ word, isCurrentWord, currentLetter }: Props) => {
         <Letter
           key={index}
           letter={letter.letter}
-          state={letter.state}
+          type={letter.type}
           isCurrentLetter={isCurrentWord && index === currentLetter}
         />
       ))}

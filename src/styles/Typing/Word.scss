@@ -1,7 +1,7 @@
 @use './typing-animations' as typingAnimations;
 
 .word {
-  margin: 2px;
+  margin: 2px 3px;
   border-right: 1px solid transparent;
 
   &.active {

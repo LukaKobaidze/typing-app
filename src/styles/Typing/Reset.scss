@@ -1,0 +1,11 @@
+.reset {
+  color: var(--clr-letter-correct);
+
+  &__button {
+    display: block;
+    margin: 0 auto;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+}

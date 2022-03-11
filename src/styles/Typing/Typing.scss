@@ -1,10 +1,12 @@
 .typing {
   position: relative;
+  outline: none;
+  // overflow: hidden;
 
   &__words {
     display: flex;
     flex-wrap: wrap;
     font-size: 25px;
+    user-select: none;
   }
 }
-

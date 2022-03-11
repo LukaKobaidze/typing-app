@@ -1,15 +1,16 @@
+import { TypingLetterType } from 'shared/types/typing.type';
 import 'styles/Typing/Letter.scss';
 
 interface Props {
   letter: string;
-  state: 'correct' | 'incorrect' | 'none';
+  type: TypingLetterType;
   isCurrentLetter: boolean;
 }
 
-const Letter = ({ letter, state, isCurrentLetter }: Props) => {
+const Letter = ({ letter, type, isCurrentLetter }: Props) => {
   return (
     <span
-      className={`letter ${state !== 'none' ? `letter--${state}` : ''} ${
+      className={`letter ${type !== 'none' ? `letter--${type}` : ''} ${
         isCurrentLetter ? 'active' : ''
       }`}
     >

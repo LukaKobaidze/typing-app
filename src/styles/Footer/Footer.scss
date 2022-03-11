@@ -1,0 +1,10 @@
+.footer {
+  margin-top: 2rem;
+  padding: 2rem;
+
+  &__icon {
+    & > path {
+      fill: #f0f6fc;
+    }
+  }
+}
