@@ -9,16 +9,18 @@
     bottom: 0;
     transform: translateX(-50%) scale(0.1);
     width: min-content;
-    padding: 0.2rem .7rem;
+    padding: 0.2rem 0.7rem;
     background-color: var(--clr-dark);
     border-radius: 4px;
     transition: transform 175ms, opacity 200ms;
     pointer-events: none;
     z-index: -1;
     opacity: 0;
+    user-select: none;
   }
-  
-  & > :first-child:hover + &__text-div {
+
+  & > :first-child:hover + &__text-div,
+  & > :first-child:focus-visible + &__text-div {
     transform: translateX(-50%) translateY(calc(100% + 3px)) scale(1);
     z-index: 1;
     opacity: 1;
