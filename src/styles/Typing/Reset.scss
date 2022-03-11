@@ -1,11 +1,21 @@
 .reset {
+  margin: 20px auto 0 auto;
   color: var(--clr-letter-correct);
 
   &__button {
-    display: block;
-    margin: 0 auto;
     background: none;
     border: none;
     cursor: pointer;
+    color: var(--clr-letter-correct);
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+    transition: background-color 200ms ease-out;
+
+    &:hover, &:focus-visible {
+      background-color: rgba(255, 255, 255, 0.03);
+    }
+    &:active {
+      background-color: rgba(255, 255, 255, 0.075);
+    }
   }
 }
