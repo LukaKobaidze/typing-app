@@ -1,17 +1,18 @@
 import { TypingState } from 'shared/types/typing.type';
 import { Timer } from 'components/UI';
 import Word from './Word';
-import 'styles/Typing/Typing.scss';
 import Result from './Result';
 import Reset from './Reset';
+import 'styles/Typing/Typing.scss';
 
 interface Props {
   typingState: TypingState;
-  deleteKey: () => void;
   type: (key: string) => void;
+  reset: () => void;
+  deleteKey: () => void;
 }
 
-const Typing = ({ typingState, deleteKey, type }: Props) => {
+const Typing = ({ typingState, type, reset, deleteKey }: Props) => {
   const typeHandler = (event: React.KeyboardEvent<HTMLDivElement>) => {
     if (event.key === 'Backspace') {
       return deleteKey();
@@ -35,7 +36,7 @@ const Typing = ({ typingState, deleteKey, type }: Props) => {
           />
         ))}
       </div>
-      <Reset />
+      <Reset reset={reset} />
       {typingState.timerCountdown === 0 && (
         <Result
           typedWords={typingState.words.slice(0, typingState.currentWord + 1)}
