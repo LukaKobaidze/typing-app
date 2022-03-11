@@ -46,6 +46,10 @@ const App = () => {
     typingDispatch({ type: 'TYPE', payload: key });
   };
 
+  const reset = () => {
+    typingDispatch({ type: 'RESET' });
+  };
+
   const deleteKey = () => {
     typingDispatch({ type: 'DELETE_KEY' });
   };
@@ -67,7 +71,12 @@ const App = () => {
         changeTimer={changeTimer}
       />
       <main>
-        <Typing typingState={typingState} type={type} deleteKey={deleteKey} />
+        <Typing
+          typingState={typingState}
+          type={type}
+          reset={reset}
+          deleteKey={deleteKey}
+        />
       </main>
       <Footer />
     </>
