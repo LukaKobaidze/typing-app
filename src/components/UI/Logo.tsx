@@ -2,7 +2,7 @@ import { ReactComponent as IconKeyboard } from 'assets/images/keyboard.svg';
 import 'styles/UI/Logo.scss';
 
 interface Props {
-  theme?: 'light' | 'dark'; // 'dark' by default
+  theme?: 'light' | 'dark';
 }
 
 const Logo = ({ theme = 'dark' }: Props) => {
