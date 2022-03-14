@@ -15,11 +15,10 @@
     backdrop-filter: blur(10px);
   }
 
-  &__wpm, &__accuracy {
-    margin-top: 50px;
-  }
-
+  &__wpm,
   &__accuracy {
+    text-align: center;
+    margin-top: 50px;
   }
 
   &__number {

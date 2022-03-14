@@ -1,4 +1,6 @@
 .reset {
+  position: relative;
+  z-index: 1;
   margin: 20px auto 0 auto;
   color: var(--clr-letter-correct);
 
@@ -17,5 +19,10 @@
     &:active {
       background-color: rgba(255, 255, 255, 0.075);
     }
+  }
+
+  &__icon {
+    width: 30px;
+    height: 30px;
   }
 }
