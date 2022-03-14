@@ -1,4 +1,4 @@
-import { TypingLetterType } from 'shared/types/typing.type';
+import { TypingLetterType } from 'context/state-types';
 import 'styles/Typing/Letter.scss';
 
 interface Props {
