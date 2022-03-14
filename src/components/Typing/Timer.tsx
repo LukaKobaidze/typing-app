@@ -1,4 +1,4 @@
-import 'styles/UI/Timer.scss';
+import 'styles/Typing/Timer.scss';
 
 interface Props {
   seconds: number;
