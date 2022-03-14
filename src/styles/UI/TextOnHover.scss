@@ -19,10 +19,19 @@
     user-select: none;
   }
 
-  & > :first-child:hover + &__text-div,
-  & > :first-child:focus-visible + &__text-div {
+  @mixin onHover {
     transform: translateX(-50%) translateY(calc(100% + 3px)) scale(1);
     z-index: 1;
     opacity: 1;
+  }
+
+  & > :first-child:focus-visible + &__text-div {
+    @include onHover;
+  }
+
+  @media (pointer: fine) {
+    & > :first-child:hover + &__text-div {
+      @include onHover;
+    }
   }
 }
