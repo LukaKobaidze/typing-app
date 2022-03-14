@@ -1,6 +1,6 @@
+import { TypingLetterType } from 'context/state-types';
 import Letter from './Letter';
 import 'styles/Typing/Word.scss';
-import { TypingLetterType } from 'shared/types/typing.type';
 
 interface Props {
   word: {
