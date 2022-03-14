@@ -50,20 +50,16 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 30px;
+    font-size: 26px;
     font-weight: var(--font-weight-bold);
+  }
 
-    &::before {
-      content: '';
-      background-image: url(../../assets/images/percent.svg);
-      background-repeat: no-repeat;
-      background-size: 100%;
-      position: absolute;
-      font-weight: var(--font-weight-bold);
-      width: 70%;
-      height: 70%;
-      z-index: -1;
-      opacity: 0.15;
+  &__text {
+    &--success {
+      color: var(--clr-letter-correct);
+    }
+    &--fail {
+      color: var(--clr-letter-incorrect);
     }
   }
 }
