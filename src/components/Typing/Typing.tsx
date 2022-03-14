@@ -1,6 +1,6 @@
 import { useContext, useEffect } from 'react';
 import TypingContext from 'context/typing-context';
-import { Timer } from 'components/UI';
+import Timer from './Timer';
 import Word from './Word';
 import Result from './Result';
 import Reset from './Reset';
