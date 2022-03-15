@@ -5,10 +5,10 @@
   overflow: hidden;
   transform: translateY(calc(100% - 24px));
   transition: transform 750ms;
+  background-color: var(--clr-bg-dark);
   position: fixed;
   bottom: 0;
   right: 20px;
-  background-color: var(--clr-bg-dark);
 
   &--expanded {
     transform: translateY(0);
