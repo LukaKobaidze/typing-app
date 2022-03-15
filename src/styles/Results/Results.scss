@@ -28,11 +28,14 @@
     align-items: center;
     justify-content: center;
     color: var(--clr-bg-dark);
-    
+
     cursor: pointer;
 
     &-icon {
+      transition: transform 450ms;
+
       &--active {
+        transform: rotate(-180deg);
       }
     }
   }
