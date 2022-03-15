@@ -14,7 +14,7 @@ header {
   align-items: center;
   padding: 2rem;
 
-  @media (max-width: 450px) {
+  @media (max-width: 525px) {
     flex-direction: column;
     padding-bottom: 0;
   }
