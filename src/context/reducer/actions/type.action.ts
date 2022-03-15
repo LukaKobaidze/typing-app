@@ -7,10 +7,20 @@ const type = (state: TypingState, key: string): TypingState => {
   }
 
   const words = state.words.slice(0);
-  const currentWord = words[state.wordIndex];
-  const currentLetter = currentWord[state.letterIndex];
 
   if (key === ' ') {
+    if (state.letterIndex < words[state.wordIndex].length) {
+      words[state.wordIndex] = words[state.wordIndex].map((letter) => {
+        if (letter.type === 'none') {
+          return {
+            ...letter,
+            type: 'incorrect',
+          };
+        }
+        return letter;
+      });
+    }
+
     if (state.letterIndex === 0) {
       return state;
     }
@@ -30,7 +40,7 @@ const type = (state: TypingState, key: string): TypingState => {
     };
   }
 
-  if (state.letterIndex === currentWord.length) {
+  if (state.letterIndex === words[state.wordIndex].length) {
     words[state.wordIndex] = [
       ...words[state.wordIndex],
       {
@@ -48,7 +58,10 @@ const type = (state: TypingState, key: string): TypingState => {
       words,
     };
   }
-  currentLetter.type = key === currentLetter.letter ? 'correct' : 'incorrect';
+  words[state.wordIndex][state.letterIndex].type =
+    key === words[state.wordIndex][state.letterIndex].letter
+      ? 'correct'
+      : 'incorrect';
 
   return {
     ...state,
