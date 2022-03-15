@@ -11,10 +11,9 @@ interface Props {
 
 const TypingResult = ({ typedWords, secondsTook }: Props) => {
   const { dispatch } = useContext(TypingContext);
-  const { wordsCorrect, totalLetters, lettersCorrect } =
-    getWordsData(typedWords);
+  const { totalLetters, lettersCorrect } = getWordsData(typedWords);
 
-  const calcWPM = wordsCorrect / (secondsTook / 60);
+  const calcWPM = lettersCorrect / 5 / (secondsTook / 60);
   const calcAccuracy = +((lettersCorrect / totalLetters) * 100).toFixed(2);
 
   useEffect(() => {
@@ -46,8 +45,6 @@ const TypingResult = ({ typedWords, secondsTook }: Props) => {
 export default TypingResult;
 
 function getWordsData(words: TypingWordsType) {
-  let totalWords = words.length;
-  let wordsCorrect: number = 0;
   let totalLetters: number = 0;
   let lettersCorrect: number = 0;
 
@@ -74,13 +71,13 @@ function getWordsData(words: TypingWordsType) {
     }
 
     if (isWordCorrect) {
-      wordsCorrect++;
+      // Including spaces
+      totalLetters++;
+      lettersCorrect++;
     }
   }
 
   return {
-    totalWords,
-    wordsCorrect,
     totalLetters,
     lettersCorrect,
   };
