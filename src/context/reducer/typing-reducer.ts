@@ -1,4 +1,9 @@
-import { TypingDifficulty, TypingState, TypingTime } from 'context/state-types';
+import {
+  TypingDifficulty,
+  TypingResult,
+  TypingState,
+  TypingTime,
+} from 'context/state-types';
 import {
   reset,
   type,
@@ -6,6 +11,7 @@ import {
   setTime,
   timeDecrement,
   setDifficulty,
+  addResult,
 } from './actions';
 
 export type TypingActions =
@@ -29,6 +35,10 @@ export type TypingActions =
   | {
       type: 'SET_DIFFICULTY';
       payload: TypingDifficulty;
+    }
+  | {
+      type: 'ADD_RESULT';
+      payload: TypingResult;
     };
 
 const typingReducer = (
@@ -48,6 +58,8 @@ const typingReducer = (
       return timeDecrement(state);
     case 'SET_DIFFICULTY':
       return setDifficulty(state, action.payload);
+    case 'ADD_RESULT':
+      return addResult(state, action.payload);
     default:
       return state;
   }

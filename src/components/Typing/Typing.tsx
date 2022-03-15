@@ -1,13 +1,14 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useRef } from 'react';
 import TypingContext from 'context/typing-context';
-import Timer from './Timer';
-import Word from './Word';
-import Result from './Result';
-import Reset from './Reset';
+import TypingReset from './TypingReset';
+import TypingResult from './TypingResult';
+import TypingTimer from './TypingTimer';
+import TypingWord from './TypingWord';
 import 'styles/Typing/Typing.scss';
 
 const Typing = () => {
   const { state, dispatch } = useContext(TypingContext);
+  const wordRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     let interval: NodeJS.Timer;
@@ -39,23 +40,32 @@ const Typing = () => {
     return () => document.removeEventListener('keydown', typeHandler);
   }, [dispatch]);
 
+  const wordsStyle: React.CSSProperties = {
+    transform: `translateY(-${Math.max(
+      wordRef.current?.offsetTop! - wordRef.current?.clientHeight! - 9,
+      0
+    )}px)`,
+  };
+
   return (
-    <div className="typing">
-      <Timer seconds={state.timerCountdown} />
-      <div className="typing__words">
-        {state.words.map((word, index) => (
-          <Word
-            key={index}
-            word={word}
-            isCurrentWord={index === state.currentWord}
-            currentLetter={state.currentLetter}
-          />
-        ))}
+    <div className="typing" tabIndex={0}>
+      <TypingTimer seconds={state.timerCountdown} />
+      <div className="typing__words__wrapper">
+        <div className="typing__words" style={wordsStyle}>
+          {state.words.map((word, index) => (
+            <TypingWord
+              key={index}
+              word={word}
+              isCurrentWord={index === state.wordIndex}
+              wordRef={index === state.wordIndex ? wordRef : undefined}
+            />
+          ))}
+        </div>
       </div>
-      <Reset />
+      <TypingReset />
       {state.timerCountdown === 0 && (
-        <Result
-          typedWords={state.words.slice(0, state.currentWord + 1)}
+        <TypingResult
+          typedWords={state.words.slice(0, state.wordIndex + 1)}
           secondsTook={state.initialTime}
         />
       )}

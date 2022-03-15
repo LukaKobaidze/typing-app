@@ -1,0 +1,15 @@
+.links {
+  display: flex;
+  align-items: center;
+  padding: 2rem 0;
+
+  & > *:not(:last-child) {
+    margin-right: 10px;
+  }
+
+  &__icon {
+    & > path {
+      fill: #f0f6fc;
+    }
+  }
+}

@@ -14,8 +14,8 @@ const setTime = (state: TypingState, time: TypingTime): TypingState => {
     initialTime: time,
     timerCountdown: time,
     typingStarted: false,
-    currentWord: 0,
-    currentLetter: 0,
+    wordIndex: 0,
+    letterIndex: 0,
     words,
   };
 };

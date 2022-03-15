@@ -1,12 +1,17 @@
 .typing {
   position: relative;
   outline: none;
-  // overflow: hidden;
 
   &__words {
     display: flex;
     flex-wrap: wrap;
     font-size: 25px;
     user-select: none;
+    transition: transform 50ms;
+
+    &__wrapper {
+      height: 105px;
+      overflow: hidden;
+    }
   }
 }

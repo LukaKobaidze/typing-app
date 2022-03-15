@@ -1,10 +1,10 @@
 .percent-circle-chart {
   --percent: 95;
-
   width: 120px;
   height: 120px;
   position: relative;
   animation: fillRight 1s;
+  font-size: 26px;
 
   &__empty,
   &__filled,
@@ -50,16 +50,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 26px;
     font-weight: var(--font-weight-bold);
-  }
-
-  &__text {
-    &--success {
-      color: var(--clr-letter-correct);
-    }
-    &--fail {
-      color: var(--clr-letter-incorrect);
-    }
+    color: var(--clr-bg);
   }
 }

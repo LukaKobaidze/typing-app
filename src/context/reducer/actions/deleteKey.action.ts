@@ -6,23 +6,23 @@ const deleteKey = (state: TypingState): TypingState => {
   }
 
   const words = state.words.slice(0);
-  let currentWord = words[state.currentWord];
-  const currentLetter = currentWord[state.currentLetter - 1];
+  let currentWord = words[state.wordIndex];
+  const currentLetter = currentWord[state.letterIndex - 1];
 
   if (currentLetter) {
     if (!currentLetter.extra) {
       currentLetter.type = 'none';
     } else {
-      words[state.currentWord] = currentWord.slice(0, -1);
+      words[state.wordIndex] = currentWord.slice(0, -1);
     }
   }
 
-  const stateCurrentLetter = currentLetter ? state.currentLetter - 1 : 0;
+  const stateCurrentLetter = currentLetter ? state.letterIndex - 1 : 0;
 
   return {
     ...state,
-    currentWord: state.currentWord,
-    currentLetter: stateCurrentLetter,
+    wordIndex: state.wordIndex,
+    letterIndex: stateCurrentLetter,
     words,
   };
 };

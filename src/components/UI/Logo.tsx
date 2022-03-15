@@ -2,12 +2,12 @@ import { ReactComponent as IconKeyboard } from 'assets/images/keyboard.svg';
 import 'styles/UI/Logo.scss';
 
 interface Props {
-  theme?: 'light' | 'dark';
+  colored: boolean;
 }
 
-const Logo = ({ theme = 'dark' }: Props) => {
+const Logo = ({ colored }: Props) => {
   return (
-    <div className={`logo logo--${theme}`}>
+    <div className={`logo logo--${colored ? 'color' : 'nocolor'}`}>
       <IconKeyboard className="logo__icon" />
       <div className="logo__text-div">
         <span className="logo__text-div__title">Typing app</span>

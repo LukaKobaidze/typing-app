@@ -14,12 +14,20 @@ export type TypingSettings = {
   timer: TypingTime;
 };
 
+export type TypingResult = { wpm: number; accuracy: number };
+
+export type TypingResults = {
+  best: TypingResult | null;
+  recent: TypingResult[];
+};
+
 export type TypingState = {
   typingStarted: boolean;
-  currentWord: number;
-  currentLetter: number;
+  wordIndex: number;
+  letterIndex: number;
   words: TypingWordsType;
   initialTime: TypingTime;
   timerCountdown: number;
   difficulty: TypingDifficulty;
+  results: TypingResults;
 };

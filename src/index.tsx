@@ -2,10 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from 'App';
 import 'styles/styles.scss';
+import TypingContextProvider from 'context/TypingContextProvider';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <TypingContextProvider>
+      <App />
+    </TypingContextProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

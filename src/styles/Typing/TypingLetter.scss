@@ -1,6 +1,6 @@
 @use './typing-animations' as typingAnimations;
 
-.letter {
+.typing-letter {
   display: inline-block;
   color: var(--clr-letter);
   border-left: 1px solid transparent;

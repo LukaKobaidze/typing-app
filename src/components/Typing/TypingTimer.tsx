@@ -1,15 +1,15 @@
-import 'styles/Typing/Timer.scss';
+import 'styles/Typing/TypingTimer.scss';
 
 interface Props {
   seconds: number;
 }
 
-const Timer = ({ seconds }: Props) => {
+const TypingTimer = ({ seconds }: Props) => {
   const calcMinutes = String(Math.floor(seconds / 60)).padStart(2, '0');
   const calcSeconds = String(seconds % 60).padStart(2, '0');
 
   return (
-    <div className={`timer ${seconds <= 5 ? 'timer--red' : ''}`}>
+    <div className={`typing-timer ${seconds <= 5 ? 'typing-timer--red' : ''}`}>
       <p>
         {calcMinutes}:{calcSeconds}
       </p>
@@ -17,4 +17,4 @@ const Timer = ({ seconds }: Props) => {
   );
 };
 
-export default Timer;
+export default TypingTimer;

@@ -1,0 +1,11 @@
+.results-item {
+ 
+  &__title {
+    font-weight: var(--font-weight-bold);
+    margin-top: 10px;
+  }
+  &__list-item {
+    display: flex;
+    justify-content: space-between;
+  }
+}

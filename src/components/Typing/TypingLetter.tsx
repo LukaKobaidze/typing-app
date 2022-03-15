@@ -1,5 +1,5 @@
 import { TypingLetterType } from 'context/state-types';
-import 'styles/Typing/Letter.scss';
+import 'styles/Typing/TypingLetter.scss';
 
 interface Props {
   letter: string;
@@ -7,10 +7,10 @@ interface Props {
   isCurrentLetter: boolean;
 }
 
-const Letter = ({ letter, type, isCurrentLetter }: Props) => {
+const TypingLetter = ({ letter, type, isCurrentLetter }: Props) => {
   return (
     <span
-      className={`letter ${type !== 'none' ? `letter--${type}` : ''} ${
+      className={`typing-letter ${type !== 'none' ? `typing-letter--${type}` : ''} ${
         isCurrentLetter ? 'active' : ''
       }`}
     >
@@ -19,4 +19,4 @@ const Letter = ({ letter, type, isCurrentLetter }: Props) => {
   );
 };
 
-export default Letter;
+export default TypingLetter;

@@ -2,9 +2,9 @@ import { useContext, useRef } from 'react';
 import TypingContext from 'context/typing-context';
 import { ReactComponent as IconRefresh } from 'assets/images/refresh.svg';
 import { TextOnHover } from 'components/UI';
-import 'styles/Typing/Reset.scss';
+import 'styles/Typing/TypingReset.scss';
 
-const Reset = () => {
+const TypingReset = () => {
   const { dispatch } = useContext(TypingContext);
   const divRef = useRef<HTMLDivElement>(null);
   const resetRef = useRef<HTMLButtonElement>(null);
@@ -18,13 +18,13 @@ const Reset = () => {
   return (
     <>
       <div tabIndex={-1} ref={divRef} />
-      <TextOnHover text="Restart" classNameWrapper="reset">
-        <button className="reset__button" ref={resetRef} onClick={resetHandler}>
-          <IconRefresh className="reset__icon" />
+      <TextOnHover text="Restart" classNameWrapper="typing-reset">
+        <button className="typing-reset__button" ref={resetRef} onClick={resetHandler}>
+          <IconRefresh className="typing-reset__icon" />
         </button>
       </TextOnHover>
     </>
   );
 };
 
-export default Reset;
+export default TypingReset;

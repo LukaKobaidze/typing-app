@@ -13,8 +13,8 @@ const setDifficulty = (
     difficulty: difficulty,
     timerCountdown: state.initialTime,
     typingStarted: false,
-    currentWord: 0,
-    currentLetter: 0,
+    wordIndex: 0,
+    letterIndex: 0,
     words,
   };
 };
