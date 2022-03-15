@@ -11,6 +11,7 @@ const ResultsItem = ({ title, results }: Props) => {
     <div className="results-item">
       <p className="results-item__title">{title}</p>
       {results &&
+        results[0] &&
         results.map((result, index) => (
           <div key={index} className="results-item__list-item">
             <div>
