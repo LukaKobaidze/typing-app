@@ -42,7 +42,7 @@ const Typing = () => {
 
   const wordsStyle: React.CSSProperties = {
     transform: `translateY(-${Math.max(
-      wordRef.current?.offsetTop! - wordRef.current?.clientHeight! - 13,
+      wordRef.current?.offsetTop! - wordRef.current?.clientHeight! - 15,
       0
     )}px)`,
   };
