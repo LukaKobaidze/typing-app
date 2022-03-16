@@ -51,7 +51,10 @@ const Typing = () => {
     <div className="typing" tabIndex={0}>
       <TypingTimer seconds={state.timerCountdown} />
       <div className="typing__words__wrapper">
-        <div className="typing__words" style={wordsStyle}>
+        <div
+          className="typing__words"
+          style={state.typingStarted ? wordsStyle : {}}
+        >
           {state.words.map((word, index) => (
             <TypingWord
               key={index}
