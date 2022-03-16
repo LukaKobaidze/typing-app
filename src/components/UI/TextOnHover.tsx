@@ -18,11 +18,11 @@ const TextOnHover = (props: Props) => {
   } = props;
 
   return (
-    <div className={`text-on-hover ${classNameWrapper}`}>
+    <div
+      className={`text-on-hover text-on-hover--${position} ${classNameWrapper}`}
+    >
       {children}
-      <div
-        className={`text-on-hover__text-div text-on-hover__text-div--${position} ${className}`}
-      >
+      <div className={`text-on-hover__text-div ${className}`}>
         <p>{text}</p>
       </div>
     </div>
