@@ -2,12 +2,13 @@
   position: relative;
   width: max-content;
 
+  $translateX: translateX(-50%);
   &__text-div {
     color: currentColor;
     position: absolute;
     left: 50%;
-    bottom: 0;
-    transform: translateX(-50%) scale(0.1);
+    top: 22%;
+    transform: $translateX scale(0.1);
     width: min-content;
     padding: 0.2rem 0.7rem;
     background-color: var(--clr-dark);
@@ -19,19 +20,37 @@
     user-select: none;
   }
 
-  @mixin onHover {
-    transform: translateX(-50%) translateY(calc(100% + 3px)) scale(1);
+  @mixin hoverTransform($position) {
+    $scale: scale(1);
+
     z-index: 1;
     opacity: 1;
-  }
 
-  & > :first-child:focus-visible + &__text-div {
-    @include onHover;
-  }
-
-  @media (pointer: fine) {
-    & > :first-child:hover + &__text-div {
-      @include onHover;
+    @if $position == top {
+      transform: $translateX translateY(calc(-100% - 15px)) $scale;
+    } @else if $position == bottom {
+      transform: $translateX translateY(calc(100% + 15px)) $scale;
+    } @else if $position == right {
+      transform: translateX(50%) $scale;
+    } @else if $position == left {
+      transform: translateX(-150%) $scale;
     }
   }
+
+  @mixin onHover($position) {
+    &--#{$position} > :first-child:focus-visible + &__text-div {
+      @include hoverTransform($position);
+    }
+
+    @media (pointer: fine) {
+      &--#{$position} > :first-child:hover + &__text-div {
+        @include hoverTransform($position);
+      }
+    }
+  }
+
+  @include onHover(top);
+  @include onHover(right);
+  @include onHover(bottom);
+  @include onHover(left);
 }
