@@ -19,7 +19,11 @@ const TypingReset = () => {
     <>
       <div tabIndex={-1} ref={divRef} />
       <TextOnHover text="Restart" classNameWrapper="typing-reset">
-        <button className="typing-reset__button" ref={resetRef} onClick={resetHandler}>
+        <button
+          className="typing-reset__button"
+          ref={resetRef}
+          onClick={resetHandler}
+        >
           <IconRefresh className="typing-reset__icon" />
         </button>
       </TextOnHover>
