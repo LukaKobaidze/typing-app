@@ -1,6 +1,6 @@
 ## About The Project
 
-(screenshot.jpg)
+[Project image](screenshot.jpg)
 
 This project is inspired by [monkeytype](https://monkeytype.com/)
 
