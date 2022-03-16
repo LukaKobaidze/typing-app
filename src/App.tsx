@@ -1,10 +1,10 @@
 import { useContext } from 'react';
 import TypingContext from 'context/typing-context';
 import { Logo } from 'components/UI';
-import Settings from 'components/Settings/Settings';
-import Typing from 'components/Typing/Typing';
-import Links from 'components/Links/Links';
-import Results from 'components/Results/Results';
+import Settings from 'components/Settings';
+import Typing from 'components/Typing';
+import Links from 'components/Links';
+import Results from 'components/Results';
 import 'styles/App.scss';
 
 const App = () => {
