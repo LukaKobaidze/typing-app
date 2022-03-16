@@ -8,7 +8,7 @@ interface Props {
 
 const LinksItem = ({ name, href, icon }: Props) => {
   return (
-    <TextOnHover text={name}>
+    <TextOnHover text={name} position="top">
       <a
         href={href}
         rel="noreferrer"
