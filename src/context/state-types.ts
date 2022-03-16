@@ -7,7 +7,7 @@ export type TypingWordsType = {
 }[][];
 
 export type TypingDifficulty = 'medium' | 'hard';
-export type TypingTime = 1 | 15 | 30 | 60 | 120;
+export type TypingTime = 15 | 30 | 60 | 120;
 
 export type TypingSettings = {
   difficulty: TypingDifficulty;
