@@ -41,6 +41,7 @@ const Typing = () => {
         if (key === ' ') {
           // prevent spacebar from scrolling page
           event.preventDefault();
+          return dispatch({ type: 'SKIP_WORD' });
         }
 
         return dispatch({ type: 'TYPE', payload: key });

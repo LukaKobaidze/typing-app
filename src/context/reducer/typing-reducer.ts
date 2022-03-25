@@ -7,6 +7,7 @@ import {
 import {
   reset,
   type,
+  skipWord,
   deleteKey,
   deleteWord,
   setTime,
@@ -22,6 +23,9 @@ export type TypingActions =
   | {
       type: 'TYPE';
       payload: string;
+    }
+  | {
+      type: 'SKIP_WORD';
     }
   | {
       type: 'DELETE_KEY';
@@ -54,6 +58,8 @@ const typingReducer = (
       return reset(state);
     case 'TYPE':
       return type(state, action.payload);
+    case 'SKIP_WORD':
+      return skipWord(state);
     case 'DELETE_KEY':
       return deleteKey(state);
     case 'DELETE_WORD':
