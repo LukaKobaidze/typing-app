@@ -1,8 +1,8 @@
+import { useContext } from 'react';
+import { TypingContext } from 'context';
 import { TypingLetterType } from 'shared/types';
 import TypingLetter from './TypingLetter';
 import styles from 'styles/Typing/TypingWord.module.scss';
-import { useContext } from 'react';
-import { TypingContext } from 'context';
 
 interface Props {
   word: {
