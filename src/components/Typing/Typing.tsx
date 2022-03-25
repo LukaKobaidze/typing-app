@@ -27,6 +27,10 @@ const Typing = () => {
 
   useEffect(() => {
     const typeHandler = (event: KeyboardEvent) => {
+      if (event.ctrlKey && event.key === 'Backspace') {
+        return dispatch({ type: 'DELETE_WORD' });
+      }
+
       if (event.key === 'Backspace') {
         return dispatch({ type: 'DELETE_KEY' });
       }
@@ -44,8 +48,6 @@ const Typing = () => {
   const typingClickHandler = () => {
     hiddenInputRef.current?.focus();
   };
-
-  console.log(hiddenInputRef.current?.value);
 
   const wordsStyle: React.CSSProperties = {
     transform: `translateY(-${Math.max(

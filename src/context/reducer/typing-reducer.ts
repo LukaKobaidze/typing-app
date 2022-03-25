@@ -8,6 +8,7 @@ import {
   reset,
   type,
   deleteKey,
+  deleteWord,
   setTime,
   timeDecrement,
   setDifficulty,
@@ -24,6 +25,9 @@ export type TypingActions =
     }
   | {
       type: 'DELETE_KEY';
+    }
+  | {
+      type: 'DELETE_WORD';
     }
   | {
       type: 'SET_TIME';
@@ -52,6 +56,8 @@ const typingReducer = (
       return type(state, action.payload);
     case 'DELETE_KEY':
       return deleteKey(state);
+    case 'DELETE_WORD':
+      return deleteWord(state);
     case 'SET_TIME':
       return setTime(state, action.payload);
     case 'TIME_DECREMENT':
