@@ -15,3 +15,10 @@
     }
   }
 }
+
+.hidden-input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  user-select: none;
+}

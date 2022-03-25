@@ -9,6 +9,7 @@ import styles from 'styles/Typing/Typing.module.scss';
 const Typing = () => {
   const { state, dispatch } = useContext(TypingContext);
   const wordRef = useRef<HTMLDivElement>(null);
+  const hiddenInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     let interval: NodeJS.Timer;
@@ -40,6 +41,12 @@ const Typing = () => {
     return () => document.removeEventListener('keydown', typeHandler);
   }, [dispatch]);
 
+  const typingClickHandler = () => {
+    hiddenInputRef.current?.focus();
+  };
+
+  console.log(hiddenInputRef.current?.value);
+
   const wordsStyle: React.CSSProperties = {
     transform: `translateY(-${Math.max(
       wordRef.current?.offsetTop! - wordRef.current?.clientHeight! - 15,
@@ -48,7 +55,12 @@ const Typing = () => {
   };
 
   return (
-    <div className={styles.typing} tabIndex={0}>
+    <div className={styles.typing} tabIndex={0} onClick={typingClickHandler}>
+      <input
+        type="text"
+        className={styles['hidden-input']}
+        ref={hiddenInputRef}
+      />
       <TypingTimer seconds={state.timerCountdown} />
       <div className={styles['typing__words__wrapper']}>
         <div
