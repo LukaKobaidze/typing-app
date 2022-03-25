@@ -1,4 +1,4 @@
-import { TypingState } from 'context/state-types';
+import { TypingState } from 'shared/types';
 
 const timeDecrement = (state: TypingState): TypingState => {
   if (state.timerCountdown === 0) {

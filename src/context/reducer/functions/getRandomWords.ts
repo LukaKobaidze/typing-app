@@ -1,5 +1,5 @@
 import randomWords from 'random-words';
-import { TypingDifficulty } from '../../state-types';
+import { TypingDifficulty } from 'shared/types';
 
 const getRandomWords = (
   difficulty: TypingDifficulty = 'medium',

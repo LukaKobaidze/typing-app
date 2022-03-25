@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { TypingContext } from 'context';
-import { TypingDifficulty, TypingTime } from 'context/state-types';
+import { TypingDifficulty, TypingTime } from 'shared/types';
 import { TextButton } from 'components/UI';
 import 'styles/Settings/SettingsItem.scss';
 

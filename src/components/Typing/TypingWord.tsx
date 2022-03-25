@@ -1,4 +1,4 @@
-import { TypingLetterType } from 'context/state-types';
+import { TypingLetterType } from 'shared/types';
 import TypingLetter from './TypingLetter';
 import 'styles/Typing/TypingWord.scss';
 import { useContext } from 'react';

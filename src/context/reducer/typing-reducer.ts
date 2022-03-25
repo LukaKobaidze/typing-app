@@ -3,7 +3,7 @@ import {
   TypingResult,
   TypingState,
   TypingTime,
-} from 'context/state-types';
+} from 'shared/types';
 import {
   reset,
   type,

@@ -1,4 +1,4 @@
-import { TypingResult } from 'context/state-types';
+import { TypingResult } from 'shared/types';
 import 'styles/Results/ResultsItem.scss';
 
 interface Props {

@@ -4,7 +4,7 @@ import {
   TypingResults,
   TypingState,
   TypingTime,
-} from './state-types';
+} from 'shared/types';
 import { TypingActions } from './reducer/typing-reducer';
 import { getRandomWords, transformWordsArray } from './reducer/functions';
 

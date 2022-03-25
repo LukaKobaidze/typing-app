@@ -1,4 +1,4 @@
-import { TypingWordsType } from '../../state-types';
+import { TypingWordsType } from 'shared/types';
 
 const transformWordsArray = (words: string[]): TypingWordsType => {
   return words.map((word: string) => {

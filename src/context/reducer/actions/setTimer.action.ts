@@ -1,4 +1,4 @@
-import { TypingState, TypingTime } from 'context/state-types';
+import { TypingState, TypingTime } from 'shared/types';
 import { getRandomWords, transformWordsArray } from '../functions';
 
 const setTime = (state: TypingState, time: TypingTime): TypingState => {

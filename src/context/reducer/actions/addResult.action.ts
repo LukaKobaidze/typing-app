@@ -1,4 +1,4 @@
-import { TypingResult, TypingState } from 'context/state-types';
+import { TypingResult, TypingState } from 'shared/types';
 
 const addResult = (state: TypingState, result: TypingResult): TypingState => {
   const recent = state.results.recent.slice();

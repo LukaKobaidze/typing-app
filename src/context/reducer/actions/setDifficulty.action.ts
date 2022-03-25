@@ -1,4 +1,4 @@
-import { TypingDifficulty, TypingState } from 'context/state-types';
+import { TypingDifficulty, TypingState } from 'shared/types';
 import { getRandomWords, transformWordsArray } from '../functions';
 
 const setDifficulty = (

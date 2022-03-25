@@ -1,4 +1,4 @@
-import { TypingState } from 'context/state-types';
+import { TypingState } from 'shared/types';
 import { getRandomWords, transformWordsArray } from '../functions';
 
 const type = (state: TypingState, key: string): TypingState => {
