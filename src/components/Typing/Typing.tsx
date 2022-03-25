@@ -59,20 +59,22 @@ const Typing = () => {
 
   const wordsStyle: React.CSSProperties = {
     transform: `translateY(-${Math.max(
-      wordRef.current?.offsetTop! - wordRef.current?.clientHeight! - 15,
+      wordRef.current?.offsetTop! -
+        wordRef.current?.clientHeight! -
+        wordRef.current?.clientHeight! / 2,
       0
     )}px)`,
   };
 
   return (
-    <div className={styles.typing} tabIndex={0} onClick={typingClickHandler}>
+    <div className={styles.typing} tabIndex={0}>
       <input
         type="text"
         className={styles['hidden-input']}
         ref={hiddenInputRef}
       />
       <TypingTimer seconds={state.timerCountdown} />
-      <div className={styles['typing__words__wrapper']}>
+      <div className={styles['typing__words__wrapper']} onClick={typingClickHandler}>
         <div
           className={styles['typing__words']}
           style={state.typingStarted ? wordsStyle : {}}
