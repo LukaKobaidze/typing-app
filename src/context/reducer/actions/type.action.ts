@@ -41,6 +41,14 @@ const type = (state: TypingState, key: string): TypingState => {
   }
 
   if (state.letterIndex === words[state.wordIndex].length) {
+    const firstExtraIndex = words[state.wordIndex].findIndex(
+      (letter) => letter.extra
+    );
+
+    if (words[state.wordIndex].length - firstExtraIndex + 1 > 9) {
+      return state;
+    }
+
     words[state.wordIndex] = [
       ...words[state.wordIndex],
       {
