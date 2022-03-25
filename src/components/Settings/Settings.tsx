@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { TypingContext } from 'context';
 import SettingsItem from './SettingsItem';
-import 'styles/Settings/Settings.scss';
+import styles from 'styles/Settings/Settings.module.scss';
 
 interface Props {
   className?: string;
@@ -9,7 +9,7 @@ interface Props {
 
 const Settings = ({ className }: Props) => {
   const {
-    state: { difficulty, initialTime, typingStarted },
+    state: { difficulty, initialTime },
   } = useContext(TypingContext);
 
   const isActiveDifficulty = (paramDifficulty: typeof difficulty) =>
@@ -19,11 +19,7 @@ const Settings = ({ className }: Props) => {
     paramTimer === initialTime;
 
   return (
-    <div
-      className={`settings ${
-        typingStarted ? 'opacity-hidden' : ''
-      } ${className}`}
-    >
+    <div className={`${styles.settings} ${className}`}>
       <SettingsItem
         title="Difficulty"
         settings={{

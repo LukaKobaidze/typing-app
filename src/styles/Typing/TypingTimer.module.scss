@@ -1,11 +1,7 @@
-.typing-timer {
+.timer {
   font-size: 22px;
   color: var(--clr-letter-correct);
   margin-bottom: 10px;
-
-  @media (max-width: 450px) {
-
-  }
 
   &--red {
     color: var(--clr-letter-incorrect);

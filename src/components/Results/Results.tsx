@@ -3,7 +3,7 @@ import { TypingContext } from 'context';
 import { TypingResult } from 'shared/types';
 import { ReactComponent as IconKeyboardArrowDown } from 'assets/images/keyboard_arrow_down.svg';
 import ResultsItem from './ResultsItem';
-import 'styles/Results/Results.scss';
+import styles from 'styles/Results/Results.module.scss';
 
 const Results = () => {
   const isShowInitial =
@@ -25,18 +25,25 @@ const Results = () => {
   return (
     <>
       {results.recent.length !== 0 && (
-        <div className="results__wrapper">
-          <div className={`results ${isShown ? 'results--expanded' : ''}`}>
-            <button className="results__header-button" onClick={toggleIsShown}>
+        <div className={styles['results__wrapper']}>
+          <div
+            className={`${styles.results} ${
+              isShown && styles['results--expanded']
+            }`}
+          >
+            <button
+              className={styles['results__header-button']}
+              onClick={toggleIsShown}
+            >
               Results
               <IconKeyboardArrowDown
-                className={`results__header-button-icon ${
-                  isShown ? 'results__header-button-icon--active' : ''
+                className={`${styles['results__header-button-icon']} ${
+                  isShown && styles['results__header-button-icon--active']
                 }`}
               />
             </button>
-            <div className="results__result">
-              <div className="results__result__header">
+            <div className={styles['results__result']}>
+              <div className={styles['results__result__header']}>
                 <p>WPM</p>
                 <p>Accuracy</p>
               </div>

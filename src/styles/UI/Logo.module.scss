@@ -1,0 +1,42 @@
+.logo {
+  display: flex;
+  user-select: none;
+
+  &--color {
+    --clr-logo-text: var(--clr-letter-correct);
+    --clr-logo-icon: var(--clr-letter-incorrect);
+  }
+
+  &--nocolor {
+    --clr-logo-text: var(--clr-letter);
+    --clr-logo-icon: var(--clr-letter);
+  }
+}
+
+.icon {
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+
+  & > path {
+    fill: var(--clr-logo-icon);
+    transition: fill 200ms;
+  }
+}
+
+.text-div {
+  display: flex;
+  flex-direction: column;
+  color: var(--clr-logo-text);
+  transition: color 200ms;
+
+  &__title {
+    font-weight: var(--font-weight-bold);
+    font-size: 35px;
+  }
+  &__subtitle {
+    margin-top: 2px;
+    font-size: 13px;
+    text-indent: 5px;
+  }
+}

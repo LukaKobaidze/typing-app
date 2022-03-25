@@ -1,4 +1,4 @@
-import 'styles/UI/TextButton.scss';
+import styles from 'styles/UI/TextButton.module.scss';
 
 interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   text: string;
@@ -8,7 +8,9 @@ interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 const TextButton = ({ text, isActive, className, ...rest }: Props) => {
   return (
     <button
-      className={`text-button ${isActive ? 'active' : ''} ${className}`}
+      className={`${styles.button} ${
+        isActive ? styles.active : ''
+      } ${className}`}
       {...rest}
     >
       {text}

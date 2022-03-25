@@ -1,5 +1,5 @@
 import { TypingLetterType } from 'shared/types';
-import 'styles/Typing/TypingLetter.scss';
+import styles from 'styles/Typing/TypingLetter.module.scss';
 
 interface Props {
   letter: string;
@@ -10,9 +10,9 @@ interface Props {
 const TypingLetter = ({ letter, type, isCurrentLetter }: Props) => {
   return (
     <span
-      className={`typing-letter ${
-        type !== 'none' ? `typing-letter--${type}` : ''
-      } ${isCurrentLetter ? 'active' : ''}`}
+      className={`${styles.letter} ${
+        type !== 'none' && styles[`letter--${type}`]
+      } ${isCurrentLetter && styles.active}`}
     >
       {letter}
     </span>

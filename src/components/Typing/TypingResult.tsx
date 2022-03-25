@@ -2,7 +2,7 @@ import { useContext, useEffect } from 'react';
 import { TypingContext } from 'context';
 import { TypingWordsType } from 'shared/types';
 import { PercentCircleChart } from 'components/UI';
-import 'styles/Typing/TypingResult.scss';
+import styles from 'styles/Typing/TypingResult.module.scss';
 
 interface Props {
   typedWords: TypingWordsType;
@@ -24,17 +24,17 @@ const TypingResult = ({ typedWords, secondsTook }: Props) => {
   }, [calcWPM, calcAccuracy, dispatch]);
 
   return (
-    <div className="typing-result__wrapper">
-      <div className="typing-result">
-        <div className="typing-result__wpm">
+    <div className={styles['result__wrapper']}>
+      <div className={styles.result}>
+        <div className={styles['result__wpm']}>
           <p>Words per minute (WPM)</p>
-          <p className="typing-result__number">{calcWPM}</p>
+          <p className={styles['result__number']}>{calcWPM}</p>
         </div>
-        <div className="typing-result__accuracy">
+        <div className={styles['result__accuracy']}>
           <p>Accuracy</p>
           <PercentCircleChart
             percentage={calcAccuracy}
-            className="typing-result__percent-circle"
+            className={styles['result__percent-circle']}
           />
         </div>
       </div>

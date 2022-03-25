@@ -1,0 +1,26 @@
+.item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2px;
+
+  &__title {
+    @media (max-width: 525px) {
+      font-weight: var(--font-weight-bold);
+    }
+  }
+
+  &__buttons {
+    @media (max-width: 525px) {
+      margin-top: 5px;
+      font-size: 18px;
+    }
+  }
+
+  @media (max-width: 525px) {
+    flex-direction: column;
+  }
+}
+
+.button {
+  margin-left: 2px;
+}

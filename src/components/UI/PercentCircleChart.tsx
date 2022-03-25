@@ -1,4 +1,4 @@
-import 'styles/UI/PercentCircleChart.scss';
+import styles from 'styles/UI/PercentCircleChart.module.scss';
 
 interface Props {
   percentage: number;
@@ -9,13 +9,13 @@ const PercentCircleChart = ({ percentage, className }: Props) => {
   const style = { '--percent': percentage } as React.CSSProperties;
 
   return (
-    <div className={`percent-circle-chart ${className}`} style={style}>
-      <div className="percent-circle-chart__empty" />
-      <div className="percent-circle-chart__filled" />
-      <div className="percent-circle-chart__middle">
+    <div className={`${styles.circle} ${className}`} style={style}>
+      <div className={styles['circle__empty']} />
+      <div className={styles['circle__filled']} />
+      <div className={styles['circle__middle']}>
         <p
-          className={`percent-circle-chart__text percent-circle-chart__text--${
-            percentage >= 75 ? 'success' : 'fail'
+          className={`${styles['circle__text']} ${
+            styles[`circle__text--${percentage >= 75 ? 'success' : 'fail'}`]
           }`}
         >
           {percentage}%

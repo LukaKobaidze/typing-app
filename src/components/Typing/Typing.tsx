@@ -1,10 +1,10 @@
 import { useContext, useEffect, useRef } from 'react';
 import { TypingContext } from 'context';
-import TypingReset from './TypingReset';
+import TypingReset from './TypingRestart';
 import TypingResult from './TypingResult';
 import TypingTimer from './TypingTimer';
 import TypingWord from './TypingWord';
-import 'styles/Typing/Typing.scss';
+import styles from 'styles/Typing/Typing.module.scss';
 
 const Typing = () => {
   const { state, dispatch } = useContext(TypingContext);
@@ -48,11 +48,11 @@ const Typing = () => {
   };
 
   return (
-    <div className="typing" tabIndex={0}>
+    <div className={styles.typing} tabIndex={0}>
       <TypingTimer seconds={state.timerCountdown} />
-      <div className="typing__words__wrapper">
+      <div className={styles['typing__words__wrapper']}>
         <div
-          className="typing__words"
+          className={styles['typing__words']}
           style={state.typingStarted ? wordsStyle : {}}
         >
           {state.words.map((word, index) => (

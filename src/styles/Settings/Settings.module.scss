@@ -1,0 +1,9 @@
+.settings {
+  @media (max-width: 525px) {
+    margin-top: 50px;
+
+    & > *:not(:last-child) {
+      margin-bottom: 10px;
+    }
+  }
+}

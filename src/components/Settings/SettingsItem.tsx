@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import { TypingContext } from 'context';
 import { TypingDifficulty, TypingTime } from 'shared/types';
 import { TextButton } from 'components/UI';
-import 'styles/Settings/SettingsItem.scss';
+import styles from 'styles/Settings/SettingsItem.module.scss';
 
 interface Props {
   title: string;
@@ -36,14 +36,14 @@ const SettingsItem = ({ title, settings }: Props) => {
   };
 
   return (
-    <div className="settings__setting">
-      <p className="settings__setting__title">{title}:</p>
-      <div className="settings__setting__buttons">
+    <div className={styles.item}>
+      <p className={styles['item__title']}>{title}:</p>
+      <div className={styles['item__buttons']}>
         {settings.buttons.map((setting) => (
           <TextButton
             key={setting.text}
             text={String(setting.text)}
-            className={`settings__button`}
+            className={styles.button}
             onClick={() => clickHandler(setting.text)}
             isActive={!!setting.active}
           />

@@ -1,10 +1,10 @@
 import { ReactComponent as IconGithub } from 'assets/images/github.svg';
 import LinksItem from './LinksItem';
-import 'styles/Links/Links.scss';
+import styles from 'styles/Links/Links.module.scss';
 
 const Links = () => {
   return (
-    <div className="links">
+    <div className={styles.links}>
       <LinksItem
         name="GitHub"
         href="https://github.com/LukaKobaidze/typing-app"

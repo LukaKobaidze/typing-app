@@ -1,5 +1,5 @@
 import { TypingResult } from 'shared/types';
-import 'styles/Results/ResultsItem.scss';
+import styles from 'styles/Results/ResultsItem.module.scss';
 
 interface Props {
   title: string;
@@ -8,12 +8,12 @@ interface Props {
 
 const ResultsItem = ({ title, results }: Props) => {
   return (
-    <div className="results-item">
-      <p className="results-item__title">{title}</p>
+    <div className={styles.item}>
+      <p className={styles['item__title']}>{title}</p>
       {results &&
         results[0] &&
         results.map((result, index) => (
-          <div key={index} className="results-item__list-item">
+          <div key={index} className={styles['item__list-item']}>
             <div>
               <p>{result.wpm}</p>
             </div>

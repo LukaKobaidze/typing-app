@@ -1,4 +1,4 @@
-.typing-result {
+.result {
   width: 50%;
   min-width: 335px;
   margin: 20px auto 0 auto;
@@ -38,7 +38,7 @@
     margin-top: 15px;
     font-size: 50px;
     font-weight: var(--font-weight-bold);
-    
+
     @media (max-width: 385px) {
       font-size: 40px;
     }

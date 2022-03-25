@@ -1,6 +1,6 @@
 import { TypingLetterType } from 'shared/types';
 import TypingLetter from './TypingLetter';
-import 'styles/Typing/TypingWord.scss';
+import styles from 'styles/Typing/TypingWord.module.scss';
 import { useContext } from 'react';
 import { TypingContext } from 'context';
 
@@ -21,8 +21,8 @@ const TypingWord = ({ word, isCurrentWord, wordRef, style }: Props) => {
 
   return (
     <div
-      className={`typing-word ${
-        isCurrentWord && letterIndex > word.length - 1 ? 'active' : ''
+      className={`${styles.word} ${
+        isCurrentWord && letterIndex > word.length - 1 && styles.active
       }`}
       style={style}
       ref={wordRef}

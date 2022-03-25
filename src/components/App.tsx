@@ -5,24 +5,24 @@ import Settings from 'components/Settings';
 import Typing from 'components/Typing';
 import Links from 'components/Links';
 import Results from 'components/Results';
-import 'styles/App.scss';
+import styles from 'styles/App.module.scss';
 
 const App = () => {
   const {
     state: { typingStarted },
   } = useContext(TypingContext);
 
-  const typingStartedClass = typingStarted ? 'hide' : '';
+  const typingStartedClass = typingStarted ? styles.hide : '';
   return (
     <>
-      <header>
+      <header className={styles.header}>
         <Logo colored={!typingStarted} />
         <Settings className={typingStartedClass} />
       </header>
-      <main>
+      <main className={styles.main}>
         <Typing />
       </main>
-      <footer className={typingStartedClass}>
+      <footer className={`${styles.footer} ${typingStartedClass}`}>
         <Links />
         <Results />
       </footer>
