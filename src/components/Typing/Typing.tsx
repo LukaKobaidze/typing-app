@@ -27,16 +27,23 @@ const Typing = () => {
 
   useEffect(() => {
     const typeHandler = (event: KeyboardEvent) => {
-      if (event.ctrlKey && event.key === 'Backspace') {
+      const { key } = event;
+
+      if (event.ctrlKey && key === 'Backspace') {
         return dispatch({ type: 'DELETE_WORD' });
       }
 
-      if (event.key === 'Backspace') {
+      if (key === 'Backspace') {
         return dispatch({ type: 'DELETE_KEY' });
       }
 
-      if (event.key.length === 1) {
-        return dispatch({ type: 'TYPE', payload: event.key });
+      if (key.length === 1) {
+        if (key === ' ') {
+          // prevent spacebar from scrolling page
+          event.preventDefault();
+        }
+
+        return dispatch({ type: 'TYPE', payload: key });
       }
     };
 
