@@ -1,12 +1,12 @@
 import { TypingDifficulty, TypingState } from 'shared/types';
-import { getRandomWords, transformWordsArray } from '../functions';
+import { getRandomWords } from '../../utils';
 
 const setDifficulty = (
   state: TypingState,
   difficulty: TypingDifficulty
 ): TypingState => {
   window.localStorage.setItem('difficulty', difficulty);
-  const words = transformWordsArray(getRandomWords(difficulty));
+  const words = getRandomWords(difficulty);
 
   return {
     ...state,

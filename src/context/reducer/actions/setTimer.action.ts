@@ -1,12 +1,12 @@
 import { TypingState, TypingTime } from 'shared/types';
-import { getRandomWords, transformWordsArray } from '../functions';
+import { getRandomWords } from '../../utils';
 
 const setTime = (state: TypingState, time: TypingTime): TypingState => {
   window.localStorage.setItem('time', String(time));
 
   const words =
     state.timerCountdown !== state.initialTime
-      ? transformWordsArray(getRandomWords(state.difficulty))
+      ? getRandomWords(state.difficulty)
       : state.words;
 
   return {

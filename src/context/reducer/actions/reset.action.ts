@@ -1,8 +1,8 @@
 import { TypingState } from 'shared/types';
-import { getRandomWords, transformWordsArray } from '../functions';
+import { getRandomWords } from '../../utils';
 
 const reset = (state: TypingState): TypingState => {
-  const words = transformWordsArray(getRandomWords(state.difficulty));
+  const words = getRandomWords(state.difficulty);
 
   return {
     ...state,

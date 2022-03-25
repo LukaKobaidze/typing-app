@@ -1,5 +1,4 @@
 import { TypingState } from 'shared/types';
-import { getRandomWords, transformWordsArray } from '../functions';
 
 const type = (state: TypingState, key: string): TypingState => {
   if (state.timerCountdown === 0) {
@@ -8,47 +7,19 @@ const type = (state: TypingState, key: string): TypingState => {
 
   const words = state.words.slice(0);
 
-  if (key === ' ') {
-    if (state.letterIndex < words[state.wordIndex].length) {
-      words[state.wordIndex] = words[state.wordIndex].map((letter) => {
-        if (letter.type === 'none') {
-          return {
-            ...letter,
-            type: 'incorrect',
-          };
-        }
-        return letter;
-      });
-    }
-
-    if (state.letterIndex === 0) {
-      return state;
-    }
-
-    const nextWordIndex = state.wordIndex + 1;
-
-    if (nextWordIndex % 10 === 0) {
-      words.push(...transformWordsArray(getRandomWords(state.difficulty, 10)));
-    }
-
-    return {
-      ...state,
-      typingStarted: true,
-      wordIndex: nextWordIndex,
-      letterIndex: 0,
-      words,
-    };
-  }
-
+  // Extra letters
   if (state.letterIndex === words[state.wordIndex].length) {
+    // Find index of first extra letter
     const firstExtraIndex = words[state.wordIndex].findIndex(
       (letter) => letter.extra
     );
 
-    if (words[state.wordIndex].length - firstExtraIndex + 1 > 9) {
+    // If there are 10 extra letters, do nothing
+    if (words[state.wordIndex].length - firstExtraIndex === 10) {
       return state;
     }
 
+    // Add extra letter
     words[state.wordIndex] = [
       ...words[state.wordIndex],
       {
@@ -66,6 +37,8 @@ const type = (state: TypingState, key: string): TypingState => {
       words,
     };
   }
+
+  // Check if typed key is correct
   words[state.wordIndex][state.letterIndex].type =
     key === words[state.wordIndex][state.letterIndex].letter
       ? 'correct'

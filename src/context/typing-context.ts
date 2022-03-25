@@ -6,7 +6,7 @@ import {
   TypingTime,
 } from 'shared/types';
 import { TypingActions } from './reducer/typing-reducer';
-import { getRandomWords, transformWordsArray } from './reducer/functions';
+import { getRandomWords } from './utils';
 
 const initialDifficulty = (): TypingDifficulty =>
   (window.localStorage.getItem('difficulty') as TypingDifficulty) || 'medium';
@@ -27,7 +27,7 @@ export const initialTypingState: TypingState = {
   difficulty: initialDifficulty(),
   initialTime: initialTime(),
   timerCountdown: initialTime(),
-  words: transformWordsArray(getRandomWords(initialDifficulty())),
+  words: getRandomWords(initialDifficulty()),
   results: initialResults(),
 };
 

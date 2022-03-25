@@ -7,17 +7,17 @@ const deleteKey = (state: TypingState): TypingState => {
 
   const words = state.words.slice(0);
   let currentWord = words[state.wordIndex];
-  const currentLetter = currentWord[state.letterIndex - 1];
+  const prevLetter = currentWord[state.letterIndex - 1];
 
-  if (currentLetter) {
-    if (!currentLetter.extra) {
-      currentLetter.type = 'none';
+  let stateCurrentLetter = state.letterIndex;
+  if (prevLetter) {
+    if (!prevLetter.extra) {
+      prevLetter.type = 'none';
     } else {
       words[state.wordIndex] = currentWord.slice(0, -1);
     }
+    stateCurrentLetter -= 1;
   }
-
-  const stateCurrentLetter = currentLetter ? state.letterIndex - 1 : 0;
 
   return {
     ...state,

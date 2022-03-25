@@ -1,10 +1,17 @@
 import { TypingState } from 'shared/types';
 
 const deleteWord = (state: TypingState): TypingState => {
-  const words = state.words.slice();
-  let currentWord = words[state.wordIndex];
+  if (state.timerCountdown === 0) {
+    return state;
+  }
 
+  const words = state.words.slice(0);
+  const currentWord = words[state.wordIndex];
+
+  // Find index of first extra letter
   const extraLetterIndex = currentWord.findIndex((letter) => letter.extra);
+
+  // If there are extra letters, remove them
   if (extraLetterIndex !== -1) {
     words[state.wordIndex] = currentWord.slice(0, extraLetterIndex);
   }
