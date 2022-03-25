@@ -1,4 +1,4 @@
-import 'styles/UI/TextOnHover.scss';
+import styles from 'styles/UI/TextOnHover.module.scss';
 
 interface Props {
   text: string;
@@ -19,10 +19,12 @@ const TextOnHover = (props: Props) => {
 
   return (
     <div
-      className={`text-on-hover text-on-hover--${position} ${classNameWrapper}`}
+      className={`${styles.container} ${
+        styles[`container--${position}`]
+      } ${classNameWrapper}`}
     >
       {children}
-      <div className={`text-on-hover__text-div ${className}`}>
+      <div className={`${styles['container__text']} ${className}`}>
         <p>{text}</p>
       </div>
     </div>
