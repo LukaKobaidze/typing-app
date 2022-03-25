@@ -1,6 +1,7 @@
 .logo {
   display: flex;
   user-select: none;
+  min-width: 255px;
 
   &--color {
     --clr-logo-text: var(--clr-letter-correct);
