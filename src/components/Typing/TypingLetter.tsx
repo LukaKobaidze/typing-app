@@ -11,8 +11,8 @@ const TypingLetter = ({ letter, type, isCurrentLetter }: Props) => {
   return (
     <span
       className={`${styles.letter} ${
-        type !== 'none' && styles[`letter--${type}`]
-      } ${isCurrentLetter && styles.active}`}
+        type !== 'none' ? styles[`letter--${type}`] : ''
+      } ${isCurrentLetter ? styles.active : ''}`}
     >
       {letter}
     </span>

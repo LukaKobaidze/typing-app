@@ -9,7 +9,9 @@ const TypingTimer = ({ seconds }: Props) => {
   const calcSeconds = String(seconds % 60).padStart(2, '0');
 
   return (
-    <div className={`${styles.timer} ${seconds <= 5 && 'typing-timer--red'}`}>
+    <div
+      className={`${styles.timer} ${seconds <= 5 ? styles['timer--red'] : ''}`}
+    >
       <p>
         {calcMinutes}:{calcSeconds}
       </p>

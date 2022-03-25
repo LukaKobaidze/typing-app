@@ -22,7 +22,7 @@ const TypingWord = ({ word, isCurrentWord, wordRef, style }: Props) => {
   return (
     <div
       className={`${styles.word} ${
-        isCurrentWord && letterIndex > word.length - 1 && styles.active
+        isCurrentWord && letterIndex > word.length - 1 ? styles.active : ''
       }`}
       style={style}
       ref={wordRef}

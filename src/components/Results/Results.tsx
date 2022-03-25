@@ -28,7 +28,7 @@ const Results = () => {
         <div className={styles['results__wrapper']}>
           <div
             className={`${styles.results} ${
-              isShown && styles['results--expanded']
+              isShown ? styles['results--expanded'] : ''
             }`}
           >
             <button
@@ -38,7 +38,7 @@ const Results = () => {
               Results
               <IconKeyboardArrowDown
                 className={`${styles['results__header-button-icon']} ${
-                  isShown && styles['results__header-button-icon--active']
+                  isShown ? styles['results__header-button-icon--active'] : ''
                 }`}
               />
             </button>
