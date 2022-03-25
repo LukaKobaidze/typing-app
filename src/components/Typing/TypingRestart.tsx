@@ -24,7 +24,7 @@ const TypingRestart = () => {
           ref={resetRef}
           onClick={resetHandler}
         >
-          <IconRefresh className={styles['reset__icon']} />
+          <IconRefresh className={styles['restart__icon']} />
         </button>
       </TextOnHover>
     </>
