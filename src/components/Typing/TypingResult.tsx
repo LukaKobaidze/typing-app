@@ -1,5 +1,5 @@
 import { useContext, useEffect } from 'react';
-import TypingContext from 'context/typing-context';
+import { TypingContext } from 'context';
 import { TypingWordsType } from 'context/state-types';
 import { PercentCircleChart } from 'components/UI';
 import 'styles/Typing/TypingResult.scss';

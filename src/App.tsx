@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import TypingContext from 'context/typing-context';
+import { TypingContext } from 'context';
 import { Logo } from 'components/UI';
 import Settings from 'components/Settings';
 import Typing from 'components/Typing';

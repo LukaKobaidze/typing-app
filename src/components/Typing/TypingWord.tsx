@@ -2,7 +2,7 @@ import { TypingLetterType } from 'context/state-types';
 import TypingLetter from './TypingLetter';
 import 'styles/Typing/TypingWord.scss';
 import { useContext } from 'react';
-import TypingContext from 'context/typing-context';
+import { TypingContext } from 'context';
 
 interface Props {
   word: {

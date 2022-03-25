@@ -1,5 +1,5 @@
 import { useContext, useRef } from 'react';
-import TypingContext from 'context/typing-context';
+import { TypingContext } from 'context';
 import { ReactComponent as IconRefresh } from 'assets/images/refresh.svg';
 import { TextOnHover } from 'components/UI';
 import 'styles/Typing/TypingReset.scss';

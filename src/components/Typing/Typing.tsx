@@ -1,5 +1,5 @@
 import { useContext, useEffect, useRef } from 'react';
-import TypingContext from 'context/typing-context';
+import { TypingContext } from 'context';
 import TypingReset from './TypingReset';
 import TypingResult from './TypingResult';
 import TypingTimer from './TypingTimer';

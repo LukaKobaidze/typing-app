@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import TypingContext from 'context/typing-context';
+import { TypingContext } from 'context';
 import { TypingResult } from 'context/state-types';
 import { ReactComponent as IconKeyboardArrowDown } from 'assets/images/keyboard_arrow_down.svg';
 import ResultsItem from './ResultsItem';

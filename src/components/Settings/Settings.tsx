@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import TypingContext from 'context/typing-context';
+import { TypingContext } from 'context';
 import SettingsItem from './SettingsItem';
 import 'styles/Settings/Settings.scss';
 
