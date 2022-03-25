@@ -2,8 +2,8 @@
 
 .letter {
   display: inline-block;
-  color: var(--clr-letter);
   border-left: 1px solid transparent;
+  color: var(--clr-letter);
 
   &.active {
     @include typingAnimations.caretColorFade(

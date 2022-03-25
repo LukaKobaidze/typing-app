@@ -1,9 +1,9 @@
 .result {
+  display: flex;
+  justify-content: space-between;
   width: 50%;
   min-width: 335px;
   margin: 20px auto 0 auto;
-  display: flex;
-  justify-content: space-between;
 
   @media (max-width: 385px) {
     width: 90%;
@@ -11,13 +11,13 @@
   }
 
   &__wrapper {
-    background-color: rgba(0, 0, 0, 0.8);
     position: absolute;
     top: -20px;
     right: -20px;
     bottom: -20px;
     left: -20px;
     border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0.8);
 
     @supports (backdrop-filter: blur(10px)) {
       background-color: initial;

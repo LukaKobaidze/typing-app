@@ -1,10 +1,10 @@
 .circle {
   --percent: 95;
+  position: relative;
   width: 120px;
   height: 120px;
-  position: relative;
-  animation: fillRight 1s;
   font-size: 24px;
+  animation: fillRight 1s;
 
   &__empty,
   &__filled,
@@ -26,12 +26,12 @@
     background-color: var(--clr-letter-incorrect);
   }
   &__filled {
-    z-index: 2;
     position: absolute;
     top: 0;
     right: 0;
     bottom: 0;
     left: 0;
+    z-index: 2;
     border-radius: 50%;
     background: conic-gradient(
       var(--clr-letter-correct) calc(var(--percent) * 1%),
@@ -45,12 +45,12 @@
     justify-content: center;
     width: 80%;
     height: 80%;
-    background-color: var(--clr-bg-dark);
-    z-index: 3;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
-    font-weight: var(--font-weight-bold);
+    z-index: 3;
     color: var(--clr-bg);
+    background-color: var(--clr-bg-dark);
+    font-weight: var(--font-weight-bold);
+    transform: translate(-50%, -50%);
   }
 }

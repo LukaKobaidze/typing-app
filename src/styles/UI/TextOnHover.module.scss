@@ -4,19 +4,19 @@
 
   $translateX: translateX(-50%);
   &__text {
-    color: currentColor;
     position: absolute;
-    left: 50%;
     top: 50%;
-    transform: $translateX translateY(-50%) scale(0.1);
+    left: 50%;
+    z-index: -1;
     width: min-content;
     padding: 0.2rem 0.7rem;
+    opacity: 0;
+    color: currentColor;
     background-color: var(--clr-dark);
     border-radius: 4px;
+    transform: $translateX translateY(-50%) scale(0.1);
     transition: transform 175ms, opacity 200ms;
     pointer-events: none;
-    z-index: -1;
-    opacity: 0;
     user-select: none;
   }
 

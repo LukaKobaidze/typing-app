@@ -7,10 +7,10 @@
   &__button {
     background: none;
     border: none;
-    cursor: pointer;
-    color: var(--clr-letter-correct);
-    padding: 0.5rem 1rem;
     border-radius: 10px;
+    padding: 0.5rem 1rem;
+    color: var(--clr-letter-correct);
+    cursor: pointer;
     transition: background-color 200ms ease-out;
 
     &:hover,

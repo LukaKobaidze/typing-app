@@ -1,14 +1,14 @@
 .results {
-  border-radius: 6px 6px 0 0;
-  border: 1px solid var(--clr-letter-correct);
-  border-bottom: none;
-  overflow: hidden;
-  transform: translateY(calc(100% - 24px));
-  transition: transform 750ms;
-  background-color: var(--clr-bg-dark);
   position: fixed;
   bottom: 0;
   right: 20px;
+  border: 1px solid var(--clr-letter-correct);
+  border-bottom: none;
+  border-radius: 6px 6px 0 0;
+  background-color: var(--clr-bg-dark);
+  overflow: hidden;
+  transform: translateY(calc(100% - 24px));
+  transition: transform 750ms;
 
   &--expanded {
     transform: translateY(0);
@@ -18,17 +18,16 @@
     overflow: hidden;
   }
   &__header-button {
-    font-family: inherit;
-    font-weight: var(--font-weight-bold);
-    font-size: 15px;
-    width: 100%;
-    background-color: var(--clr-letter-correct);
-    border: none;
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 100%;
+    border: none;
     color: var(--clr-bg-dark);
-
+    background-color: var(--clr-letter-correct);
+    font-family: inherit;
+    font-weight: var(--font-weight-bold);
+    font-size: 15px;
     cursor: pointer;
 
     &-icon {
