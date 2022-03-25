@@ -1,15 +1,17 @@
-import { useContext, useEffect, useRef } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { TypingContext } from 'context';
 import TypingReset from './TypingRestart';
 import TypingResult from './TypingResult';
 import TypingTimer from './TypingTimer';
 import TypingWord from './TypingWord';
 import styles from 'styles/Typing/Typing.module.scss';
+import TypingCapsLock from './TypingCapsLock';
 
 const Typing = () => {
   const { state, dispatch } = useContext(TypingContext);
   const wordRef = useRef<HTMLDivElement>(null);
   const hiddenInputRef = useRef<HTMLInputElement>(null);
+  const [isCapsLock, setIsCapsLock] = useState(false);
 
   useEffect(() => {
     let interval: NodeJS.Timer;
@@ -29,6 +31,12 @@ const Typing = () => {
     const typeHandler = (event: KeyboardEvent) => {
       const { key } = event;
 
+      if (event.getModifierState && event.getModifierState('CapsLock')) {
+        setIsCapsLock(true);
+      } else {
+        setIsCapsLock(false);
+      }
+
       if (event.ctrlKey && key === 'Backspace') {
         return dispatch({ type: 'DELETE_WORD' });
       }
@@ -37,13 +45,13 @@ const Typing = () => {
         return dispatch({ type: 'DELETE_KEY' });
       }
 
-      if (key.length === 1) {
-        if (key === ' ') {
-          // prevent spacebar from scrolling page
-          event.preventDefault();
-          return dispatch({ type: 'SKIP_WORD' });
-        }
+      if (key === ' ') {
+        // prevent spacebar from scrolling page
+        event.preventDefault();
+        return dispatch({ type: 'SKIP_WORD' });
+      }
 
+      if (key.length === 1) {
         return dispatch({ type: 'TYPE', payload: key });
       }
     };
@@ -72,9 +80,14 @@ const Typing = () => {
         type="text"
         className={styles['hidden-input']}
         ref={hiddenInputRef}
+        autoCapitalize="off"
       />
       <TypingTimer seconds={state.timerCountdown} />
-      <div className={styles['typing__words__wrapper']} onClick={typingClickHandler}>
+      {isCapsLock && <TypingCapsLock />}
+      <div
+        className={styles['typing__words__wrapper']}
+        onClick={typingClickHandler}
+      >
         <div
           className={styles['typing__words']}
           style={state.typingStarted ? wordsStyle : {}}

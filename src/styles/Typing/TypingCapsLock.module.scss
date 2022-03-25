@@ -1,0 +1,17 @@
+.capslock {
+  display: flex;
+  align-items: center;
+  background-color: var(--clr-letter);
+  color: var(--clr-letter-incorrect);
+  padding: 8px 10px;
+  border-radius: 7px;
+  position: absolute;
+  top: -35px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.icon {
+  width: 30px;
+  height: 30px;
+}
