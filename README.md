@@ -18,7 +18,7 @@ git clone https://github.com/LukaKobaidze/typing-app
 ```sh
 npm install
 ```
-3. Run locally on localhost:3000
+3. Run locally
 ```sh
 npm start
 ```
