@@ -14,7 +14,7 @@ const type = (state: TypingState, key: string): TypingState => {
       (letter) => letter.extra
     );
 
-    // If there are 10 extra letters, do nothing
+    // If there are 10 extra letters, do nothing (return state)
     if (words[state.wordIndex].length - firstExtraIndex === 10) {
       return state;
     }

@@ -17,37 +17,15 @@ import {
 } from './actions';
 
 export type TypingActions =
-  | {
-      type: 'RESET';
-    }
-  | {
-      type: 'TYPE';
-      payload: string;
-    }
-  | {
-      type: 'SKIP_WORD';
-    }
-  | {
-      type: 'DELETE_KEY';
-    }
-  | {
-      type: 'DELETE_WORD';
-    }
-  | {
-      type: 'SET_TIME';
-      payload: TypingTime;
-    }
-  | {
-      type: 'TIME_DECREMENT';
-    }
-  | {
-      type: 'SET_DIFFICULTY';
-      payload: TypingDifficulty;
-    }
-  | {
-      type: 'ADD_RESULT';
-      payload: TypingResult;
-    };
+  | { type: 'RESET' }
+  | { type: 'TYPE'; payload: string }
+  | { type: 'SKIP_WORD' }
+  | { type: 'DELETE_KEY' }
+  | { type: 'DELETE_WORD' }
+  | { type: 'SET_TIME'; payload: TypingTime }
+  | { type: 'TIME_DECREMENT' }
+  | { type: 'SET_DIFFICULTY'; payload: TypingDifficulty }
+  | { type: 'ADD_RESULT'; payload: TypingResult };
 
 const typingReducer = (
   state: TypingState,
