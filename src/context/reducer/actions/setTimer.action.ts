@@ -1,5 +1,5 @@
 import { TypingState, TypingTime } from 'shared/types';
-import { getRandomWords } from '../../utils';
+import { getRandomWords } from 'context/utils';
 
 const setTime = (state: TypingState, time: TypingTime): TypingState => {
   window.localStorage.setItem('time', String(time));

@@ -1,5 +1,5 @@
 import { TypingState } from 'shared/types';
-import { getRandomWords } from '../../utils';
+import { getRandomWords } from 'context/utils';
 
 const skipWord = (state: TypingState): TypingState => {
   if (state.timerCountdown === 0 || state.letterIndex === 0) {

@@ -1,5 +1,5 @@
 import { TypingState } from 'shared/types';
-import { getRandomWords } from '../../utils';
+import { getRandomWords } from 'context/utils';
 
 const reset = (state: TypingState): TypingState => {
   const words = getRandomWords(state.difficulty);
