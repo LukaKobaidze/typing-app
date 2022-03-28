@@ -2,8 +2,6 @@
 
 ![Project image](screenshot.jpg)
 
-This project is inspired by [monkeytype](https://monkeytype.com/)
-
 ### Built with
 
 - [React.js](https://reactjs.org/)
