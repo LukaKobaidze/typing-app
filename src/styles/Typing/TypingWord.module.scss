@@ -1,11 +1,11 @@
-@use './typing-animations' as typingAnimations;
+@use './typing-mixins' as typingMixins;
 
 .word {
   margin: 5px 4px;
   border-right: 1px solid transparent;
 
   &.active {
-    @include typingAnimations.caretColorFade(
+    @include typingMixins.caretAnimation(
       wordCaretColorFade,
       border-right-color
     );

@@ -1,4 +1,4 @@
-@use './typing-animations' as typingAnimations;
+@use './typing-mixins' as typingMixins;
 
 .letter {
   display: inline-block;
@@ -6,7 +6,7 @@
   color: var(--clr-letter);
 
   &.active {
-    @include typingAnimations.caretColorFade(
+    @include typingMixins.caretAnimation(
       letterCaretColorFade,
       border-left-color
     );
