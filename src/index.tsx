@@ -1,8 +1,8 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
+import { TypingContextProvider } from 'context';
 import App from 'components/App';
 import 'styles/styles.scss';
-import { TypingContextProvider } from 'context';
 
 ReactDOM.render(
   <React.StrictMode>
