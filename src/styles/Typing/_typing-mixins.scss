@@ -1,0 +1,15 @@
+@mixin caretAnimation($animationName, $property) {
+  animation: $animationName 1.25s step-end infinite;
+
+  @keyframes #{$animationName} {
+    0% {
+      #{$property}: var(--clr-caret);
+    }
+    50% {
+      #{$property}: transparent;
+    }
+    100% {
+      #{$property}: var(--clr-caret);
+    }
+  }
+}
