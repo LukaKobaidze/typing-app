@@ -1,13 +1,22 @@
-import { useContext, useRef } from 'react';
+import { useContext, useEffect, useRef } from 'react';
 import { TypingContext } from 'context';
 import { ReactComponent as IconRefresh } from 'assets/images/refresh.svg';
 import { TextOnHover } from 'components/UI';
 import styles from 'styles/Typing/TypingRestart.module.scss';
 
 const TypingRestart = () => {
-  const { dispatch } = useContext(TypingContext);
+  const {
+    state: { typingStarted },
+    dispatch,
+  } = useContext(TypingContext);
   const divRef = useRef<HTMLDivElement>(null);
   const resetRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (typingStarted) {
+      divRef.current?.focus();
+    }
+  }, [typingStarted]);
 
   const resetHandler = () => {
     dispatch({ type: 'RESET' });
