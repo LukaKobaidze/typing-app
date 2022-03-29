@@ -5,7 +5,7 @@ import {
   TypingTime,
 } from 'shared/types';
 import {
-  reset,
+  restart,
   type,
   skipWord,
   deleteKey,
@@ -17,7 +17,7 @@ import {
 } from './actions';
 
 export type TypingActions =
-  | { type: 'RESET' }
+  | { type: 'RESTART' }
   | { type: 'TYPE'; payload: string }
   | { type: 'SKIP_WORD' }
   | { type: 'DELETE_KEY' }
@@ -32,8 +32,8 @@ const typingReducer = (
   action: TypingActions
 ): TypingState => {
   switch (action.type) {
-    case 'RESET':
-      return reset(state);
+    case 'RESTART':
+      return restart(state);
     case 'TYPE':
       return type(state, action.payload);
     case 'SKIP_WORD':

@@ -1,4 +1,4 @@
-export { default as reset } from './reset.action';
+export { default as restart } from './restart.action';
 export { default as type } from './type.action';
 export { default as skipWord } from './skipWord.action';
 export { default as deleteKey } from './deleteKey.action';

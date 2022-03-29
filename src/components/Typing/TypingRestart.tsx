@@ -19,7 +19,7 @@ const TypingRestart = () => {
   }, [typingStarted]);
 
   const resetHandler = () => {
-    dispatch({ type: 'RESET' });
+    dispatch({ type: 'RESTART' });
     divRef.current?.focus();
     resetRef.current?.blur();
   };
