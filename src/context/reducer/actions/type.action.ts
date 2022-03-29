@@ -11,7 +11,7 @@ const type = (state: TypingState, key: string): TypingState => {
   if (state.letterIndex === words[state.wordIndex].length) {
     // Find index of first extra letter
     const firstExtraIndex = words[state.wordIndex].findIndex(
-      (letter) => letter.extra
+      (letter) => letter.type === 'extra'
     );
 
     // If there are 10 extra letters, do nothing (return state)
@@ -24,8 +24,7 @@ const type = (state: TypingState, key: string): TypingState => {
       ...words[state.wordIndex],
       {
         letter: key!,
-        type: 'incorrect',
-        extra: true,
+        type: 'extra',
       },
     ];
 

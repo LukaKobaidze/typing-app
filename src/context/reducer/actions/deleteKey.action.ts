@@ -9,10 +9,10 @@ const deleteKey = (state: TypingState): TypingState => {
   const currentWord = updatedWords[state.wordIndex].slice(0);
   const prevLetter = currentWord[state.letterIndex - 1];
 
-  if (!prevLetter.extra) {
-    prevLetter.type = 'none';
-  } else {
+  if (prevLetter.type === 'extra') {
     currentWord.pop();
+  } else {
+    prevLetter.type = 'none';
   }
 
   updatedWords[state.wordIndex] = currentWord;
