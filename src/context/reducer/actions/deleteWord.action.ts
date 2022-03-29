@@ -6,19 +6,23 @@ const deleteWord = (state: TypingState): TypingState => {
   }
 
   const words = state.words.slice(0);
-  const currentWord = words[state.wordIndex];
 
   // Find index of first extra letter
-  const extraLetterIndex = currentWord.findIndex((letter) => letter.extra);
+  const extraLetterIndex = words[state.wordIndex].findIndex(
+    (letter) => letter.extra
+  );
 
   // If there are extra letters, remove them
   if (extraLetterIndex !== -1) {
-    words[state.wordIndex] = currentWord.slice(0, extraLetterIndex);
+    words[state.wordIndex] = words[state.wordIndex].slice(0, extraLetterIndex);
   }
 
-  const letterIndex = Math.min(state.letterIndex, currentWord.length);
+  const letterIndex = Math.min(
+    state.letterIndex,
+    words[state.wordIndex].length
+  );
   for (let i = 0; i < letterIndex; i++) {
-    currentWord[i].type = 'none';
+    words[state.wordIndex][i].type = 'none';
   }
 
   return {
