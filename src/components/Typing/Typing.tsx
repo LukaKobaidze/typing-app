@@ -1,6 +1,6 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 import { TypingContext } from 'context';
-import TypingReset from './TypingRestart';
+import TypingRestart from './TypingRestart';
 import TypingResult from './TypingResult';
 import TypingTimer from './TypingTimer';
 import TypingWord from './TypingWord';
@@ -9,18 +9,20 @@ import TypingCapsLock from './TypingCapsLock';
 
 const Typing = () => {
   const { state, dispatch } = useContext(TypingContext);
+  const [isCapsLock, setIsCapsLock] = useState(false);
   const wordRef = useRef<HTMLDivElement>(null);
   const hiddenInputRef = useRef<HTMLInputElement>(null);
-  const [isCapsLock, setIsCapsLock] = useState(false);
 
   useEffect(() => {
     let interval: NodeJS.Timer;
 
     if (state.typingStarted) {
+      hiddenInputRef.current?.focus();
       interval = setInterval(() => {
         dispatch({ type: 'TIME_DECREMENT' });
       }, 1000);
     } else {
+      hiddenInputRef.current?.blur();
       clearInterval(interval!);
     }
 
@@ -61,10 +63,6 @@ const Typing = () => {
     return () => document.removeEventListener('keydown', typeHandler);
   }, [dispatch]);
 
-  const typingClickHandler = () => {
-    hiddenInputRef.current?.focus();
-  };
-
   const wordsStyle: React.CSSProperties = {
     transform: `translateY(-${Math.max(
       wordRef.current?.offsetTop! -
@@ -76,18 +74,15 @@ const Typing = () => {
 
   return (
     <div className={styles.typing} tabIndex={0}>
-      <input
-        type="text"
-        className={styles['hidden-input']}
-        ref={hiddenInputRef}
-        autoCapitalize="off"
-      />
       <TypingTimer seconds={state.timerCountdown} />
       {isCapsLock && <TypingCapsLock />}
-      <div
-        className={styles['typing__words__wrapper']}
-        onClick={typingClickHandler}
-      >
+      <div className={styles['typing__words__wrapper']}>
+        <input
+          type="text"
+          className={styles['hidden-input']}
+          autoCapitalize="off"
+          ref={hiddenInputRef}
+        />
         <div
           className={styles['typing__words']}
           style={state.typingStarted ? wordsStyle : {}}
@@ -102,7 +97,7 @@ const Typing = () => {
           ))}
         </div>
       </div>
-      <TypingReset />
+      <TypingRestart />
       {state.timerCountdown === 0 && (
         <TypingResult
           typedWords={state.words.slice(0, state.wordIndex + 1)}

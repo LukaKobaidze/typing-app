@@ -12,13 +12,20 @@
     &__wrapper {
       height: 115px;
       overflow: hidden;
+      position: relative;
     }
   }
 }
 
 .hidden-input {
   position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   opacity: 0;
-  pointer-events: none;
+  z-index: 2;
+  cursor: default;
   user-select: none;
+  font-size: 16px;
 }
