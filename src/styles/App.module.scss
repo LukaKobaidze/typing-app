@@ -3,10 +3,11 @@
   justify-content: space-between;
   align-items: center;
   padding: 2rem;
+  padding-bottom: 3rem;
 
   @media (max-width: 525px) {
     flex-direction: column;
-    padding-bottom: 0;
+    padding-bottom: 3rem;
   }
 }
 
@@ -16,10 +17,12 @@
 }
 
 .footer {
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
   padding: 0 2rem;
+  margin-top: 1rem;
   transition: opacity 200ms;
 }
 

@@ -1,7 +1,4 @@
 .results {
-  position: fixed;
-  bottom: 0;
-  right: 20px;
   border: 1px solid var(--clr-letter-correct);
   border-bottom: none;
   border-radius: 6px 6px 0 0;
@@ -16,6 +13,10 @@
 
   &__wrapper {
     overflow: hidden;
+    position: absolute;
+    bottom: 0;
+    right: 20px;
+    z-index: 3;
   }
   &__header-button {
     display: flex;
