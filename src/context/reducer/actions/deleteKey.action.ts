@@ -1,8 +1,21 @@
 import { TypingState } from 'shared/types';
 
 const deleteKey = (state: TypingState): TypingState => {
-  if (state.timerCountdown === 0 || state.letterIndex === 0) {
+  if (
+    state.timerCountdown === 0 ||
+    (state.wordIndex === 0 && state.letterIndex === 0)
+  ) {
     return state;
+  }
+
+  if (state.letterIndex === 0) {
+    const prevWordIndex = state.wordIndex - 1;
+
+    return {
+      ...state,
+      wordIndex: prevWordIndex,
+      letterIndex: state.words[prevWordIndex].length,
+    };
   }
 
   const updatedWords = state.words.slice(0);
