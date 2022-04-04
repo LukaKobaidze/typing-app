@@ -4,6 +4,37 @@ import { TypingWordsType } from 'shared/types';
 import { PercentCircleChart } from 'components/UI';
 import styles from 'styles/Typing/TypingResult.module.scss';
 
+const getWordsData = (words: TypingWordsType) => {
+  let totalLetters: number = 0;
+  let lettersCorrect: number = 0;
+
+  words.forEach((word) => {
+    let isWordCorrect = true;
+    word.forEach((letter) => {
+      const isLetterCorrect = letter.type === 'correct';
+      if (letter.type !== 'none') {
+        totalLetters++;
+      }
+      if (isWordCorrect) {
+        isWordCorrect = isLetterCorrect;
+      }
+      if (isLetterCorrect) {
+        lettersCorrect++;
+      }
+    });
+    if (isWordCorrect) {
+      // Including spaces
+      totalLetters++;
+      lettersCorrect++;
+    }
+  });
+
+  return {
+    totalLetters,
+    lettersCorrect,
+  };
+};
+
 interface Props {
   typedWords: TypingWordsType;
   secondsTook: number;
@@ -43,42 +74,3 @@ const TypingResult = ({ typedWords, secondsTook }: Props) => {
 };
 
 export default TypingResult;
-
-function getWordsData(words: TypingWordsType) {
-  let totalLetters: number = 0;
-  let lettersCorrect: number = 0;
-
-  for (let i = 0; i < words.length; i++) {
-    const word = words[i];
-
-    let isWordCorrect = true;
-    for (let j = 0; j < word.length; j++) {
-      const letter = word[j];
-
-      const isLetterCorrect = letter.type === 'correct';
-
-      if (letter.type !== 'none') {
-        totalLetters++;
-      }
-
-      if (isWordCorrect) {
-        isWordCorrect = isLetterCorrect;
-      }
-
-      if (isLetterCorrect) {
-        lettersCorrect++;
-      }
-    }
-
-    if (isWordCorrect) {
-      // Including spaces
-      totalLetters++;
-      lettersCorrect++;
-    }
-  }
-
-  return {
-    totalLetters,
-    lettersCorrect,
-  };
-}
