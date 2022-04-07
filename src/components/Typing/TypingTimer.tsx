@@ -12,9 +12,7 @@ const TypingTimer = ({ seconds }: Props) => {
     <div
       className={`${styles.timer} ${seconds <= 5 ? styles['timer--red'] : ''}`}
     >
-      <p>
-        {calcMinutes}:{calcSeconds}
-      </p>
+      <p>{!+calcMinutes ? calcSeconds : `${calcMinutes}:${calcSeconds}`}</p>
     </div>
   );
 };
