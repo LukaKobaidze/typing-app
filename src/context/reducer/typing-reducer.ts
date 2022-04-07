@@ -17,14 +17,14 @@ import {
 } from './actions';
 
 export type TypingActions =
-  | { type: 'RESTART' }
   | { type: 'TYPE'; payload: string }
   | { type: 'SKIP_WORD' }
   | { type: 'DELETE_KEY' }
   | { type: 'DELETE_WORD' }
+  | { type: 'RESTART' }
+  | { type: 'SET_DIFFICULTY'; payload: TypingDifficulty }
   | { type: 'SET_TIME'; payload: TypingTime }
   | { type: 'TIME_DECREMENT' }
-  | { type: 'SET_DIFFICULTY'; payload: TypingDifficulty }
   | { type: 'ADD_RESULT'; payload: TypingResult };
 
 const typingReducer = (
@@ -32,8 +32,6 @@ const typingReducer = (
   action: TypingActions
 ): TypingState => {
   switch (action.type) {
-    case 'RESTART':
-      return restart(state);
     case 'TYPE':
       return type(state, action.payload);
     case 'SKIP_WORD':
@@ -42,12 +40,14 @@ const typingReducer = (
       return deleteKey(state);
     case 'DELETE_WORD':
       return deleteWord(state);
+    case 'RESTART':
+      return restart(state);
+    case 'SET_DIFFICULTY':
+      return setDifficulty(state, action.payload);
     case 'SET_TIME':
       return setTime(state, action.payload);
     case 'TIME_DECREMENT':
       return timeDecrement(state);
-    case 'SET_DIFFICULTY':
-      return setDifficulty(state, action.payload);
     case 'ADD_RESULT':
       return addResult(state, action.payload);
     default:
