@@ -2,16 +2,16 @@ import { useContext, useEffect, useState } from 'react';
 import { TypingContext } from 'context';
 import { TypingResult } from 'shared/types';
 import { ReactComponent as IconKeyboardArrowDown } from 'assets/images/keyboard_arrow_down.svg';
-import ResultsItem from './ResultsItem';
-import styles from 'styles/Results/Results.module.scss';
+import ResultsItem from './PreviousResultsItem';
+import styles from 'styles/PreviousResults/PreviousResults.module.scss';
 
-const Results = () => {
+const PreviousResults = () => {
   const isShowInitial =
     window.localStorage.getItem('resultsExpanded') === 'true';
 
   const [isShown, setIsShown] = useState(isShowInitial);
   const {
-    state: { results },
+    state: { previousResults },
   } = useContext(TypingContext);
 
   useEffect(() => {
@@ -24,7 +24,7 @@ const Results = () => {
 
   return (
     <>
-      {results.recent.length !== 0 && (
+      {previousResults.recent.length !== 0 && (
         <div className={styles['results__wrapper']}>
           <div
             className={`${styles.results} ${
@@ -49,9 +49,9 @@ const Results = () => {
               </div>
               <ResultsItem
                 title="Best"
-                results={[results.best] as TypingResult[]}
+                results={[previousResults.best] as TypingResult[]}
               />
-              <ResultsItem title="Recent" results={results.recent} />
+              <ResultsItem title="Recent" results={previousResults.recent} />
             </div>
           </div>
         </div>
@@ -60,4 +60,4 @@ const Results = () => {
   );
 };
 
-export default Results;
+export default PreviousResults;

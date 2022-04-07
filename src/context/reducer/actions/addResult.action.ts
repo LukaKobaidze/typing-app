@@ -1,8 +1,8 @@
 import { TypingResult, TypingState } from 'shared/types';
 
 const addResult = (state: TypingState, result: TypingResult): TypingState => {
-  const recent = state.results.recent.slice();
-  let best: TypingResult | null = { ...state.results.best! };
+  const recent = state.previousResults.recent.slice();
+  let best: TypingResult | null = { ...state.previousResults.best! };
 
   if (recent.length === 3) {
     recent.pop();
@@ -18,16 +18,16 @@ const addResult = (state: TypingState, result: TypingResult): TypingState => {
     best = result;
   }
 
-  const results = {
+  const previousResults = {
     best,
     recent,
   };
 
-  window.localStorage.setItem('results', JSON.stringify(results));
+  window.localStorage.setItem('results', JSON.stringify(previousResults));
 
   return {
     ...state,
-    results,
+    previousResults,
   };
 };
 

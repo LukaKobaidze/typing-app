@@ -4,7 +4,7 @@ import { Logo } from 'components/UI';
 import Settings from 'components/Settings';
 import Typing from 'components/Typing';
 import Links from 'components/Links';
-import Results from 'components/Results';
+import PreviousResults from 'components/PreviousResults';
 import styles from 'styles/App.module.scss';
 
 const App = () => {
@@ -24,7 +24,7 @@ const App = () => {
       </main>
       <footer className={`${styles.footer} ${typingStartedClass}`}>
         <Links />
-        <Results />
+        <PreviousResults />
       </footer>
     </>
   );

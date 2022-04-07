@@ -1,7 +1,7 @@
 import { createContext } from 'react';
 import {
   TypingDifficulty,
-  TypingResults,
+  TypingPreviousResults,
   TypingState,
   TypingTime,
 } from 'shared/types';
@@ -14,7 +14,7 @@ const initialDifficulty = (): TypingDifficulty =>
 const initialTime = (): TypingTime =>
   (Number(window.localStorage.getItem('time')) as TypingTime) || 30;
 
-const initialResults = (): TypingResults =>
+const initialResults = (): TypingPreviousResults =>
   JSON.parse(window.localStorage.getItem('results')!) || {
     best: null,
     recent: [],
@@ -28,7 +28,7 @@ export const initialTypingState: TypingState = {
   initialTime: initialTime(),
   timerCountdown: initialTime(),
   words: getRandomWords(initialDifficulty()),
-  results: initialResults(),
+  previousResults: initialResults(),
 };
 
 const TypingContext = createContext<{

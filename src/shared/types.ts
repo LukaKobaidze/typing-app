@@ -15,7 +15,7 @@ type TypingSettings = {
 
 type TypingResult = { wpm: number; accuracy: number };
 
-type TypingResults = {
+type TypingPreviousResults = {
   best: TypingResult | null;
   recent: TypingResult[];
 };
@@ -28,7 +28,7 @@ type TypingState = {
   initialTime: TypingTime;
   timerCountdown: number;
   difficulty: TypingDifficulty;
-  results: TypingResults;
+  previousResults: TypingPreviousResults;
 };
 
 export type {
@@ -38,6 +38,6 @@ export type {
   TypingTime,
   TypingSettings,
   TypingResult,
-  TypingResults,
+  TypingPreviousResults,
   TypingState,
 };

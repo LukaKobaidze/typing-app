@@ -1,12 +1,12 @@
 import { TypingResult } from 'shared/types';
-import styles from 'styles/Results/ResultsItem.module.scss';
+import styles from 'styles/PreviousResults/PreviousResultsItem.module.scss';
 
 interface Props {
   title: string;
   results: TypingResult[] | null;
 }
 
-const ResultsItem = ({ title, results }: Props) => {
+const PreviousResultsItem = ({ title, results }: Props) => {
   return (
     <div className={styles.item}>
       <p className={styles['item__title']}>{title}</p>
@@ -26,4 +26,4 @@ const ResultsItem = ({ title, results }: Props) => {
   );
 };
 
-export default ResultsItem;
+export default PreviousResultsItem;
