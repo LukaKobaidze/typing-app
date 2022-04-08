@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { TypingContextProvider } from 'context';
-import App from 'components/App';
+import App from 'App';
 import 'styles/styles.scss';
 
 ReactDOM.render(
