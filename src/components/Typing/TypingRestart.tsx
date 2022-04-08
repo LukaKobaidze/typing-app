@@ -1,10 +1,14 @@
 import { useContext, useEffect, useRef } from 'react';
 import { TypingContext } from 'context';
 import { ReactComponent as IconRefresh } from 'assets/images/refresh.svg';
-import { TextOnHover } from 'components/UI';
+import { ButtonRounded, TextOnHover } from 'components/UI';
 import styles from 'styles/Typing/TypingRestart.module.scss';
 
-const TypingRestart = () => {
+type Props = {
+  className?: string;
+};
+
+const TypingRestart = ({ className }: Props) => {
   const {
     state: { typingStarted },
     dispatch,
@@ -27,14 +31,13 @@ const TypingRestart = () => {
   return (
     <>
       <div tabIndex={-1} ref={divRef} />
-      <TextOnHover text="Restart" classNameWrapper={styles.restart}>
-        <button
-          className={styles['restart__button']}
-          ref={resetRef}
-          onClick={resetHandler}
-        >
-          <IconRefresh className={styles['restart__icon']} />
-        </button>
+      <TextOnHover
+        text="Restart"
+        classNameWrapper={`${styles.restart} ${className}`}
+      >
+        <ButtonRounded ref={resetRef} onClick={resetHandler}>
+          <IconRefresh className={styles.icon} />
+        </ButtonRounded>
       </TextOnHover>
     </>
   );
