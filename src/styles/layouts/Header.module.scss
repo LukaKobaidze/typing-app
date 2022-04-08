@@ -1,0 +1,12 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem;
+  padding-bottom: 3rem;
+
+  @media (max-width: 525px) {
+    flex-direction: column;
+    padding-bottom: 1rem;
+  }
+}

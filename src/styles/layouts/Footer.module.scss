@@ -1,0 +1,9 @@
+.footer {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 0 2rem;
+  margin-top: 1rem;
+  transition: opacity 200ms;
+}
