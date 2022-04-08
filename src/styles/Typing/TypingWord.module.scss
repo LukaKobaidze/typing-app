@@ -1,13 +1,46 @@
-@use './typing-mixins' as typingMixins;
+@mixin caretAnimation($animationName, $property) {
+  animation: $animationName 1.25s step-end infinite;
+
+  @keyframes #{$animationName} {
+    0% {
+      #{$property}: var(--clr-caret);
+    }
+    50% {
+      #{$property}: transparent;
+    }
+    100% {
+      #{$property}: var(--clr-caret);
+    }
+  }
+}
 
 .word {
   margin: 5px 4px;
   border-right: 1px solid transparent;
 
   &.active {
-    @include typingMixins.caretAnimation(
-      wordCaretColorFade,
-      border-right-color
-    );
+    @include caretAnimation(wordCaretColorFade, border-right-color);
+  }
+}
+
+.letter {
+  display: inline-block;
+  border-left: 1px solid transparent;
+  color: var(--clr-letter);
+
+  &.active {
+    @include caretAnimation(letterCaretColorFade, border-left-color);
+  }
+
+  &--correct {
+    color: var(--clr-letter-correct);
+  }
+
+  &--incorrect {
+    color: var(--clr-letter-incorrect);
+  }
+
+  &--extra {
+    color: var(--clr-letter-extra);
   }
 }

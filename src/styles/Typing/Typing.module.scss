@@ -1,6 +1,12 @@
 .typing {
   position: relative;
   outline: none;
+  height: max-content;
+
+  &__container {
+    width: 80%;
+    margin: 0 auto;
+  }
 
   &__words {
     display: flex;
@@ -15,6 +21,11 @@
       position: relative;
     }
   }
+}
+
+.restart {
+  position: relative;
+  margin: 50px auto 0 auto;
 }
 
 .hidden-input {
