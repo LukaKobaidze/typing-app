@@ -4,8 +4,8 @@ import TypingRestart from './TypingRestart';
 import TypingResult from './TypingResult';
 import TypingTimer from './TypingTimer';
 import TypingWord from './TypingWord';
-import styles from 'styles/Typing/Typing.module.scss';
 import TypingCapsLock from './TypingCapsLock';
+import styles from 'styles/Typing/Typing.module.scss';
 
 const Typing = () => {
   const { state, dispatch } = useContext(TypingContext);
@@ -28,6 +28,12 @@ const Typing = () => {
 
     return () => clearInterval(interval);
   }, [state.typingStarted, dispatch]);
+
+  useEffect(() => {
+    if (state.timerCountdown === 0) {
+      dispatch({ type: 'RESULT' });
+    }
+  }, [state.timerCountdown]);
 
   useEffect(() => {
     const typeHandler = (event: KeyboardEvent) => {
@@ -74,35 +80,35 @@ const Typing = () => {
 
   return (
     <div className={styles.typing} tabIndex={0}>
-      <TypingTimer seconds={state.timerCountdown} />
-      {isCapsLock && <TypingCapsLock />}
-      <div className={styles['typing__words__wrapper']}>
-        <input
-          type="text"
-          className={styles['hidden-input']}
-          autoCapitalize="off"
-          ref={hiddenInputRef}
-        />
-        <div
-          className={styles['typing__words']}
-          style={state.typingStarted ? wordsStyle : {}}
-        >
-          {state.words.map((word, index) => (
-            <TypingWord
-              key={index}
-              word={word}
-              isCurrentWord={index === state.wordIndex}
-              wordRef={index === state.wordIndex ? wordRef : undefined}
+      {!state.results.showResults ? (
+        <div className={styles['typing__container']}>
+          <TypingTimer seconds={state.timerCountdown} />
+          {isCapsLock && <TypingCapsLock />}
+          <div className={styles['typing__words__wrapper']}>
+            <input
+              type="text"
+              className={styles['hidden-input']}
+              autoCapitalize="off"
+              ref={hiddenInputRef}
             />
-          ))}
+            <div
+              className={styles['typing__words']}
+              style={state.typingStarted ? wordsStyle : {}}
+            >
+              {state.words.map((word, index) => (
+                <TypingWord
+                  key={index}
+                  word={word}
+                  isCurrentWord={index === state.wordIndex}
+                  wordRef={index === state.wordIndex ? wordRef : undefined}
+                />
+              ))}
+            </div>
+          </div>
+          <TypingRestart className={styles.restart} />
         </div>
-      </div>
-      <TypingRestart />
-      {state.timerCountdown === 0 && (
-        <TypingResult
-          typedWords={state.words.slice(0, state.wordIndex + 1)}
-          secondsTook={state.initialTime}
-        />
+      ) : (
+        <TypingResult />
       )}
     </div>
   );
