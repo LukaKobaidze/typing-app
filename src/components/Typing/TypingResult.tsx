@@ -29,6 +29,7 @@ const TypingResult = () => {
 
   return (
     <div className={styles['result__wrapper']}>
+      {results.isBest && <p className={styles.best}>Your new best result!</p>}
       <div className={styles.result}>
         <div className={styles['wpm-accuracy-container']}>
           <div className={styles.wpm}>
