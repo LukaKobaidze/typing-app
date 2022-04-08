@@ -1,19 +1,14 @@
+import { TypingDifficulty, TypingState, TypingTime } from 'shared/types';
 import {
-  TypingDifficulty,
-  TypingResult,
-  TypingState,
-  TypingTime,
-} from 'shared/types';
-import {
-  restart,
   type,
   skipWord,
   deleteKey,
   deleteWord,
+  restart,
+  setDifficulty,
   setTime,
   timeDecrement,
-  setDifficulty,
-  addResult,
+  result,
 } from './actions';
 
 export type TypingActions =
@@ -25,7 +20,7 @@ export type TypingActions =
   | { type: 'SET_DIFFICULTY'; payload: TypingDifficulty }
   | { type: 'SET_TIME'; payload: TypingTime }
   | { type: 'TIME_DECREMENT' }
-  | { type: 'ADD_RESULT'; payload: TypingResult };
+  | { type: 'RESULT' };
 
 const typingReducer = (
   state: TypingState,
@@ -48,8 +43,8 @@ const typingReducer = (
       return setTime(state, action.payload);
     case 'TIME_DECREMENT':
       return timeDecrement(state);
-    case 'ADD_RESULT':
-      return addResult(state, action.payload);
+    case 'RESULT':
+      return result(state);
     default:
       return state;
   }
