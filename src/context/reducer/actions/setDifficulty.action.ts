@@ -1,5 +1,5 @@
 import { TypingDifficulty, TypingState } from 'shared/types';
-import { getRandomWords } from 'context/utils';
+import { getRandomWords } from 'context/utils/words';
 
 const setDifficulty = (
   state: TypingState,
@@ -16,6 +16,12 @@ const setDifficulty = (
     wordIndex: 0,
     letterIndex: 0,
     words,
+    wordsTimeline: [],
+    results: {
+      ...state.results,
+      difficulty: difficulty,
+      timeline: [],
+    },
   };
 };
 
