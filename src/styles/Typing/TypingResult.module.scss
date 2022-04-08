@@ -4,6 +4,10 @@
   min-width: 335px;
   margin: 20px auto 0 auto;
 
+  &__wrapper {
+    position: relative;
+  }
+
   @media (max-width: 650px) {
     flex-direction: column;
     width: 100%;
@@ -82,10 +86,20 @@
   text-anchor: middle;
 }
 
-.tooltip {
+.toolti
   background-color: var(--clr-bg-dark);
 }
 
 .restart {
   margin: 30px auto 0 auto;
+}
+
+.best {
+  position: absolute;
+  top: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--clr-blue);
+  font-size: 18px;
+  text-align: center;
 }
