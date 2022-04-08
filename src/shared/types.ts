@@ -13,11 +13,19 @@ type TypingSettings = {
   timer: TypingTime;
 };
 
-type TypingResult = { wpm: number; accuracy: number };
+type TypingResultType = { wpm: number; accuracy: number };
+
+interface TypingResultsType extends TypingResultType {
+  showResults: boolean;
+  timeline: { wpm: number; accuracy: number }[];
+  time: TypingTime;
+  difficulty: TypingDifficulty;
+  isBest: boolean;
+}
 
 type TypingPreviousResults = {
-  best: TypingResult | null;
-  recent: TypingResult[];
+  best: TypingResultType | null;
+  recent: TypingResultType[];
 };
 
 type TypingState = {
@@ -28,6 +36,8 @@ type TypingState = {
   initialTime: TypingTime;
   timerCountdown: number;
   difficulty: TypingDifficulty;
+  wordsTimeline: TypingWordsType[];
+  results: TypingResultsType;
   previousResults: TypingPreviousResults;
 };
 
@@ -37,7 +47,8 @@ export type {
   TypingDifficulty,
   TypingTime,
   TypingSettings,
-  TypingResult,
+  TypingResultType,
+  TypingResultsType,
   TypingPreviousResults,
   TypingState,
 };

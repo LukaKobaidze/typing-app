@@ -1,9 +1,9 @@
-import { TypingResult } from 'shared/types';
+import { TypingResultType } from 'shared/types';
 import styles from 'styles/PreviousResults/PreviousResultsItem.module.scss';
 
 interface Props {
   title: string;
-  results: TypingResult[] | null;
+  results: TypingResultType[] | null;
 }
 
 const PreviousResultsItem = ({ title, results }: Props) => {

@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import { TypingContext } from 'context';
-import { TypingResult } from 'shared/types';
+import { TypingResultType } from 'shared/types';
 import { ReactComponent as IconKeyboardArrowDown } from 'assets/images/keyboard_arrow_down.svg';
 import ResultsItem from './PreviousResultsItem';
 import styles from 'styles/PreviousResults/PreviousResults.module.scss';
@@ -49,7 +49,7 @@ const PreviousResults = () => {
               </div>
               <ResultsItem
                 title="Best"
-                results={[previousResults.best] as TypingResult[]}
+                results={[previousResults.best] as TypingResultType[]}
               />
               <ResultsItem title="Recent" results={previousResults.recent} />
             </div>
