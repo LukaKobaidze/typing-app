@@ -25,7 +25,6 @@ const config = {
 const TypingResult = () => {
   const {
     state: { results },
-    dispatch,
   } = useContext(TypingContext);
 
   return (

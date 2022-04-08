@@ -33,7 +33,7 @@ const Typing = () => {
     if (state.timerCountdown === 0) {
       dispatch({ type: 'RESULT' });
     }
-  }, [state.timerCountdown]);
+  }, [state.timerCountdown, dispatch]);
 
   useEffect(() => {
     const typeHandler = (event: KeyboardEvent) => {
