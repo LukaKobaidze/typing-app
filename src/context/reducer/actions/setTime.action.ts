@@ -20,6 +20,7 @@ const setTime = (state: TypingState, time: TypingTime): TypingState => {
     wordsTimeline: [],
     results: {
       ...state.results,
+      showResults: false,
       time,
       timeline: [],
     },

@@ -19,6 +19,7 @@ const setDifficulty = (
     wordsTimeline: [],
     results: {
       ...state.results,
+      showResults: false,
       difficulty: difficulty,
       timeline: [],
     },
