@@ -1,0 +1,17 @@
+.button {
+  background: none;
+  border: none;
+  border-radius: 10px;
+  padding: 0.5rem 1rem;
+  color: var(--clr-letter-correct);
+  cursor: pointer;
+  transition: background-color 200ms ease-out;
+
+  &:hover,
+  &:focus-visible {
+    background-color: rgba(255, 255, 255, 0.03);
+  }
+  &:active {
+    background-color: rgba(255, 255, 255, 0.075);
+  }
+}
