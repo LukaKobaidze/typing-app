@@ -1,7 +1,6 @@
 import { useContext } from 'react';
 import { TypingContext } from 'context';
 import { TypingLetterType } from 'shared/types';
-import TypingLetter from './TypingLetter';
 import styles from 'styles/Typing/TypingWord.module.scss';
 
 interface Props {
@@ -28,12 +27,14 @@ const TypingWord = ({ word, isCurrentWord, wordRef, style }: Props) => {
       ref={wordRef}
     >
       {word.map((letter, index) => (
-        <TypingLetter
+        <span
           key={index}
-          letter={letter.letter}
-          type={letter.type}
-          isCurrentLetter={isCurrentWord && index === letterIndex}
-        />
+          className={`${styles.letter} ${
+            letter.type !== 'none' ? styles[`letter--${letter.type}`] : ''
+          } ${isCurrentWord && index === letterIndex ? styles.active : ''}`}
+        >
+          {letter.letter}
+        </span>
       ))}
     </div>
   );
