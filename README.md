@@ -19,7 +19,7 @@ git clone https://github.com/LukaKobaidze/typing-app
 ```sh
 npm install
 ```
-3. Run locally
+3. Start app
 ```sh
 npm start
 ```
