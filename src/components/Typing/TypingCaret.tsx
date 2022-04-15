@@ -1,5 +1,5 @@
-import { TypingContext } from 'context';
 import { useContext } from 'react';
+import { TypingContext } from 'context';
 import styles from 'styles/Typing/TypingCaret.module.scss';
 
 interface Props {
