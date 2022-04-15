@@ -91,10 +91,6 @@ const Typing = () => {
     setWordsOffset(Math.max(offsetTop! - clientHeight! - clientHeight! / 2, 0));
   }, [state.wordIndex]);
 
-  useEffect(() => {
-    console.log(wordsOffset);
-  }, [wordsOffset]);
-
   return (
     <div className={styles.typing} tabIndex={0}>
       {!state.results.showResults ? (
