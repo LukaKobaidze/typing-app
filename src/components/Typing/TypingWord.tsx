@@ -8,30 +8,24 @@ interface Props {
     letter: string;
     type: TypingLetterType;
   }[];
-  isCurrentWord: boolean;
-  wordRef?: React.RefObject<HTMLDivElement>;
-  style?: React.CSSProperties;
+  wordRef: React.RefObject<HTMLDivElement> | undefined;
+  letterRef: React.RefObject<HTMLSpanElement> | undefined;
 }
 
-const TypingWord = ({ word, isCurrentWord, wordRef, style }: Props) => {
+const TypingWord = ({ word, wordRef, letterRef }: Props) => {
   const {
     state: { letterIndex },
   } = useContext(TypingContext);
 
   return (
-    <div
-      className={`${styles.word} ${
-        isCurrentWord && letterIndex > word.length - 1 ? styles.active : ''
-      }`}
-      style={style}
-      ref={wordRef}
-    >
+    <div className={styles.word} ref={wordRef}>
       {word.map((letter, index) => (
         <span
           key={index}
           className={`${styles.letter} ${
             letter.type !== 'none' ? styles[`letter--${letter.type}`] : ''
-          } ${isCurrentWord && index === letterIndex ? styles.active : ''}`}
+          }`}
+          ref={index === letterIndex ? letterRef : undefined}
         >
           {letter.letter}
         </span>
