@@ -1,0 +1,49 @@
+.wrapper {
+  height: 115px;
+  overflow: hidden;
+  position: relative;
+}
+
+.words {
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 25px;
+  user-select: none;
+  transition: transform 50ms;
+}
+
+.word {
+  margin: 5px 4px;
+  border-right: 1px solid transparent;
+}
+
+.letter {
+  display: inline-block;
+  border-left: 1px solid transparent;
+  color: var(--clr-letter);
+
+  &--correct {
+    color: var(--clr-letter-correct);
+  }
+
+  &--incorrect {
+    color: var(--clr-letter-incorrect);
+  }
+
+  &--extra {
+    color: var(--clr-letter-extra);
+  }
+}
+
+.hidden-input {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  opacity: 0;
+  z-index: 2;
+  cursor: default;
+  user-select: none;
+  font-size: 16px;
+}
