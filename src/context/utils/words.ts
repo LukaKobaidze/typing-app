@@ -3,7 +3,7 @@ import { TypingDifficulty, TypingWordsType } from 'shared/types';
 
 const getRandomWords = (
   difficulty: TypingDifficulty = 'medium',
-  quantity: number = 100
+  quantity: number = 50
 ): TypingWordsType => {
   let words: string[];
 
