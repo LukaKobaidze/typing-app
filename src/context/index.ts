@@ -1,2 +1,2 @@
-export { default as TypingContext } from './typing-context';
-export { default as TypingContextProvider } from './TypingContextProvider';
+export { default as GlobalContext } from './global-context';
+export { default as GlobalContextProvider } from './GlobalContextProvider';

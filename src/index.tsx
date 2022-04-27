@@ -1,11 +1,14 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import App from 'App';
+import { GlobalContextProvider } from 'context';
+import App from 'components/App';
 import 'styles/styles.scss';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <GlobalContextProvider>
+      <App />
+    </GlobalContextProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

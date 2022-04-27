@@ -1,10 +1,10 @@
 import randomWords from 'random-words';
-import { TypingDifficulty, TypingWordsType } from 'shared/types';
+import { TypingDifficulty, TypingWords } from 'types/typing.type';
 
 const getRandomWords = (
   difficulty: TypingDifficulty = 'medium',
   quantity: number = 50
-): TypingWordsType => {
+): TypingWords => {
   let words: string[];
 
   switch (difficulty) {

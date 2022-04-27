@@ -1,4 +1,4 @@
-import { TypingResultType, TypingState } from 'shared/types';
+import { TypingState } from '../typing-reducer';
 
 const result = (state: TypingState): TypingState => {
   // Calculate results
@@ -38,45 +38,16 @@ const result = (state: TypingState): TypingState => {
   });
   const { wpm, accuracy } = timeline[timeline.length - 1];
 
-  // Save result to previous results
-  const recent = state.previousResults.recent.slice(0);
-  let best: TypingResultType | null = { ...state.previousResults.best! };
-  let isBest = false;
-
-  if (recent.length === 3) {
-    recent.pop();
-  }
-  recent.unshift({ wpm, accuracy });
-
-  if (
-    !best ||
-    Object.keys(best).length === 0 ||
-    best.wpm < wpm ||
-    (best.wpm === wpm && best.accuracy < accuracy)
-  ) {
-    isBest = true;
-    best = { wpm, accuracy };
-  }
-
-  const previousResults = {
-    best,
-    recent,
-  };
-
-  window.localStorage.setItem('results', JSON.stringify(previousResults));
-
   return {
     ...state,
     typingStarted: false,
-    results: {
-      ...state.results,
+    result: {
+      ...state.result,
       showResults: true,
       wpm,
       accuracy,
       timeline,
-      isBest,
     },
-    previousResults,
   };
 };
 

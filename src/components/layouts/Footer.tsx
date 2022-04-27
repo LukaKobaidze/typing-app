@@ -1,18 +1,14 @@
 import { useContext } from 'react';
-import { TypingContext } from 'context';
-import Links from 'components/Links';
-import PreviousResults from 'components/PreviousResults';
+import { GlobalContext } from 'context';
+import Links from '../Links';
 import styles from 'styles/layouts/Footer.module.scss';
 
 const Footer = () => {
-  const {
-    state: { typingStarted },
-  } = useContext(TypingContext);
+  const { typingStarted } = useContext(GlobalContext);
 
   return (
     <footer className={`${styles.footer} ${typingStarted ? 'hide' : ''}`}>
       <Links />
-      <PreviousResults />
     </footer>
   );
 };

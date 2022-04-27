@@ -1,14 +1,20 @@
 import { useContext, useEffect, useRef, useState } from 'react';
-import { TypingContext } from 'context';
+import { GlobalContext } from 'context';
+import { TypingWords as TypingWordsType } from 'types/typing.type';
 import TypingCaret from './TypingCaret';
 import styles from 'styles/Typing/TypingWords.module.scss';
 
-const TypingWords = () => {
-  const { state } = useContext(TypingContext);
+interface Props {
+  words: TypingWordsType;
+  wordIndex: number;
+  letterIndex: number;
+}
+
+const TypingWords = ({ words, wordIndex, letterIndex }: Props) => {
+  const { typingStarted } = useContext(GlobalContext);
   const wordRef = useRef<HTMLDivElement>(null);
   const letterRef = useRef<HTMLSpanElement>(null);
   const [wordsOffset, setWordsOffset] = useState(0);
-  const hiddenInputRef = useRef<HTMLInputElement>(null);
   const [caretPos, setCaretPos] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
@@ -24,22 +30,14 @@ const TypingWords = () => {
 
     const { offsetLeft, offsetTop } = letterRef.current;
     setCaretPos({ x: offsetLeft, y: offsetTop - wordsOffset });
-  }, [state.wordIndex, state.letterIndex, wordsOffset]);
+  }, [wordIndex, letterIndex, wordsOffset]);
 
   useEffect(() => {
     if (!wordRef.current) return;
     const { offsetTop, clientHeight } = wordRef.current;
 
     setWordsOffset(Math.max(offsetTop! - clientHeight! - clientHeight! / 2, 0));
-  }, [state.wordIndex]);
-
-  useEffect(() => {
-    if (state.typingStarted) {
-      hiddenInputRef.current?.focus();
-    } else {
-      hiddenInputRef.current?.blur();
-    }
-  }, [state.typingStarted]);
+  }, [wordIndex]);
 
   return (
     <div className={styles.wrapper}>
@@ -48,18 +46,15 @@ const TypingWords = () => {
         type="text"
         className={styles['hidden-input']}
         autoCapitalize="off"
-        ref={hiddenInputRef}
       />
       <div
         className={styles.words}
         style={
-          state.typingStarted
-            ? { transform: `translateY(-${wordsOffset}px)` }
-            : {}
+          typingStarted ? { transform: `translateY(-${wordsOffset}px)` } : {}
         }
       >
-        {state.words.map((word, index) => {
-          const isCurrentWord = index === state.wordIndex;
+        {words.map((word, index) => {
+          const isCurrentWord = index === wordIndex;
           return (
             <div
               key={index}
@@ -75,7 +70,7 @@ const TypingWords = () => {
                       : ''
                   }`}
                   ref={
-                    isCurrentWord && index === state.letterIndex
+                    isCurrentWord && index === letterIndex
                       ? letterRef
                       : undefined
                   }

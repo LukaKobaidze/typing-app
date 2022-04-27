@@ -1,8 +1,12 @@
-import { TypingState } from 'shared/types';
-import { getRandomWords } from 'context/utils/words';
+import { TypingDifficulty } from 'types/typing.type';
+import { TypingState } from '../typing-reducer';
+import { getRandomWords } from '../utils/words';
 
-const skipWord = (state: TypingState): TypingState => {
-  if (state.timerCountdown === 0 || state.letterIndex === 0) {
+const skipWord = (
+  state: TypingState,
+  payload: TypingDifficulty
+): TypingState => {
+  if (state.timeCountdown === 0 || state.letterIndex === 0) {
     return state;
   }
   const words = state.words.slice(0);
@@ -24,7 +28,7 @@ const skipWord = (state: TypingState): TypingState => {
 
   // Add new words after every 10th word
   if (nextWordIndex % 10 === 0) {
-    words.push(...getRandomWords(state.difficulty, 10));
+    words.push(...getRandomWords(payload, 10));
   }
 
   return {

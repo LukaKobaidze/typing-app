@@ -1,7 +1,7 @@
-import { TypingState } from 'shared/types';
+import { TypingState } from '../typing-reducer';
 
 const type = (state: TypingState, key: string): TypingState => {
-  if (state.timerCountdown === 0) {
+  if (state.timeCountdown === 0) {
     return state;
   }
 

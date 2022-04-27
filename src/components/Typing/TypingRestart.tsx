@@ -1,18 +1,16 @@
 import { useContext, useEffect, useRef } from 'react';
-import { TypingContext } from 'context';
+import { GlobalContext } from 'context';
 import { ReactComponent as IconRefresh } from 'assets/images/refresh.svg';
 import { ButtonRounded, TextOnHover } from 'components/UI';
 import styles from 'styles/Typing/TypingRestart.module.scss';
 
 type Props = {
+  onRestart: () => void;
   className?: string;
 };
 
-const TypingRestart = ({ className }: Props) => {
-  const {
-    state: { typingStarted },
-    dispatch,
-  } = useContext(TypingContext);
+const TypingRestart = ({ onRestart, className }: Props) => {
+  const { typingStarted, onTypingEnd } = useContext(GlobalContext);
   const divRef = useRef<HTMLDivElement>(null);
   const resetRef = useRef<HTMLButtonElement>(null);
 
@@ -23,7 +21,8 @@ const TypingRestart = ({ className }: Props) => {
   }, [typingStarted]);
 
   const resetHandler = () => {
-    dispatch({ type: 'RESTART' });
+    onRestart();
+    onTypingEnd();
     divRef.current?.focus();
     resetRef.current?.blur();
   };

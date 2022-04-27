@@ -3,7 +3,5 @@ export { default as skipWord } from './skipWord.action';
 export { default as deleteKey } from './deleteKey.action';
 export { default as deleteWord } from './deleteWord.action';
 export { default as restart } from './restart.action';
-export { default as setDifficulty } from './setDifficulty.action';
-export { default as setTime } from './setTime.action';
 export { default as timeDecrement } from './timeDecrement.action';
 export { default as result } from './result.action';

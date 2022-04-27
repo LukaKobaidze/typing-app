@@ -1,5 +1,5 @@
-import { useContext } from 'react';
-import { TypingContext } from 'context';
+import { useContext, useEffect } from 'react';
+import { GlobalContext } from 'context';
 import {
   ResponsiveContainer,
   LineChart,
@@ -11,6 +11,7 @@ import {
   Legend,
   Line,
 } from 'recharts';
+import { TypingResult as TypingResultType } from 'types/typing.type';
 import { PercentCircleChart } from 'components/UI';
 import TypingRestart from './TypingRestart';
 import styles from 'styles/Typing/TypingResult.module.scss';
@@ -22,31 +23,37 @@ const config = {
   labelFontSize: 14,
 };
 
-const TypingResult = () => {
-  const {
-    state: { results },
-  } = useContext(TypingContext);
+interface Props {
+  result: TypingResultType;
+  onRestart: () => void;
+}
+
+const TypingResult = ({ result, onRestart }: Props) => {
+  const { onTypingEnd } = useContext(GlobalContext);
+
+  useEffect(() => {
+    onTypingEnd();
+  }, [onTypingEnd]);
 
   return (
     <div className={styles['result__wrapper']}>
-      {results.isBest && <p className={styles.best}>Your new best result!</p>}
       <div className={styles.result}>
         <div className={styles['wpm-accuracy-container']}>
           <div className={styles.wpm}>
             <p>WPM</p>
-            <p className={styles['wpm__num']}>{results.wpm}</p>
+            <p className={styles['wpm__num']}>{result.wpm}</p>
           </div>
           <div className={styles.accuracy}>
             <p>Accuracy</p>
             <PercentCircleChart
-              percentage={results.accuracy}
+              percentage={result.accuracy}
               className={styles['percentage-circle']}
             />
           </div>
         </div>
         <div className={styles.chart}>
           <ResponsiveContainer className={styles.chart}>
-            <LineChart data={results.timeline}>
+            <LineChart data={result.timeline}>
               <XAxis dataKey="second" />
               <YAxis dataKey="wpm" yAxisId="left">
                 <Label
@@ -104,7 +111,7 @@ const TypingResult = () => {
           </ResponsiveContainer>
         </div>
       </div>
-      <TypingRestart className={styles.restart} />
+      <TypingRestart className={styles.restart} onRestart={onRestart} />
     </div>
   );
 };

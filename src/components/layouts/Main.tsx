@@ -1,4 +1,4 @@
-import Typing from 'components/Typing';
+import Typing from '../Typing';
 
 const Main = () => {
   return (

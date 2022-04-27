@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { TypingContext } from 'context';
+import { GlobalContext } from 'context';
 import styles from 'styles/Typing/TypingCaret.module.scss';
 
 interface Props {
@@ -10,9 +10,7 @@ interface Props {
 }
 
 const TypingCaret = ({ position }: Props) => {
-  const {
-    state: { typingStarted },
-  } = useContext(TypingContext);
+  const { typingStarted } = useContext(GlobalContext);
 
   return (
     <div

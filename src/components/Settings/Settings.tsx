@@ -1,5 +1,6 @@
 import { useContext } from 'react';
-import { TypingContext } from 'context';
+import { GlobalContext } from 'context';
+import { TypingTime } from 'types/typing.type';
 import SettingsItem from './SettingsItem';
 import styles from 'styles/Settings/Settings.module.scss';
 
@@ -8,15 +9,12 @@ interface Props {
 }
 
 const Settings = ({ className }: Props) => {
-  const {
-    state: { difficulty, initialTime },
-  } = useContext(TypingContext);
+  const { difficulty, time, onDifficulty, onTime } = useContext(GlobalContext);
 
   const isActiveDifficulty = (paramDifficulty: typeof difficulty) =>
     paramDifficulty === difficulty;
 
-  const isActiveTime = (paramTimer: typeof initialTime) =>
-    paramTimer === initialTime;
+  const isActiveTime = (paramTimer: TypingTime) => paramTimer === time;
 
   return (
     <div className={`${styles.settings} ${className}`}>
@@ -27,7 +25,7 @@ const Settings = ({ className }: Props) => {
             { text: 'medium', active: isActiveDifficulty('medium') },
             { text: 'hard', active: isActiveDifficulty('hard') },
           ],
-          action: 'SET_DIFFICULTY',
+          onClick: onDifficulty,
         }}
       />
       <SettingsItem
@@ -39,7 +37,7 @@ const Settings = ({ className }: Props) => {
             { text: 60, active: isActiveTime(60) },
             { text: 120, active: isActiveTime(120) },
           ],
-          action: 'SET_TIME',
+          onClick: onTime,
         }}
       />
     </div>

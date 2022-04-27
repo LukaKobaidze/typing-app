@@ -1,7 +1,7 @@
-import { TypingState } from 'shared/types';
+import { TypingState } from '../typing-reducer';
 
 const deleteWord = (state: TypingState): TypingState => {
-  if (state.timerCountdown === 0) {
+  if (state.timeCountdown === 0) {
     return state;
   }
 

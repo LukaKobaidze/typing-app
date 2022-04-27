@@ -1,8 +1,8 @@
-import { TypingState } from 'shared/types';
+import { TypingState } from '../typing-reducer';
 
 const deleteKey = (state: TypingState): TypingState => {
   if (
-    state.timerCountdown === 0 ||
+    state.timeCountdown === 0 ||
     (state.wordIndex === 0 && state.letterIndex === 0)
   ) {
     return state;

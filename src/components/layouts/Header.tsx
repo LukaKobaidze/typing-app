@@ -1,13 +1,11 @@
 import { useContext } from 'react';
-import { TypingContext } from 'context';
-import { Logo } from 'components/UI';
-import Settings from 'components/Settings';
+import { GlobalContext } from 'context';
+import { Logo } from '../UI';
+import Settings from '../Settings';
 import styles from 'styles/layouts/Header.module.scss';
 
 const Header = () => {
-  const {
-    state: { typingStarted },
-  } = useContext(TypingContext);
+  const { typingStarted } = useContext(GlobalContext);
 
   return (
     <header className={styles.header}>
