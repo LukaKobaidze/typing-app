@@ -7,7 +7,7 @@ import {
 } from 'types/typing.type';
 import {
   type,
-  skipWord,
+  nextWord,
   deleteKey,
   deleteWord,
   restart,
@@ -52,7 +52,7 @@ export const initialState: TypingState = {
 
 export type TypingActions =
   | { type: 'TYPE'; payload: string }
-  | { type: 'SKIP_WORD'; payload: TypingDifficulty }
+  | { type: 'NEXT_WORD'; payload: TypingDifficulty }
   | { type: 'DELETE_KEY' }
   | { type: 'DELETE_WORD' }
   | { type: 'RESTART'; payload: TypingSettings }
@@ -66,8 +66,8 @@ const typingReducer = (
   switch (action.type) {
     case 'TYPE':
       return type(state, action.payload);
-    case 'SKIP_WORD':
-      return skipWord(state, action.payload);
+    case 'NEXT_WORD':
+      return nextWord(state, action.payload);
     case 'DELETE_KEY':
       return deleteKey(state);
     case 'DELETE_WORD':

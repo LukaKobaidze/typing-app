@@ -1,13 +1,13 @@
-import useStorageState from 'hooks/useStorageState';
 import { useState } from 'react';
+import { useStorageState } from 'hooks';
 import { TypingDifficulty, TypingTime } from 'types/typing.type';
-import TypingContext from './global-context';
+import GlobalContext from './global-context';
 
 interface Props {
   children: React.ReactNode;
 }
 
-const TypingContextProvider = ({ children }: Props) => {
+const GlobalContextProvider = ({ children }: Props) => {
   const [difficulty, setDifficulty] = useStorageState<TypingDifficulty>(
     'typing-difficulty',
     'medium'
@@ -27,7 +27,7 @@ const TypingContextProvider = ({ children }: Props) => {
   const onTypingEnd = () => setTypingStarted(false);
 
   return (
-    <TypingContext.Provider
+    <GlobalContext.Provider
       value={{
         difficulty,
         time,
@@ -39,8 +39,8 @@ const TypingContextProvider = ({ children }: Props) => {
       }}
     >
       {children}
-    </TypingContext.Provider>
+    </GlobalContext.Provider>
   );
 };
 
-export default TypingContextProvider;
+export default GlobalContextProvider;

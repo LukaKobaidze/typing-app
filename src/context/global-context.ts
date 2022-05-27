@@ -11,7 +11,7 @@ interface Context {
   onTypingEnd: () => void;
 }
 
-const TypingContext = createContext<Context>({
+const GlobalContext = createContext<Context>({
   difficulty: 'medium',
   time: 15,
   typingStarted: false,
@@ -21,4 +21,4 @@ const TypingContext = createContext<Context>({
   onTypingEnd: () => {},
 });
 
-export default TypingContext;
+export default GlobalContext;

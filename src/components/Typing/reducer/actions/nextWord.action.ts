@@ -2,7 +2,7 @@ import { TypingDifficulty } from 'types/typing.type';
 import { TypingState } from '../typing-reducer';
 import { getRandomWords } from '../utils/words';
 
-const skipWord = (
+const nextWord = (
   state: TypingState,
   payload: TypingDifficulty
 ): TypingState => {
@@ -40,4 +40,4 @@ const skipWord = (
   };
 };
 
-export default skipWord;
+export default nextWord;

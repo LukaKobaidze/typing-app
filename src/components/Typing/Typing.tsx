@@ -56,7 +56,7 @@ const Typing = () => {
       if (key === ' ') {
         // prevent spacebar from scrolling page
         event.preventDefault();
-        return dispatch({ type: 'SKIP_WORD', payload: difficulty });
+        return dispatch({ type: 'NEXT_WORD', payload: difficulty });
       }
       if (key.length === 1) {
         if (!typingStarted) onTypingStart();
