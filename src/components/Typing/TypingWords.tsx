@@ -37,7 +37,7 @@ const TypingWords = ({ words, wordIndex, letterIndex }: Props) => {
     const { offsetTop, clientHeight } = wordRef.current;
 
     setWordsOffset(Math.max(offsetTop! - clientHeight! - clientHeight! / 2, 0));
-  }, [letterIndex]);
+  }, [letterIndex, words]);
 
   return (
     <div className={styles.wrapper}>
