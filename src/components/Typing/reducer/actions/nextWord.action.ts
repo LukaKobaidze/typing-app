@@ -33,7 +33,6 @@ const nextWord = (
 
   return {
     ...state,
-    typingStarted: true,
     wordIndex: nextWordIndex,
     letterIndex: 0,
     words,

@@ -24,7 +24,6 @@ const initialTime = (): TypingTime =>
   (Number(window.localStorage.getItem('time')) as TypingTime) || 30;
 
 export type TypingState = {
-  typingStarted: boolean;
   wordIndex: number;
   letterIndex: number;
   words: TypingWords;
@@ -34,7 +33,6 @@ export type TypingState = {
 };
 
 export const initialState: TypingState = {
-  typingStarted: false,
   wordIndex: 0,
   letterIndex: 0,
   timeCountdown: initialTime(),

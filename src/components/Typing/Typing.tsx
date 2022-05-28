@@ -21,7 +21,7 @@ const Typing = () => {
   useEffect(() => {
     let interval: NodeJS.Timer;
 
-    if (state.typingStarted) {
+    if (typingStarted) {
       interval = setInterval(() => {
         dispatch({ type: 'TIME_DECREMENT' });
       }, 1000);
@@ -30,7 +30,7 @@ const Typing = () => {
     }
 
     return () => clearInterval(interval);
-  }, [state.typingStarted, dispatch]);
+  }, [typingStarted, dispatch]);
 
   useEffect(() => {
     if (state.timeCountdown === 0) {

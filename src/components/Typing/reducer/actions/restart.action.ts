@@ -8,7 +8,6 @@ const restart = (state: TypingState, payload: TypingSettings): TypingState => {
   return {
     ...state,
     timeCountdown: payload.time,
-    typingStarted: false,
     wordIndex: 0,
     letterIndex: 0,
     words,

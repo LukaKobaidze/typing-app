@@ -30,7 +30,6 @@ const type = (state: TypingState, key: string): TypingState => {
 
     return {
       ...state,
-      typingStarted: true,
       wordIndex: state.wordIndex,
       letterIndex: state.letterIndex + 1,
       words,
@@ -45,7 +44,6 @@ const type = (state: TypingState, key: string): TypingState => {
 
   return {
     ...state,
-    typingStarted: true,
     wordIndex: state.wordIndex,
     letterIndex: state.letterIndex + 1,
     words,

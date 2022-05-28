@@ -40,7 +40,6 @@ const result = (state: TypingState): TypingState => {
 
   return {
     ...state,
-    typingStarted: false,
     result: {
       ...state.result,
       showResults: true,
