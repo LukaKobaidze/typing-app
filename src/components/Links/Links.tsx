@@ -6,7 +6,7 @@ const Links = () => {
   return (
     <div className={styles.links}>
       <LinksItem
-        name="GitHub"
+        name="repository"
         href="https://github.com/LukaKobaidze/typing-app"
         icon={<IconGithub />}
       />

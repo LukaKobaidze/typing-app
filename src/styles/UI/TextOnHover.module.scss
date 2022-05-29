@@ -18,6 +18,7 @@
     transition: transform 175ms, opacity 200ms;
     pointer-events: none;
     user-select: none;
+    text-align: center;
   }
 
   @mixin hoverTransform($position) {
