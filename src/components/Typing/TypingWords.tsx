@@ -14,9 +14,19 @@ const TypingWords = ({ words, wordIndex, letterIndex }: Props) => {
   const { typingStarted } = useContext(GlobalContext);
   const wordRef = useRef<HTMLDivElement>(null);
   const letterRef = useRef<HTMLSpanElement>(null);
-  const hiddenInputRef = useRef<HTMLInputElement>(null);
   const [wordsOffset, setWordsOffset] = useState(0);
   const [caretPos, setCaretPos] = useState({ x: 0, y: 0 });
+  const hiddenInputRef = useRef<HTMLInputElement>(null);
+
+  const firstWord = words[0];
+
+  useEffect(() => {
+    hiddenInputRef.current?.focus();
+  }, [firstWord]);
+
+  useEffect(() => {
+    if (typingStarted) hiddenInputRef.current?.focus();
+  }, [typingStarted]);
 
   useEffect(() => {
     if (!wordRef.current) return;
@@ -39,14 +49,6 @@ const TypingWords = ({ words, wordIndex, letterIndex }: Props) => {
 
     setWordsOffset(Math.max(offsetTop! - clientHeight! - clientHeight! / 2, 0));
   }, [letterIndex]);
-
-  useEffect(() => {
-    if (typingStarted) {
-      setTimeout(() => {
-        hiddenInputRef.current?.focus();
-      }, 1);
-    }
-  }, [typingStarted]);
 
   return (
     <div className={styles.wrapper}>

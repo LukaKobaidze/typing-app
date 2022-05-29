@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef } from 'react';
+import { useContext, useRef } from 'react';
 import { GlobalContext } from 'context';
 import { ReactComponent as IconRefresh } from 'assets/images/refresh.svg';
 import { ButtonRounded, TextOnHover } from 'components/UI';
@@ -10,15 +10,9 @@ type Props = {
 };
 
 const TypingRestart = ({ onRestart, className }: Props) => {
-  const { typingStarted, onTypingEnd } = useContext(GlobalContext);
+  const { onTypingEnd } = useContext(GlobalContext);
   const divRef = useRef<HTMLDivElement>(null);
   const resetRef = useRef<HTMLButtonElement>(null);
-
-  useEffect(() => {
-    if (typingStarted) {
-      divRef.current?.focus();
-    }
-  }, [typingStarted]);
 
   const resetHandler = () => {
     onRestart();
@@ -29,7 +23,6 @@ const TypingRestart = ({ onRestart, className }: Props) => {
 
   return (
     <>
-      <div tabIndex={-1} ref={divRef} />
       <TextOnHover
         text="Restart"
         classNameWrapper={`${styles.restart} ${className}`}
