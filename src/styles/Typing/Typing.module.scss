@@ -28,15 +28,21 @@
   margin: 50px auto 0 auto;
 }
 
-.hidden-input {
+.capslock {
+  display: flex;
+  align-items: center;
+  background-color: var(--clr-dark);
+  color: var(--clr-letter-correct);
+  padding: 8px 10px;
+  border-radius: 7px;
   position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  opacity: 0;
-  z-index: 2;
-  cursor: default;
-  user-select: none;
-  font-size: 16px;
+  top: -35px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+.icon {
+  width: 30px;
+  height: 30px;
 }

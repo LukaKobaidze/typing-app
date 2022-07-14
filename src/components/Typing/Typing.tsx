@@ -1,3 +1,4 @@
+import { ReactComponent as IconLock } from 'assets/images/lock.svg';
 import { useContext, useEffect, useReducer, useState } from 'react';
 import { GlobalContext } from 'context';
 import typingReducer, { initialState } from './reducer/typing-reducer';
@@ -5,7 +6,6 @@ import TypingWords from './TypingWords';
 import TypingRestart from './TypingRestart';
 import TypingResult from './TypingResult';
 import TypingTimer from './TypingTimer';
-import TypingCapsLock from './TypingCapsLock';
 import styles from 'styles/Typing/Typing.module.scss';
 
 const Typing = () => {
@@ -54,7 +54,6 @@ const Typing = () => {
         return dispatch({ type: 'DELETE_KEY' });
       }
       if (key === ' ') {
-        // prevent spacebar from scrolling page
         event.preventDefault();
         return dispatch({ type: 'NEXT_WORD', payload: difficulty });
       }
@@ -69,15 +68,21 @@ const Typing = () => {
     return () => document.removeEventListener('keydown', typeHandler);
   }, [difficulty, typingStarted, onTypingStart, dispatch]);
 
-  const onRestart = () =>
+  const onRestart = () => {
     dispatch({ type: 'RESTART', payload: { difficulty, time } });
+  };
 
   return (
     <div className={styles.typing}>
       {!state.result.showResults ? (
         <div className={styles['typing__container']}>
           <TypingTimer seconds={state.timeCountdown} />
-          {isCapsLock && <TypingCapsLock />}
+          {isCapsLock && (
+            <div className={styles.capslock}>
+              <IconLock className={styles.icon} />
+              <p>CAPS LOCK</p>
+            </div>
+          )}
           <TypingWords
             words={state.words}
             wordIndex={state.wordIndex}
