@@ -2,7 +2,7 @@ import { ReactComponent as IconLock } from 'assets/images/lock.svg';
 import { useContext, useEffect, useReducer, useState } from 'react';
 import { GlobalContext } from 'context';
 import typingReducer, { initialState } from './reducer/typing-reducer';
-import TypingWords from './TypingWords';
+import TypingInput from './TypingInput';
 import TypingRestart from './TypingRestart';
 import TypingResult from './TypingResult';
 import TypingTimer from './TypingTimer';
@@ -83,7 +83,7 @@ const Typing = () => {
               <p>CAPS LOCK</p>
             </div>
           )}
-          <TypingWords
+          <TypingInput
             words={state.words}
             wordIndex={state.wordIndex}
             letterIndex={state.letterIndex}

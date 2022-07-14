@@ -2,7 +2,7 @@ import { useContext, useEffect, useRef, useState } from 'react';
 import { GlobalContext } from 'context';
 import { TypingWords as TypingWordsType } from 'types/typing.type';
 import TypingCaret from './TypingCaret';
-import styles from 'styles/Typing/TypingWords.module.scss';
+import styles from 'styles/Typing/TypingInput.module.scss';
 
 interface Props {
   words: TypingWordsType;
@@ -10,7 +10,7 @@ interface Props {
   letterIndex: number;
 }
 
-const TypingWords = ({ words, wordIndex, letterIndex }: Props) => {
+const TypingInput = ({ words, wordIndex, letterIndex }: Props) => {
   const { typingStarted } = useContext(GlobalContext);
   const wordRef = useRef<HTMLDivElement>(null);
   const letterRef = useRef<HTMLSpanElement>(null);
@@ -98,4 +98,4 @@ const TypingWords = ({ words, wordIndex, letterIndex }: Props) => {
   );
 };
 
-export default TypingWords;
+export default TypingInput;
