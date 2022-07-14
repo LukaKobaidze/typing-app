@@ -1,8 +1,8 @@
-import { ReactComponent as IconGithub } from 'assets/images/github.svg';
 import { useContext } from 'react';
 import { GlobalContext } from 'context';
-import styles from 'styles/layouts/Footer.module.scss';
+import { ReactComponent as IconGithub } from 'assets/images/github.svg';
 import { TextOnHover } from 'components/UI';
+import styles from 'styles/layouts/Footer.module.scss';
 
 const Footer = () => {
   const { typingStarted } = useContext(GlobalContext);
