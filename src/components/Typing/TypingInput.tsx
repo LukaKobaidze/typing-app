@@ -12,6 +12,7 @@ interface Props {
 
 const TypingInput = ({ words, wordIndex, letterIndex }: Props) => {
   const { typingStarted } = useContext(GlobalContext);
+  const wordWrapperRef = useRef<HTMLDivElement>(null);
   const wordRef = useRef<HTMLDivElement>(null);
   const letterRef = useRef<HTMLSpanElement>(null);
   const hiddenInputRef = useRef<HTMLInputElement>(null);
@@ -24,24 +25,30 @@ const TypingInput = ({ words, wordIndex, letterIndex }: Props) => {
 
   useEffect(() => {
     if (!wordRef.current) return;
+    const {
+      offsetLeft: wordOffsetLeft,
+      offsetTop: wordOffsetTop,
+      offsetWidth: wordOffsetWidth,
+    } = wordRef.current;
 
     if (!letterRef.current) {
-      const { offsetLeft, offsetTop, offsetWidth } = wordRef.current;
       return setCaretPos({
-        x: offsetLeft + offsetWidth,
-        y: offsetTop - wordsOffset,
+        x: wordOffsetLeft + wordOffsetWidth,
+        y: wordOffsetTop - wordsOffset,
       });
     }
 
-    const { offsetLeft, offsetTop } = letterRef.current;
-    setCaretPos({ x: offsetLeft, y: offsetTop - wordsOffset });
+    const { offsetLeft: letterOffsetLeft } = letterRef.current;
+    setCaretPos({
+      x: wordOffsetLeft + letterOffsetLeft,
+      y: wordOffsetTop - wordsOffset,
+    });
   }, [wordIndex, letterIndex, wordsOffset]);
 
   useEffect(() => {
-    if (!wordRef.current) return;
-    const { offsetTop, clientHeight } = wordRef.current;
-
-    setWordsOffset(Math.max(offsetTop! - clientHeight! - clientHeight! / 2, 0));
+    if (!wordWrapperRef.current) return;
+    const { offsetTop, clientHeight } = wordWrapperRef.current;
+    setWordsOffset(Math.max(offsetTop - clientHeight, 0));
   }, [letterIndex]);
 
   return (
@@ -64,26 +71,33 @@ const TypingInput = ({ words, wordIndex, letterIndex }: Props) => {
           return (
             <div
               key={index}
-              className={styles.word}
-              ref={isCurrentWord ? wordRef : undefined}
+              className={styles.wordWrapper}
+              ref={isCurrentWord ? wordWrapperRef : undefined}
             >
-              {word.map((letter, index) => (
-                <span
-                  key={index}
-                  className={`${styles.letter} ${
-                    letter.type !== 'none'
-                      ? styles[`letter--${letter.type}`]
-                      : ''
-                  }`}
-                  ref={
-                    isCurrentWord && index === letterIndex
-                      ? letterRef
-                      : undefined
-                  }
-                >
-                  {letter.letter}
-                </span>
-              ))}
+              <div
+                className={`${styles.word} ${
+                  word.isIncorrect ? styles.wordIncorrect : ''
+                }`}
+                ref={isCurrentWord ? wordRef : undefined}
+              >
+                {word.letters.map((letter, index) => (
+                  <span
+                    key={index}
+                    className={`${styles.letter} ${
+                      letter.type !== 'none'
+                        ? styles[`letter--${letter.type}`]
+                        : ''
+                    }`}
+                    ref={
+                      isCurrentWord && index === letterIndex
+                        ? letterRef
+                        : undefined
+                    }
+                  >
+                    {letter.letter}
+                  </span>
+                ))}
+              </div>
             </div>
           );
         })}

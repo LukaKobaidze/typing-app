@@ -14,16 +14,18 @@ const deleteKey = (state: TypingState): TypingState => {
     return {
       ...state,
       wordIndex: prevWordIndex,
-      letterIndex: state.words[prevWordIndex].length,
+      letterIndex: state.words[prevWordIndex].letters.length,
     };
   }
 
   const updatedWords = state.words.slice(0);
-  const currentWord = updatedWords[state.wordIndex].slice(0);
-  const prevLetter = currentWord[state.letterIndex - 1];
+  const currentWord = updatedWords[state.wordIndex];
+  const prevLetter = currentWord.letters[state.letterIndex - 1];
+
+  currentWord.isIncorrect = false;
 
   if (prevLetter.type === 'extra') {
-    currentWord.pop();
+    currentWord.letters.pop();
   } else {
     prevLetter.type = 'none';
   }

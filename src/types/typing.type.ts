@@ -1,9 +1,12 @@
 type TypingLetter = 'correct' | 'incorrect' | 'extra' | 'none';
 
 type TypingWords = {
-  letter: string;
-  type: TypingLetter;
-}[][];
+  isIncorrect: boolean;
+  letters: {
+    letter: string;
+    type: TypingLetter;
+  }[];
+}[];
 
 type TypingDifficulty = 'medium' | 'hard';
 

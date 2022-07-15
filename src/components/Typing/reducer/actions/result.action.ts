@@ -12,7 +12,7 @@ const result = (state: TypingState): TypingState => {
 
     words.forEach((word) => {
       let isWordCorrect = true;
-      word.forEach((letter) => {
+      word.letters.forEach((letter) => {
         const isLetterCorrect = letter.type === 'correct';
         if (letter.type !== 'none') {
           letters++;

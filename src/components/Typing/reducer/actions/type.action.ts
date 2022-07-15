@@ -6,22 +6,25 @@ const type = (state: TypingState, key: string): TypingState => {
   }
 
   const words = state.words.slice(0);
+  const word = words[state.wordIndex];
+  word.isIncorrect = false;
+  const letter = words[state.wordIndex].letters[state.letterIndex];
 
   // Extra letters
-  if (state.letterIndex === words[state.wordIndex].length) {
+  if (state.letterIndex === word.letters.length) {
     // Find index of first extra letter
-    const firstExtraIndex = words[state.wordIndex].findIndex(
+    const firstExtraIndex = word.letters.findIndex(
       (letter) => letter.type === 'extra'
     );
 
     // If there are 10 extra letters, do nothing (return state)
-    if (words[state.wordIndex].length - firstExtraIndex === 10) {
+    if (word.letters.length - firstExtraIndex === 10) {
       return state;
     }
 
     // Add extra letter
-    words[state.wordIndex] = [
-      ...words[state.wordIndex],
+    word.letters = [
+      ...word.letters,
       {
         letter: key!,
         type: 'extra',
@@ -37,10 +40,7 @@ const type = (state: TypingState, key: string): TypingState => {
   }
 
   // Check if typed key is correct
-  words[state.wordIndex][state.letterIndex].type =
-    key === words[state.wordIndex][state.letterIndex].letter
-      ? 'correct'
-      : 'incorrect';
+  letter.type = key === letter.letter ? 'correct' : 'incorrect';
 
   return {
     ...state,

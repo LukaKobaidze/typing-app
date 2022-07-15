@@ -12,22 +12,31 @@ const nextWord = (
   const words = state.words.slice(0);
 
   // If word is skipped and there are untyped letters left, count them as incorrect
-  if (state.letterIndex < words[state.wordIndex].length) {
-    words[state.wordIndex] = words[state.wordIndex].map((letter) => {
-      if (letter.type === 'none') {
-        return {
-          ...letter,
-          type: 'incorrect',
-        };
+  if (state.letterIndex < words[state.wordIndex].letters.length) {
+    words[state.wordIndex].letters = words[state.wordIndex].letters.map(
+      (letter) => {
+        if (letter.type === 'none') {
+          return {
+            ...letter,
+            type: 'incorrect',
+          };
+        }
+        return letter;
       }
-      return letter;
-    });
+    );
   }
 
   const nextWordIndex = state.wordIndex + 1;
-
-  // Add new words after every 10th word
+  const word = words[state.wordIndex];
+  if (
+    word.letters.some(
+      (letter) => letter.type === 'extra' || letter.type === 'incorrect'
+    )
+  ) {
+    word.isIncorrect = true;
+  }
   if (nextWordIndex % 10 === 0) {
+    // Add new words after every 10th word
     words.push(...getRandomWords(payload, 10));
   }
 

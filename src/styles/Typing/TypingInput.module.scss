@@ -1,5 +1,5 @@
 .wrapper {
-  height: 115px;
+  height: 120px;
   overflow: hidden;
   position: relative;
 }
@@ -12,9 +12,30 @@
   transition: transform 50ms;
 }
 
+.wordWrapper {
+  padding: 5px 4px;
+}
+
 .word {
-  margin: 5px 4px;
+  position: relative;
   border-right: 1px solid transparent;
+
+  &Incorrect {
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 1px;
+      display: block;
+      width: 100%;
+      height: 1px;
+      background-color: var(--clr-letter-incorrect);
+      transform: scaleX(0);
+      transform-origin: left;
+      opacity: .75;
+      animation: line 400ms;
+      animation-fill-mode: forwards;
+    }
+  }
 }
 
 .letter {
@@ -46,4 +67,13 @@
   cursor: default;
   user-select: none;
   font-size: 16px;
+}
+
+@keyframes line {
+  0% {
+    transform: scaleX(0);
+  }
+  100% {
+    transform: scaleX(1);
+  }
 }
