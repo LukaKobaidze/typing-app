@@ -1,10 +1,7 @@
 import { TypingState } from '../typing-reducer';
 
 const deleteKey = (state: TypingState): TypingState => {
-  if (
-    state.timeCountdown === 0 ||
-    (state.wordIndex === 0 && state.letterIndex === 0)
-  ) {
+  if (state.wordIndex === 0 && state.letterIndex === 0) {
     return state;
   }
 

@@ -3,7 +3,8 @@
 :root {
   --clr-bg-dark: #0d0d1d;
   --clr-dark: #000;
-  --clr-letter: #dcdcdc;
+  --clr-white: #dcdcdc;
+  --clr-letter: #ffffff81;
   --clr-letter-correct: #00faa7;
   --clr-letter-incorrect: #fc626a;
   --clr-letter-extra: #dcdcdc40;
@@ -28,7 +29,7 @@ body {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-regular);
   background-color: var(--clr-bg-dark);
-  color: var(--clr-letter);
+  color: var(--clr-white);
 }
 
 #root {

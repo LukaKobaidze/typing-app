@@ -1,42 +1,26 @@
-import { useContext, useEffect, useReducer, useState } from 'react';
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useReducer,
+  useState,
+} from 'react';
 import { GlobalContext } from 'context';
-import typingReducer, { initialState } from './reducer/typing-reducer';
 import { ReactComponent as IconLock } from 'assets/images/lock.svg';
+import typingReducer, { initialState } from './reducer/typing-reducer';
 import TypingInput from './TypingInput';
 import TypingRestart from './TypingRestart';
 import TypingResult from './TypingResult';
-import TypingTimer from './TypingTimer';
+import TypingCounter from './TypingCounter';
 import styles from 'styles/Typing/Typing.module.scss';
 
 const Typing = () => {
   const [state, dispatch] = useReducer(typingReducer, initialState);
-  const { difficulty, time, typingStarted, onTypingStart } =
+  const { mode, wordsAmount, time, typingStarted, onTypingStart } =
     useContext(GlobalContext);
   const [isCapsLock, setIsCapsLock] = useState(false);
-
-  useEffect(() => {
-    dispatch({ type: 'RESTART', payload: { difficulty, time } });
-  }, [difficulty, time]);
-
-  useEffect(() => {
-    let interval: NodeJS.Timer;
-
-    if (typingStarted) {
-      interval = setInterval(() => {
-        dispatch({ type: 'TIME_DECREMENT' });
-      }, 1000);
-    } else {
-      clearInterval(interval!);
-    }
-
-    return () => clearInterval(interval);
-  }, [typingStarted, dispatch]);
-
-  useEffect(() => {
-    if (state.timeCountdown === 0) {
-      dispatch({ type: 'RESULT' });
-    }
-  }, [state.timeCountdown, dispatch]);
+  const [timeCountdown, setTimeCountdown] = useState<number>(time);
+  const [wordCount, setWordCount] = useState(0);
 
   useEffect(() => {
     const typeHandler = (event: KeyboardEvent) => {
@@ -55,7 +39,7 @@ const Typing = () => {
       }
       if (key === ' ') {
         event.preventDefault();
-        return dispatch({ type: 'NEXT_WORD', payload: difficulty });
+        return dispatch({ type: 'NEXT_WORD' });
       }
       if (key.length === 1) {
         if (!typingStarted) onTypingStart();
@@ -66,17 +50,74 @@ const Typing = () => {
     document.addEventListener('keydown', typeHandler);
 
     return () => document.removeEventListener('keydown', typeHandler);
-  }, [difficulty, typingStarted, onTypingStart, dispatch]);
+  }, [typingStarted, onTypingStart]);
 
-  const onRestart = () => {
-    dispatch({ type: 'RESTART', payload: { difficulty, time } });
-  };
+  const onRestart = useCallback(() => {
+    if (mode === 'time') {
+      dispatch({ type: 'RESTART' });
+      setTimeCountdown(time);
+    } else {
+      dispatch({ type: 'RESTART', payload: wordsAmount });
+      setWordCount(0);
+    }
+  }, [time, mode, wordsAmount]);
+
+  useEffect(() => {
+    if (mode === 'time') return;
+
+    const lastWordCorrect =
+      state.wordIndex === wordsAmount - 1 &&
+      state.words[state.wordIndex].letters.every(
+        (letter) => letter.type === 'correct'
+      );
+    if (state.wordIndex === wordsAmount || lastWordCorrect) {
+      dispatch({ type: 'RESULT' });
+    } else {
+      setWordCount(state.wordIndex);
+    }
+  }, [mode, state.words, state.letterIndex, state.wordIndex, wordsAmount]);
+
+  useEffect(() => {
+    if (mode === 'time') {
+      if ((state.wordIndex + 1) % 10 === 0) {
+        dispatch({ type: 'ADD_WORDS', payload: 10 });
+      }
+    }
+  }, [mode, state.wordIndex]);
+
+  useEffect(() => {
+    onRestart();
+  }, [onRestart]);
+
+  useEffect(() => {
+    let interval: NodeJS.Timer;
+
+    if (typingStarted) {
+      interval = setInterval(() => {
+        dispatch({ type: 'TIMELINE' });
+        if (mode === 'time') setTimeCountdown((prevState) => prevState - 1);
+      }, 1000);
+    } else {
+      clearInterval(interval!);
+    }
+
+    return () => clearInterval(interval);
+  }, [typingStarted, mode]);
+
+  useEffect(() => {
+    if (timeCountdown === 0) {
+      dispatch({ type: 'RESULT' });
+    }
+  }, [timeCountdown, time]);
 
   return (
     <div className={styles.typing}>
       {!state.result.showResults ? (
         <div className={styles['typing__container']}>
-          <TypingTimer seconds={state.timeCountdown} />
+          <TypingCounter
+            mode={mode}
+            counter={mode === 'time' ? timeCountdown : wordCount}
+          />
           {isCapsLock && (
             <div className={styles.capslock}>
               <IconLock className={styles.icon} />

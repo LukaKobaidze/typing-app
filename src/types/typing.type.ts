@@ -8,12 +8,12 @@ type TypingWords = {
   }[];
 }[];
 
-type TypingDifficulty = 'medium' | 'hard';
-
+type TypingMode = 'time' | 'words';
 type TypingTime = 15 | 30 | 60 | 120;
+type TypingWordsAmount = 10 | 25 | 50 | 100;
 
 type TypingSettings = {
-  difficulty: TypingDifficulty;
+  mode: TypingMode;
   time: TypingTime;
 };
 
@@ -23,14 +23,14 @@ interface TypingResult {
   showResults: boolean;
   timeline: { wpm: number; accuracy: number }[];
   time: TypingTime;
-  difficulty: TypingDifficulty;
 }
 
 export type {
   TypingLetter,
   TypingWords,
-  TypingDifficulty,
+  TypingMode,
   TypingTime,
+  TypingWordsAmount,
   TypingSettings,
   TypingResult,
 };

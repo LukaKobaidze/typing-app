@@ -1,24 +1,16 @@
-import {
-  TypingDifficulty,
-  TypingResult,
-  TypingSettings,
-  TypingTime,
-  TypingWords,
-} from 'types/typing.type';
+import { TypingResult, TypingTime, TypingWords } from 'types/typing.type';
 import {
   type,
   nextWord,
   deleteKey,
   deleteWord,
   restart,
-  timeDecrement,
   result,
+  addWords,
 } from './actions';
+import timeline from './actions/timeline';
 
 import { getRandomWords } from './utils/words';
-
-const initialDifficulty = (): TypingDifficulty =>
-  (window.localStorage.getItem('difficulty') as TypingDifficulty) || 'medium';
 
 const initialTime = (): TypingTime =>
   (Number(window.localStorage.getItem('time')) as TypingTime) || 30;
@@ -27,7 +19,7 @@ export type TypingState = {
   wordIndex: number;
   letterIndex: number;
   words: TypingWords;
-  timeCountdown: number;
+  mistype: number;
   wordsTimeline: TypingWords[];
   result: TypingResult;
 };
@@ -35,8 +27,8 @@ export type TypingState = {
 export const initialState: TypingState = {
   wordIndex: 0,
   letterIndex: 0,
-  timeCountdown: initialTime(),
-  words: getRandomWords(initialDifficulty()),
+  words: getRandomWords(),
+  mistype: 0,
   wordsTimeline: [],
   result: {
     showResults: false,
@@ -44,17 +36,17 @@ export const initialState: TypingState = {
     accuracy: 0,
     timeline: [],
     time: initialTime(),
-    difficulty: initialDifficulty(),
   },
 };
 
 export type TypingActions =
   | { type: 'TYPE'; payload: string }
-  | { type: 'NEXT_WORD'; payload: TypingDifficulty }
+  | { type: 'NEXT_WORD' }
   | { type: 'DELETE_KEY' }
   | { type: 'DELETE_WORD' }
-  | { type: 'RESTART'; payload: TypingSettings }
-  | { type: 'TIME_DECREMENT' }
+  | { type: 'ADD_WORDS'; payload: number }
+  | { type: 'RESTART'; payload?: number }
+  | { type: 'TIMELINE' }
   | { type: 'RESULT' };
 
 const typingReducer = (
@@ -65,15 +57,17 @@ const typingReducer = (
     case 'TYPE':
       return type(state, action.payload);
     case 'NEXT_WORD':
-      return nextWord(state, action.payload);
+      return nextWord(state);
     case 'DELETE_KEY':
       return deleteKey(state);
     case 'DELETE_WORD':
       return deleteWord(state);
+    case 'ADD_WORDS':
+      return addWords(state, action.payload);
     case 'RESTART':
-      return restart(state, action.payload);
-    case 'TIME_DECREMENT':
-      return timeDecrement(state);
+      return !action.payload ? restart(state) : restart(state, action.payload);
+    case 'TIMELINE':
+      return timeline(state);
     case 'RESULT':
       return result(state);
     default:

@@ -1,20 +1,8 @@
 import randomWords from 'random-words';
-import { TypingDifficulty, TypingWords } from 'types/typing.type';
+import { TypingWords } from 'types/typing.type';
 
-const getRandomWords = (
-  difficulty: TypingDifficulty = 'medium',
-  quantity: number = 50
-): TypingWords => {
-  let words: string[];
-
-  switch (difficulty) {
-    case 'medium':
-      words = randomWords({ exactly: quantity, maxLength: 5 });
-      break;
-    case 'hard':
-      words = randomWords(quantity);
-      break;
-  }
+const getRandomWords = (quantity: number = 50): TypingWords => {
+  const words = randomWords({ exactly: quantity, maxLength: 6 });
 
   return words.map((word: string) => ({
     isIncorrect: false,

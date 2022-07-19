@@ -1,23 +1,23 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 import { GlobalContext } from 'context';
-import { TypingWords as TypingWordsType } from 'types/typing.type';
 import TypingCaret from './TypingCaret';
 import styles from 'styles/Typing/TypingInput.module.scss';
+import { TypingWords } from 'types/typing.type';
 
 interface Props {
-  words: TypingWordsType;
+  words: TypingWords;
   wordIndex: number;
   letterIndex: number;
 }
 
 const TypingInput = ({ words, wordIndex, letterIndex }: Props) => {
   const { typingStarted } = useContext(GlobalContext);
+  const [caretPos, setCaretPos] = useState({ x: 0, y: 0 });
+  const [wordsOffset, setWordsOffset] = useState(0);
   const wordWrapperRef = useRef<HTMLDivElement>(null);
   const wordRef = useRef<HTMLDivElement>(null);
   const letterRef = useRef<HTMLSpanElement>(null);
   const hiddenInputRef = useRef<HTMLInputElement>(null);
-  const [wordsOffset, setWordsOffset] = useState(0);
-  const [caretPos, setCaretPos] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
     if (typingStarted) hiddenInputRef.current?.focus();

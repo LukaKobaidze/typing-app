@@ -32,7 +32,7 @@ const result = (state: TypingState): TypingState => {
 
     return {
       second: index + 1,
-      wpm: +(lettersCorrect / 5 / ((index + 1) / 60)).toFixed(2),
+      wpm: Math.round(lettersCorrect / 5 / ((index + 1) / 60)),
       accuracy: +((lettersCorrect / letters) * 100).toFixed(2),
     };
   });

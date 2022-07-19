@@ -2,25 +2,22 @@ import { TextButton } from 'components/UI';
 import styles from 'styles/Settings/SettingsItem.module.scss';
 
 interface Props {
-  title: string;
-  settings: {
-    buttons: { text: any; active?: boolean }[];
-    onClick: (arg0: any) => void;
-  };
+  settings: string[] | number[];
+  active: string | number;
+  onChange: (arg0: any) => void;
 }
 
-const SettingsItem = ({ title, settings }: Props) => {
+const SettingsItem = ({ settings, active, onChange }: Props) => {
   return (
     <div className={styles.item}>
-      <p className={styles['item__title']}>{title}:</p>
       <div className={styles['item__buttons']}>
-        {settings.buttons.map((setting) => (
+        {settings.map((setting) => (
           <TextButton
-            key={setting.text}
-            text={String(setting.text)}
+            key={setting}
+            text={String(setting)}
             className={styles.button}
-            onClick={() => settings.onClick(setting.text)}
-            isActive={!!setting.active}
+            onClick={() => onChange(setting)}
+            isActive={setting === active}
           />
         ))}
       </div>

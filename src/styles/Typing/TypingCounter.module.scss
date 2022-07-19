@@ -1,9 +1,5 @@
-.timer {
+.counter {
   font-size: 22px;
   color: var(--clr-letter-correct);
   margin-bottom: 10px;
-
-  &--red {
-    color: var(--clr-letter-incorrect);
-  }
 }

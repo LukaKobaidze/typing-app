@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useStorageState } from 'hooks';
-import { TypingDifficulty, TypingTime } from 'types/typing.type';
+import { TypingMode, TypingTime, TypingWordsAmount } from 'types/typing.type';
 import GlobalContext from './global-context';
 
 interface Props {
@@ -8,19 +8,22 @@ interface Props {
 }
 
 const GlobalContextProvider = ({ children }: Props) => {
-  const [difficulty, setDifficulty] = useStorageState<TypingDifficulty>(
-    'typing-difficulty',
-    'medium'
-  );
+  const [mode, setMode] = useStorageState<TypingMode>('typing-mode', 'words');
   const [time, setTime] = useStorageState<TypingTime>('typing-time', 30);
+  const [wordsAmount, setWordsAmount] = useStorageState<TypingWordsAmount>(
+    'typing-wordsAmount',
+    25
+  );
   const [typingStarted, setTypingStarted] = useState(false);
 
-  const onDifficulty = (difficulty: TypingDifficulty) => {
-    setDifficulty(difficulty);
+  const onMode = (mode: TypingMode) => {
+    setMode(mode);
   };
-
   const onTime = (time: TypingTime) => {
     setTime(time);
+  };
+  const onWordsAmount = (amount: TypingWordsAmount) => {
+    setWordsAmount(amount);
   };
 
   const onTypingStart = () => setTypingStarted(true);
@@ -29,11 +32,13 @@ const GlobalContextProvider = ({ children }: Props) => {
   return (
     <GlobalContext.Provider
       value={{
-        difficulty,
+        mode,
         time,
+        wordsAmount,
         typingStarted,
-        onDifficulty,
+        onMode,
         onTime,
+        onWordsAmount,
         onTypingStart,
         onTypingEnd,
       }}

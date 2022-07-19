@@ -1,22 +1,31 @@
 import { createContext } from 'react';
-import { TypingDifficulty, TypingTime } from 'types/typing.type';
+import {
+  TypingMode,
+  TypingTime,
+  TypingWords,
+  TypingWordsAmount,
+} from 'types/typing.type';
 
 interface Context {
-  difficulty: TypingDifficulty;
+  mode: TypingMode;
   time: TypingTime;
+  wordsAmount: TypingWordsAmount;
   typingStarted: boolean;
-  onDifficulty: (difficulty: TypingDifficulty) => void;
+  onMode: (mode: TypingMode) => void;
   onTime: (time: TypingTime) => void;
+  onWordsAmount: (amount: TypingWordsAmount) => void;
   onTypingStart: () => void;
   onTypingEnd: () => void;
 }
 
 const GlobalContext = createContext<Context>({
-  difficulty: 'medium',
+  mode: 'time',
   time: 15,
+  wordsAmount: 25,
   typingStarted: false,
-  onDifficulty: () => {},
+  onMode: () => {},
   onTime: () => {},
+  onWordsAmount: () => {},
   onTypingStart: () => {},
   onTypingEnd: () => {},
 });

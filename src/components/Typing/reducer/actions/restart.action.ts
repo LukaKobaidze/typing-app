@@ -1,16 +1,15 @@
-import { TypingSettings } from 'types/typing.type';
 import { TypingState } from '../typing-reducer';
 import { getRandomWords } from '../utils/words';
 
-const restart = (state: TypingState, payload: TypingSettings): TypingState => {
-  const words = getRandomWords(payload.difficulty);
+const restart = (state: TypingState, wordsAmount?: number): TypingState => {
+  const words = getRandomWords(wordsAmount);
 
   return {
     ...state,
-    timeCountdown: payload.time,
     wordIndex: 0,
     letterIndex: 0,
     words,
+    mistype: 0,
     wordsTimeline: [],
     result: {
       ...state.result,

@@ -13,7 +13,7 @@
 }
 
 .wordWrapper {
-  padding: 5px 4px;
+  padding: 5px 5px;
 }
 
 .word {
@@ -31,7 +31,7 @@
       background-color: var(--clr-letter-incorrect);
       transform: scaleX(0);
       transform-origin: left;
-      opacity: .75;
+      opacity: 0.75;
       animation: line 400ms;
       animation-fill-mode: forwards;
     }

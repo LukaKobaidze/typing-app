@@ -1,6 +1,5 @@
 import { useContext } from 'react';
 import { GlobalContext } from 'context';
-import { TypingTime } from 'types/typing.type';
 import SettingsItem from './SettingsItem';
 import styles from 'styles/Settings/Settings.module.scss';
 
@@ -9,37 +8,29 @@ interface Props {
 }
 
 const Settings = ({ className }: Props) => {
-  const { difficulty, time, onDifficulty, onTime } = useContext(GlobalContext);
-
-  const isActiveDifficulty = (paramDifficulty: typeof difficulty) =>
-    paramDifficulty === difficulty;
-
-  const isActiveTime = (paramTimer: TypingTime) => paramTimer === time;
+  const { mode, time, wordsAmount, onMode, onTime, onWordsAmount } =
+    useContext(GlobalContext);
 
   return (
     <div className={`${styles.settings} ${className}`}>
       <SettingsItem
-        title="Difficulty"
-        settings={{
-          buttons: [
-            { text: 'medium', active: isActiveDifficulty('medium') },
-            { text: 'hard', active: isActiveDifficulty('hard') },
-          ],
-          onClick: onDifficulty,
-        }}
+        settings={['time', 'words']}
+        active={mode}
+        onChange={onMode}
       />
-      <SettingsItem
-        title="Time"
-        settings={{
-          buttons: [
-            { text: 15, active: isActiveTime(15) },
-            { text: 30, active: isActiveTime(30) },
-            { text: 60, active: isActiveTime(60) },
-            { text: 120, active: isActiveTime(120) },
-          ],
-          onClick: onTime,
-        }}
-      />
+      {mode === 'time' ? (
+        <SettingsItem
+          settings={[15, 30, 60, 120]}
+          active={time}
+          onChange={onTime}
+        />
+      ) : (
+        <SettingsItem
+          settings={[10, 25, 50, 100]}
+          active={wordsAmount}
+          onChange={onWordsAmount}
+        />
+      )}
     </div>
   );
 };

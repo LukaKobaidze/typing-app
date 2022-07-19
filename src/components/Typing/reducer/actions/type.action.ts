@@ -1,14 +1,11 @@
 import { TypingState } from '../typing-reducer';
 
 const type = (state: TypingState, key: string): TypingState => {
-  if (state.timeCountdown === 0) {
-    return state;
-  }
-
   const words = state.words.slice(0);
   const word = words[state.wordIndex];
   word.isIncorrect = false;
   const letter = words[state.wordIndex].letters[state.letterIndex];
+  let mistype = state.mistype;
 
   // Extra letters
   if (state.letterIndex === word.letters.length) {
@@ -30,23 +27,31 @@ const type = (state: TypingState, key: string): TypingState => {
         type: 'extra',
       },
     ];
+    mistype++;
 
     return {
       ...state,
       wordIndex: state.wordIndex,
       letterIndex: state.letterIndex + 1,
       words,
+      mistype,
     };
   }
 
   // Check if typed key is correct
-  letter.type = key === letter.letter ? 'correct' : 'incorrect';
+  if (key === letter.letter) {
+    letter.type = 'correct';
+  } else {
+    letter.type = 'incorrect';
+    mistype++;
+  }
 
   return {
     ...state,
     wordIndex: state.wordIndex,
     letterIndex: state.letterIndex + 1,
     words,
+    mistype,
   };
 };
 

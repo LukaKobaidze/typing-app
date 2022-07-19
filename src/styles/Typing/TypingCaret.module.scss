@@ -1,11 +1,11 @@
 .caret {
   width: 3px;
-  height: 30px;
+  height: 32px;
   background-color: var(--clr-caret);
   position: absolute;
   left: 0;
-  top: 0;
-  border-radius: 1px;
+  top: -2px;
+  border-radius: 2px;
   transition: transform 125ms;
 
   &.animate {
