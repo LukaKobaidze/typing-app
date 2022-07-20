@@ -1,10 +1,5 @@
 import { createContext } from 'react';
-import {
-  TypingMode,
-  TypingTime,
-  TypingWords,
-  TypingWordsAmount,
-} from 'types/typing.type';
+import { TypingMode, TypingTime, TypingWordsAmount } from 'types/typing.type';
 
 interface Context {
   mode: TypingMode;
