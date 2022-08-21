@@ -1,13 +1,4 @@
 type TypingLetter = 'correct' | 'incorrect' | 'extra' | 'none';
-
-type TypingWords = {
-  isIncorrect: boolean;
-  letters: {
-    letter: string;
-    type: TypingLetter;
-  }[];
-}[];
-
 type TypingMode = 'time' | 'words';
 type TypingTime = 15 | 30 | 60 | 120;
 type TypingWordsAmount = 10 | 25 | 50 | 100;
@@ -17,7 +8,15 @@ type TypingSettings = {
   time: TypingTime;
 };
 
-interface TypingResult {
+type TypingWords = {
+  isIncorrect: boolean;
+  letters: {
+    letter: string;
+    type: TypingLetter;
+  }[];
+}[];
+
+type TypingResult = {
   wpm: number;
   accuracy: number;
   showResults: boolean;
@@ -27,10 +26,10 @@ interface TypingResult {
 
 export type {
   TypingLetter,
-  TypingWords,
   TypingMode,
   TypingTime,
   TypingWordsAmount,
   TypingSettings,
+  TypingWords,
   TypingResult,
 };
