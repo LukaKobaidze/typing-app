@@ -5,7 +5,6 @@
 
   &--color {
     --clr-logo-text: var(--clr-letter-correct);
-    --clr-logo-icon: var(--clr-letter-incorrect);
   }
 
   &--nocolor {
@@ -24,6 +23,7 @@
     transition: fill 200ms;
   }
 }
+
 
 .text-div {
   display: flex;

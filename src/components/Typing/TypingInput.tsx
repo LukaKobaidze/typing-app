@@ -1,8 +1,8 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 import { GlobalContext } from 'context';
+import { TypingWords } from 'types/typing.type';
 import TypingCaret from './TypingCaret';
 import styles from 'styles/Typing/TypingInput.module.scss';
-import { TypingWords } from 'types/typing.type';
 
 interface Props {
   words: TypingWords;

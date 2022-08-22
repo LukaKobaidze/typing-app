@@ -46,11 +46,12 @@ const Typing = () => {
         return dispatch({ type: 'TYPE', payload: key });
       }
     };
-
-    document.addEventListener('keydown', typeHandler);
+    if (state.result.showResults) {
+      document.removeEventListener('keydown', typeHandler);
+    } else document.addEventListener('keydown', typeHandler);
 
     return () => document.removeEventListener('keydown', typeHandler);
-  }, [typingStarted, onTypingStart]);
+  }, [typingStarted, onTypingStart, state.result.showResults]);
 
   const onRestart = useCallback(() => {
     if (mode === 'time') {
