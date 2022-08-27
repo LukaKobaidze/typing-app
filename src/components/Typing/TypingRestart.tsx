@@ -1,5 +1,5 @@
 import { useContext, useRef } from 'react';
-import { GlobalContext } from 'context';
+import { GlobalContext } from 'context/global-context';
 import { ReactComponent as IconRefresh } from 'assets/images/refresh.svg';
 import { ButtonRounded, TextOnHover } from 'components/UI';
 import styles from 'styles/Typing/TypingRestart.module.scss';

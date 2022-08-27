@@ -1,5 +1,5 @@
 import { useContext, useEffect } from 'react';
-import { GlobalContext } from 'context';
+import { GlobalContext } from 'context/global-context';
 import {
   ResponsiveContainer,
   LineChart,
@@ -11,7 +11,7 @@ import {
   Legend,
   Line,
 } from 'recharts';
-import { TypingResult as TypingResultType } from 'types/typing.type';
+import { TypingResult as TypingResultType } from './types';
 import { PercentCircleChart } from 'components/UI';
 import TypingRestart from './TypingRestart';
 import styles from 'styles/Typing/TypingResult.module.scss';

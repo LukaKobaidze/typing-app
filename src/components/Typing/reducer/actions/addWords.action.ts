@@ -1,5 +1,5 @@
+import { getRandomWords } from 'lib/words';
 import { TypingState } from '../typing-reducer';
-import { getRandomWords } from '../utils/words';
 
 const addWords = (state: TypingState, amount: number): TypingState => {
   return {

@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { GlobalContext } from 'context';
+import { GlobalContext } from 'context/global-context';
 import { ReactComponent as IconGithub } from 'assets/images/github.svg';
 import { Logo, TextOnHover } from './UI';
 import Settings from './Settings';

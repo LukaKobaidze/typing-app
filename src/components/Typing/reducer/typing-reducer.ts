@@ -1,16 +1,15 @@
-import { TypingResult, TypingTime, TypingWords } from 'types/typing.type';
+import { getRandomWords } from 'lib/words';
+import { TypingResult, TypingTime, TypingWords } from '../types';
 import {
   type,
   nextWord,
   deleteKey,
   deleteWord,
-  restart,
-  result,
   addWords,
+  restart,
+  timeline,
+  result,
 } from './actions';
-import timeline from './actions/timeline';
-
-import { getRandomWords } from './utils/words';
 
 const initialTime = (): TypingTime =>
   (Number(window.localStorage.getItem('time')) as TypingTime) || 30;

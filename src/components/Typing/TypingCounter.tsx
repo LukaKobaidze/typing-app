@@ -1,7 +1,7 @@
-import { GlobalContext } from 'context';
+import { GlobalContext } from 'context/global-context';
 import { useContext } from 'react';
+import { TypingMode } from './types';
 import styles from 'styles/Typing/TypingCounter.module.scss';
-import { TypingMode } from 'types/typing.type';
 
 interface Props {
   mode: TypingMode;

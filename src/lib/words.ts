@@ -1,5 +1,5 @@
 import randomWords from 'random-words';
-import { TypingWords } from 'types/typing.type';
+import { TypingWords } from 'components/Typing/types';
 
 const getRandomWords = (quantity: number = 50): TypingWords => {
   const words = randomWords({ exactly: quantity, maxLength: 6 });

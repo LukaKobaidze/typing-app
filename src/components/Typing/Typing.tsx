@@ -5,7 +5,7 @@ import {
   useReducer,
   useState,
 } from 'react';
-import { GlobalContext } from 'context';
+import { GlobalContext } from 'context/global-context';
 import { ReactComponent as IconLock } from 'assets/images/lock.svg';
 import typingReducer, { initialState } from './reducer/typing-reducer';
 import TypingInput from './TypingInput';

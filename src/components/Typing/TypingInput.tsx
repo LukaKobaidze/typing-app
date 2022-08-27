@@ -1,6 +1,6 @@
 import { useContext, useEffect, useRef, useState } from 'react';
-import { GlobalContext } from 'context';
-import { TypingWords } from 'types/typing.type';
+import { GlobalContext } from 'context/global-context';
+import { TypingWords } from './types';
 import TypingCaret from './TypingCaret';
 import styles from 'styles/Typing/TypingInput.module.scss';
 

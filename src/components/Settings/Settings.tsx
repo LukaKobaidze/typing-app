@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { GlobalContext } from 'context';
+import { GlobalContext } from 'context/global-context';
 import SettingsItem from './SettingsItem';
 import styles from 'styles/Settings/Settings.module.scss';
 

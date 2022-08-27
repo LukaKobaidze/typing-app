@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { GlobalContextProvider } from 'context';
+import { GlobalContextProvider } from 'context/global-context';
 import App from 'components/App';
 import 'styles/styles.scss';
 
