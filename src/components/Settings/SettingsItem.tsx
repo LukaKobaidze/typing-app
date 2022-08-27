@@ -2,7 +2,7 @@ import { TextButton } from 'components/UI';
 import styles from 'styles/Settings/SettingsItem.module.scss';
 
 interface Props {
-  settings: string[] | number[];
+  settings: readonly (string | number)[];
   active: string | number;
   onChange: (arg0: any) => void;
 }

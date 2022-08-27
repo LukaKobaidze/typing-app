@@ -1,19 +1,15 @@
 import { createContext, useState } from 'react';
-import {
-  TypingMode,
-  TypingTime,
-  TypingWordsAmount,
-} from 'components/Typing/types';
 import { useStorageState } from 'hooks';
+import { SettingsMode, SettingsTime, SettingsWords } from 'components/Settings';
 
 interface Context {
-  mode: TypingMode;
-  time: TypingTime;
-  wordsAmount: TypingWordsAmount;
+  mode: SettingsMode;
+  time: SettingsTime;
+  wordsAmount: SettingsWords;
   typingStarted: boolean;
-  onMode: (mode: TypingMode) => void;
-  onTime: (time: TypingTime) => void;
-  onWordsAmount: (amount: TypingWordsAmount) => void;
+  onMode: (mode: SettingsMode) => void;
+  onTime: (time: SettingsTime) => void;
+  onWordsAmount: (amount: SettingsWords) => void;
   onTypingStart: () => void;
   onTypingEnd: () => void;
 }
@@ -34,17 +30,17 @@ interface Props {
 }
 
 const GlobalContextProvider = ({ children }: Props) => {
-  const [mode, setMode] = useStorageState<TypingMode>('typing-mode', 'words');
-  const [time, setTime] = useStorageState<TypingTime>('typing-time', 30);
-  const [wordsAmount, setWordsAmount] = useStorageState<TypingWordsAmount>(
+  const [mode, setMode] = useStorageState<SettingsMode>('typing-mode', 'words');
+  const [time, setTime] = useStorageState<SettingsTime>('typing-time', 30);
+  const [wordsAmount, setWordsAmount] = useStorageState<SettingsWords>(
     'typing-wordsAmount',
     25
   );
   const [typingStarted, setTypingStarted] = useState(false);
 
-  const onMode = (mode: TypingMode) => setMode(mode);
-  const onTime = (time: TypingTime) => setTime(time);
-  const onWordsAmount = (amount: TypingWordsAmount) => setWordsAmount(amount);
+  const onMode = (mode: SettingsMode) => setMode(mode);
+  const onTime = (time: SettingsTime) => setTime(time);
+  const onWordsAmount = (amount: SettingsWords) => setWordsAmount(amount);
   const onTypingStart = () => setTypingStarted(true);
   const onTypingEnd = () => setTypingStarted(false);
 

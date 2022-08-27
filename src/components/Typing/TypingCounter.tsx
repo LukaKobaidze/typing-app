@@ -1,10 +1,10 @@
+import { SettingsMode } from 'components/Settings';
 import { GlobalContext } from 'context/global-context';
 import { useContext } from 'react';
-import { TypingMode } from './types';
 import styles from 'styles/Typing/TypingCounter.module.scss';
 
 interface Props {
-  mode: TypingMode;
+  mode: SettingsMode;
   counter: number;
 }
 

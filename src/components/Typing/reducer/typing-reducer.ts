@@ -1,5 +1,5 @@
 import { getRandomWords } from 'lib/words';
-import { TypingResult, TypingTime, TypingWords } from '../types';
+import { TypingResult, TypingWords } from '../types';
 import {
   type,
   nextWord,
@@ -10,9 +10,6 @@ import {
   timeline,
   result,
 } from './actions';
-
-const initialTime = (): TypingTime =>
-  (Number(window.localStorage.getItem('time')) as TypingTime) || 30;
 
 export type TypingState = {
   wordIndex: number;
@@ -34,7 +31,6 @@ export const initialState: TypingState = {
     wpm: 0,
     accuracy: 0,
     timeline: [],
-    time: initialTime(),
   },
 };
 
