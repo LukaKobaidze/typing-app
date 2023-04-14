@@ -4,7 +4,7 @@
   font-size: inherit;
   background: none;
   border: none;
-  color: var(--clr-letter-incorrect);
+  color: var(--clr-char-incorrect);
   cursor: pointer;
   transition: color 125ms ease-out;
 
@@ -14,6 +14,6 @@
   }
 
   &.active {
-    color: var(--clr-letter-correct);
+    color: var(--clr-char-correct);
   }
 }

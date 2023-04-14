@@ -1,18 +1,18 @@
-type TypingLetter = 'correct' | 'incorrect' | 'extra' | 'none';
+type TypingCharType = 'correct' | 'incorrect' | 'extra' | 'none';
 
 type TypingWords = {
   isIncorrect: boolean;
-  letters: {
-    letter: string;
-    type: TypingLetter;
+  chars: {
+    content: string;
+    type: TypingCharType;
   }[];
 }[];
 
 type TypingResult = {
-  wpm: number;
-  accuracy: number;
   showResults: boolean;
-  timeline: { wpm: number; accuracy: number }[];
+  timeline: { wpm: number; accuracy: number; raw: number; second: number }[];
+  errors: number;
+  quoteAuthor?: string;
 };
 
-export type { TypingLetter, TypingWords, TypingResult };
+export type { TypingCharType, TypingWords, TypingResult };

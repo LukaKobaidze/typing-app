@@ -1,28 +1,31 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 import { GlobalContext } from 'context/global-context';
 import { TypingWords } from './types';
-import TypingCaret from './TypingCaret';
-import styles from 'styles/Typing/TypingInput.module.scss';
+import styles from 'styles/Typing/Input.module.scss';
 
 interface Props {
   words: TypingWords;
   wordIndex: number;
-  letterIndex: number;
+  charIndex: number;
 }
 
-const TypingInput = ({ words, wordIndex, letterIndex }: Props) => {
+export default function Input(props: Props) {
+  const { words, wordIndex, charIndex } = props;
+  
   const { typingStarted } = useContext(GlobalContext);
   const [caretPos, setCaretPos] = useState({ x: 0, y: 0 });
   const [wordsOffset, setWordsOffset] = useState(0);
+
   const wordWrapperRef = useRef<HTMLDivElement>(null);
   const wordRef = useRef<HTMLDivElement>(null);
-  const letterRef = useRef<HTMLSpanElement>(null);
+  const charRef = useRef<HTMLSpanElement>(null);
   const hiddenInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (typingStarted) hiddenInputRef.current?.focus();
   }, [typingStarted]);
 
+  const firstWord = words[0]?.chars.join('');
   useEffect(() => {
     if (!wordRef.current) return;
     const {
@@ -31,40 +34,46 @@ const TypingInput = ({ words, wordIndex, letterIndex }: Props) => {
       offsetWidth: wordOffsetWidth,
     } = wordRef.current;
 
-    if (!letterRef.current) {
+    if (!charRef.current) {
       return setCaretPos({
         x: wordOffsetLeft + wordOffsetWidth,
         y: wordOffsetTop - wordsOffset,
       });
     }
 
-    const { offsetLeft: letterOffsetLeft } = letterRef.current;
+    const { offsetLeft: charOffsetLeft } = charRef.current;
     setCaretPos({
-      x: wordOffsetLeft + letterOffsetLeft,
+      x: wordOffsetLeft + charOffsetLeft,
       y: wordOffsetTop - wordsOffset,
     });
-  }, [wordIndex, letterIndex, wordsOffset]);
+  }, [wordIndex, charIndex, wordsOffset, firstWord]);
 
   useEffect(() => {
     if (!wordWrapperRef.current) return;
     const { offsetTop, clientHeight } = wordWrapperRef.current;
     setWordsOffset(Math.max(offsetTop - clientHeight, 0));
-  }, [letterIndex]);
+  }, [charIndex]);
 
   return (
     <div className={styles.wrapper}>
-      <TypingCaret position={caretPos} />
+      {/* Caret */}
+      {words.length !== 0 && (
+        <div
+          className={`${styles.caret} ${!typingStarted ? styles.animate : ''}`}
+          style={{ transform: `translate(${caretPos.x}px, ${caretPos.y}px)` }}
+        />
+      )}
+
       <input
         type="text"
         className={styles['hidden-input']}
         autoCapitalize="off"
         ref={hiddenInputRef}
+        tabIndex={-1}
       />
       <div
         className={styles.words}
-        style={
-          typingStarted ? { transform: `translateY(-${wordsOffset}px)` } : {}
-        }
+        style={typingStarted ? { transform: `translateY(-${wordsOffset}px)` } : {}}
       >
         {words.map((word, index) => {
           const isCurrentWord = index === wordIndex;
@@ -80,21 +89,15 @@ const TypingInput = ({ words, wordIndex, letterIndex }: Props) => {
                 }`}
                 ref={isCurrentWord ? wordRef : undefined}
               >
-                {word.letters.map((letter, index) => (
+                {word.chars.map((char, index) => (
                   <span
                     key={index}
-                    className={`${styles.letter} ${
-                      letter.type !== 'none'
-                        ? styles[`letter--${letter.type}`]
-                        : ''
+                    className={`${styles.char} ${
+                      char.type !== 'none' ? styles[`char--${char.type}`] : ''
                     }`}
-                    ref={
-                      isCurrentWord && index === letterIndex
-                        ? letterRef
-                        : undefined
-                    }
+                    ref={isCurrentWord && index === charIndex ? charRef : undefined}
                   >
-                    {letter.letter}
+                    {char.content}
                   </span>
                 ))}
               </div>
@@ -104,6 +107,4 @@ const TypingInput = ({ words, wordIndex, letterIndex }: Props) => {
       </div>
     </div>
   );
-};
-
-export default TypingInput;
+}

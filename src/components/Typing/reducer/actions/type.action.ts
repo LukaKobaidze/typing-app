@@ -1,29 +1,28 @@
-import { TypingState } from '../typing-reducer';
+import { TypingState } from '../typing.reducer';
 
-const type = (state: TypingState, key: string): TypingState => {
+export default function type(state: TypingState, key: string): TypingState {
   const words = state.words.slice(0);
+  if (words.length === 0) return state;
   const word = words[state.wordIndex];
   word.isIncorrect = false;
-  const letter = words[state.wordIndex].letters[state.letterIndex];
+  const char = words[state.wordIndex].chars[state.charIndex];
   let mistype = state.mistype;
 
-  // Extra letters
-  if (state.letterIndex === word.letters.length) {
-    // Find index of first extra letter
-    const firstExtraIndex = word.letters.findIndex(
-      (letter) => letter.type === 'extra'
-    );
-
-    // If there are 10 extra letters, do nothing (return state)
-    if (word.letters.length - firstExtraIndex === 10) {
+  // Extra characters
+  if (state.charIndex === word.chars.length) {
+    // If there are 10 extra characters, do nothing (return state)
+    if (
+      word.chars.length > 10 &&
+      word.chars[word.chars.length - 10].type === 'extra'
+    ) {
       return state;
     }
 
-    // Add extra letter
-    word.letters = [
-      ...word.letters,
+    // Add extra character
+    word.chars = [
+      ...word.chars,
       {
-        letter: key!,
+        content: key!,
         type: 'extra',
       },
     ];
@@ -32,27 +31,28 @@ const type = (state: TypingState, key: string): TypingState => {
     return {
       ...state,
       wordIndex: state.wordIndex,
-      letterIndex: state.letterIndex + 1,
+      charIndex: state.charIndex + 1,
       words,
       mistype,
     };
   }
 
-  // Check if typed key is correct
-  if (key === letter.letter) {
-    letter.type = 'correct';
+  const isCorrect = key === char.content;
+
+  if (isCorrect) {
+    char.type = 'correct';
   } else {
-    letter.type = 'incorrect';
+    char.type = 'incorrect';
     mistype++;
   }
 
   return {
     ...state,
     wordIndex: state.wordIndex,
-    letterIndex: state.letterIndex + 1,
+    charIndex: state.charIndex + 1,
     words,
     mistype,
+    typed: state.typed + 1,
+    typedCorrectly: isCorrect ? state.typedCorrectly + 1 : state.typedCorrectly,
   };
-};
-
-export default type;
+}

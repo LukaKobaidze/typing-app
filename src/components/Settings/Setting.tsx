@@ -1,13 +1,14 @@
 import { TextButton } from 'components/UI';
-import styles from 'styles/Settings/SettingsItem.module.scss';
+import styles from 'styles/Settings/Setting.module.scss';
 
 interface Props {
   settings: readonly (string | number)[];
-  active: string | number;
+  active: (string | number) | (string | number)[];
   onChange: (arg0: any) => void;
+  hidden: boolean;
 }
 
-const SettingsItem = ({ settings, active, onChange }: Props) => {
+const SettingsItem = ({ settings, active, onChange, hidden }: Props) => {
   return (
     <div className={styles.item}>
       <div className={styles['item__buttons']}>
@@ -17,7 +18,10 @@ const SettingsItem = ({ settings, active, onChange }: Props) => {
             text={String(setting)}
             className={styles.button}
             onClick={() => onChange(setting)}
-            isActive={setting === active}
+            isActive={
+              Array.isArray(active) ? active.includes(setting) : setting === active
+            }
+            tabIndex={hidden ? -1 : undefined}
           />
         ))}
       </div>

@@ -1,53 +1,33 @@
-import { TypingState } from '../typing-reducer';
+import { getTypingResults, twoDecimals } from 'utils';
+import { TypingState } from '../typing.reducer';
 
-const result = (state: TypingState): TypingState => {
+export default function result(state: TypingState, time?: number): TypingState {
   // Calculate results
-  if (!state.wordsTimeline[0]) {
+  if (state.result.timeline.length === 0 || !state.dateTypingStarted) {
     return state;
   }
 
-  const timeline = state.wordsTimeline.map((words, index) => {
-    let letters: number = 0;
-    let lettersCorrect: number = 0;
+  const timeline = [...state.result.timeline];
 
-    words.forEach((word) => {
-      let isWordCorrect = true;
-      word.letters.forEach((letter) => {
-        const isLetterCorrect = letter.type === 'correct';
-        if (letter.type !== 'none') {
-          letters++;
-        }
-        if (isWordCorrect) {
-          isWordCorrect = isLetterCorrect;
-        }
-        if (isLetterCorrect) {
-          lettersCorrect++;
-        }
-      });
-      if (isWordCorrect) {
-        letters++;
-        lettersCorrect++;
-      }
+  if (!time) {
+    const timeTook = new Date().getTime() - state.dateTypingStarted;
+    timeline.push({
+      second: twoDecimals(timeTook / 1000),
+      ...getTypingResults(
+        state.typed,
+        state.typedCorrectly,
+        state.mistype,
+        timeTook
+      ),
     });
-
-    return {
-      second: index + 1,
-      wpm: Math.round(lettersCorrect / 5 / ((index + 1) / 60)),
-      accuracy: +((lettersCorrect / letters) * 100).toFixed(2),
-    };
-  });
-  const { wpm, accuracy } = timeline[timeline.length - 1];
+  }
 
   return {
     ...state,
     result: {
       ...state.result,
       showResults: true,
-      wpm,
-      accuracy,
       timeline,
     },
   };
-};
-
-export default result;
+}

@@ -4,12 +4,12 @@
   min-width: 255px;
 
   &--color {
-    --clr-logo-text: var(--clr-letter-correct);
+    --clr-logo-text: var(--clr-char-correct);
   }
 
   &--nocolor {
-    --clr-logo-text: var(--clr-letter);
-    --clr-logo-icon: var(--clr-letter);
+    --clr-logo-text: var(--clr-char);
+    --clr-logo-icon: var(--clr-char);
   }
 }
 
@@ -34,6 +34,7 @@
   &__title {
     font-weight: var(--font-weight-bold);
     font-size: 35px;
+    white-space: nowrap;
   }
   &__subtitle {
     margin-top: 2px;

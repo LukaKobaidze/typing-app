@@ -5,7 +5,7 @@
   padding: 2rem;
   padding-bottom: 3rem;
 
-  @media (max-width: 525px) {
+  @media (max-width: 550px) {
     flex-direction: column;
     padding-bottom: 2rem;
   }
@@ -34,5 +34,16 @@
     & > path {
       fill: #f0f6fc;
     }
+  }
+}
+
+.github-hover-wrapper {
+  display: flex;
+  align-items: center;
+
+  &__icon {
+    width: 15px;
+    height: 15px;
+    margin-left: 10px;
   }
 }

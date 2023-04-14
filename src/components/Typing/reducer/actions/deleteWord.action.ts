@@ -1,32 +1,36 @@
-import { TypingState } from '../typing-reducer';
+import { TypingState } from '../typing.reducer';
 
-const deleteWord = (state: TypingState): TypingState => {
+export default function deleteWord(state: TypingState): TypingState {
   const words = state.words.slice(0);
   const currentWord = words[state.wordIndex];
 
-  // Find index of first extra letter
-  const extraLetterIndex = currentWord.letters.findIndex(
-    (letter) => letter.type === 'extra'
+  // Find index of first extra character
+  const extraCharIndex = currentWord.chars.findIndex(
+    (char) => char.type === 'extra'
   );
 
-  // If there are extra letters, remove them
-  if (extraLetterIndex !== -1) {
-    words[state.wordIndex].letters = currentWord.letters.slice(
-      0,
-      extraLetterIndex
-    );
+  // If there are extra characters, remove them
+  if (extraCharIndex !== -1) {
+    words[state.wordIndex].chars = currentWord.chars.slice(0, extraCharIndex);
   }
 
-  const letterIndex = Math.min(state.letterIndex, currentWord.letters.length);
-  for (let i = 0; i < letterIndex; i++) {
-    currentWord.letters[i].type = 'none';
+  const charIndex = Math.min(state.charIndex, currentWord.chars.length);
+
+  let deletedWordCorrectChars = 0;
+
+  for (let i = 0; i < charIndex; i++) {
+    const char = currentWord.chars[i];
+    if (char.type === 'correct') {
+      deletedWordCorrectChars++;
+    }
+
+    char.type = 'none';
   }
 
   return {
     ...state,
     words,
-    letterIndex: 0,
+    charIndex: 0,
+    typedCorrectly: state.typedCorrectly - deletedWordCorrectChars,
   };
-};
-
-export default deleteWord;
+}

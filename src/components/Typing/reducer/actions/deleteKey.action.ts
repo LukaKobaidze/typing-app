@@ -1,39 +1,57 @@
-import { TypingState } from '../typing-reducer';
+import { TypingState } from '../typing.reducer';
 
-const deleteKey = (state: TypingState): TypingState => {
-  if (state.wordIndex === 0 && state.letterIndex === 0) {
+export default function deleteKey(state: TypingState): TypingState {
+  if (state.wordIndex === 0 && state.charIndex === 0) {
     return state;
   }
 
-  if (state.letterIndex === 0) {
+  if (state.charIndex === 0) {
     const prevWordIndex = state.wordIndex - 1;
+
+    const prevWordCorrectChars = state.words[prevWordIndex].isIncorrect
+      ? state.words[prevWordIndex].chars.reduce((acc, char) => {
+          return char.type === 'correct' ? acc + 1 : acc;
+        }, 0)
+      : -1;
 
     return {
       ...state,
       wordIndex: prevWordIndex,
-      letterIndex: state.words[prevWordIndex].letters.length,
+      charIndex: state.words[prevWordIndex].chars.length,
+      typedCorrectly: state.typedCorrectly + prevWordCorrectChars,
     };
   }
 
   const updatedWords = state.words.slice(0);
   const currentWord = updatedWords[state.wordIndex];
-  const prevLetter = currentWord.letters[state.letterIndex - 1];
+  const prevChar = currentWord.chars[state.charIndex - 1];
 
-  currentWord.isIncorrect = false;
+  let errors = state.result.errors;
+  if (currentWord.isIncorrect) {
+    errors--;
+    currentWord.isIncorrect = false;
+  }
 
-  if (prevLetter.type === 'extra') {
-    currentWord.letters.pop();
+  let wasCorrect = false;
+  if (prevChar.type === 'extra') {
+    currentWord.chars.pop();
   } else {
-    prevLetter.type = 'none';
+    if (prevChar.type === 'correct') {
+      wasCorrect = true;
+    }
+    prevChar.type = 'none';
   }
 
   updatedWords[state.wordIndex] = currentWord;
 
   return {
     ...state,
-    letterIndex: state.letterIndex - 1,
+    charIndex: state.charIndex - 1,
     words: updatedWords,
+    typedCorrectly: wasCorrect ? state.typedCorrectly - 1 : state.typedCorrectly,
+    result: {
+      ...state.result,
+      errors,
+    },
   };
-};
-
-export default deleteKey;
+}

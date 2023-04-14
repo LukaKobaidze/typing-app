@@ -1,26 +1,27 @@
-import {
-  useCallback,
-  useContext,
-  useEffect,
-  useReducer,
-  useState,
-} from 'react';
+import { useCallback, useContext, useEffect, useReducer, useState } from 'react';
 import { GlobalContext } from 'context/global-context';
 import { ReactComponent as IconLock } from 'assets/images/lock.svg';
-import typingReducer, { initialState } from './reducer/typing-reducer';
-import TypingInput from './TypingInput';
-import TypingRestart from './TypingRestart';
-import TypingResult from './TypingResult';
-import TypingCounter from './TypingCounter';
+import typingReducer, { initialState } from './reducer/typing.reducer';
+import { getRandomWords } from 'lib/words';
+import { getTypingWords } from 'utils';
+import { LoadingSpinner } from 'components/UI';
+import Input from './Input';
+import Restart from './Restart';
+import Result from './Result';
+import Counter from './Counter';
 import styles from 'styles/Typing/Typing.module.scss';
 
-const Typing = () => {
+// Used to abort previous fetch call if new one is called
+let quoteAbortController: AbortController | null = null;
+
+export default function Typing() {
   const [state, dispatch] = useReducer(typingReducer, initialState);
-  const { mode, wordsAmount, time, typingStarted, onTypingStart } =
+  const { mode, wordsAmount, time, quoteLength, typingStarted, onTypingStart } =
     useContext(GlobalContext);
   const [isCapsLock, setIsCapsLock] = useState(false);
   const [timeCountdown, setTimeCountdown] = useState<number>(time);
   const [wordCount, setWordCount] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const typeHandler = (event: KeyboardEvent) => {
@@ -42,7 +43,10 @@ const Typing = () => {
         return dispatch({ type: 'NEXT_WORD' });
       }
       if (key.length === 1) {
-        if (!typingStarted) onTypingStart();
+        if (!typingStarted) {
+          onTypingStart();
+          dispatch({ type: 'START' });
+        }
         return dispatch({ type: 'TYPE', payload: key });
       }
     };
@@ -55,28 +59,57 @@ const Typing = () => {
 
   const onRestart = useCallback(() => {
     if (mode === 'time') {
-      dispatch({ type: 'RESTART' });
+      dispatch({ type: 'RESTART', payload: getRandomWords() });
       setTimeCountdown(time);
-    } else {
-      dispatch({ type: 'RESTART', payload: wordsAmount });
+    } else if (mode === 'words') {
+      dispatch({ type: 'RESTART', payload: getRandomWords(wordsAmount) });
       setWordCount(0);
+    } else {
+      dispatch({ type: 'RESTART', payload: [] });
+      setWordCount(0);
+
+      quoteAbortController?.abort();
+      quoteAbortController = new AbortController();
+
+      setIsLoading(true);
+      fetch(
+        `https://api.quotable.io/random${
+          quoteLength === 'short'
+            ? '?maxLength=100'
+            : quoteLength === 'medium'
+            ? '?minLength=101&maxLength=250'
+            : quoteLength === 'long'
+            ? '?minLength=251'
+            : ''
+        }`,
+        { method: 'get', signal: quoteAbortController?.signal }
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          dispatch({
+            type: 'NEW_WORDS',
+            payload: {
+              words: getTypingWords(data.content.split(' ')),
+              author: data.author,
+            },
+          });
+          setIsLoading(false);
+        });
     }
-  }, [time, mode, wordsAmount]);
+  }, [time, mode, wordsAmount, quoteLength]);
 
   useEffect(() => {
     if (mode === 'time') return;
 
     const lastWordCorrect =
-      state.wordIndex === wordsAmount - 1 &&
-      state.words[state.wordIndex].letters.every(
-        (letter) => letter.type === 'correct'
-      );
-    if (state.wordIndex === wordsAmount || lastWordCorrect) {
+      state.wordIndex === state.words.length - 1 &&
+      state.words[state.wordIndex].chars.every((char) => char.type === 'correct');
+    if (state.wordIndex === state.words.length || lastWordCorrect) {
       dispatch({ type: 'RESULT' });
     } else {
       setWordCount(state.wordIndex);
     }
-  }, [mode, state.words, state.letterIndex, state.wordIndex, wordsAmount]);
+  }, [mode, state.words, state.charIndex, state.wordIndex]);
 
   useEffect(() => {
     if (mode === 'time') {
@@ -96,6 +129,7 @@ const Typing = () => {
     if (typingStarted) {
       interval = setInterval(() => {
         dispatch({ type: 'TIMELINE' });
+
         if (mode === 'time') setTimeCountdown((prevState) => prevState - 1);
       }, 1000);
     } else {
@@ -107,7 +141,7 @@ const Typing = () => {
 
   useEffect(() => {
     if (timeCountdown === 0) {
-      dispatch({ type: 'RESULT' });
+      dispatch({ type: 'RESULT', payload: time });
     }
   }, [timeCountdown, time]);
 
@@ -115,28 +149,30 @@ const Typing = () => {
     <div className={styles.typing}>
       {!state.result.showResults ? (
         <div className={styles['typing__container']}>
-          <TypingCounter
+          <Counter
             mode={mode}
             counter={mode === 'time' ? timeCountdown : wordCount}
+            wordsLength={state.words.length}
           />
+
           {isCapsLock && (
             <div className={styles.capslock}>
               <IconLock className={styles.icon} />
               <p>CAPS LOCK</p>
             </div>
           )}
-          <TypingInput
+          <Input
             words={state.words}
             wordIndex={state.wordIndex}
-            letterIndex={state.letterIndex}
+            charIndex={state.charIndex}
           />
-          <TypingRestart onRestart={onRestart} className={styles.restart} />
+          <Restart onRestart={onRestart} className={styles.restart} />
         </div>
       ) : (
-        <TypingResult result={state.result} onRestart={onRestart} />
+        <Result result={state.result} onRestart={onRestart} />
       )}
+
+      {isLoading && <LoadingSpinner className={styles['loading-spinner']} />}
     </div>
   );
-};
-
-export default Typing;
+}

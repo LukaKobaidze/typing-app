@@ -1,19 +1,20 @@
 import { useContext } from 'react';
 import { GlobalContext } from 'context/global-context';
+import { ReactComponent as IconRedirect } from 'assets/images/redirect.svg';
 import { ReactComponent as IconGithub } from 'assets/images/github.svg';
-import { Logo, TextOnHover } from './UI';
-import Settings from './Settings';
-import Typing from './Typing';
+import { Logo, TextOnHover } from 'components/UI';
+import Settings from 'components/Settings';
+import Typing from 'components/Typing';
 import styles from 'styles/App.module.scss';
 
-const App = () => {
+export default function App() {
   const { typingStarted } = useContext(GlobalContext);
 
   return (
     <>
       <header className={styles.header}>
         <Logo colored={!typingStarted} />
-        <Settings className={typingStarted ? 'hide' : ''} />
+        <Settings className={typingStarted ? 'hide' : ''} hidden={typingStarted} />
       </header>
 
       <main>
@@ -22,7 +23,15 @@ const App = () => {
 
       <footer className={`${styles.footer} ${typingStarted ? 'hide' : ''}`}>
         <div className={styles.links}>
-          <TextOnHover text="repository" position="top">
+          <TextOnHover
+            text={
+              <div className={styles['github-hover-wrapper']}>
+                <p>repository</p>
+                <IconRedirect className={styles['github-hover-wrapper__icon']} />
+              </div>
+            }
+            position="top"
+          >
             <a
               href="https://github.com/LukaKobaidze/typing-app"
               rel="noreferrer"
@@ -36,6 +45,4 @@ const App = () => {
       </footer>
     </>
   );
-};
-
-export default App;
+}

@@ -32,7 +32,7 @@
   display: flex;
   align-items: center;
   background-color: var(--clr-dark);
-  color: var(--clr-letter-correct);
+  color: var(--clr-char-correct);
   padding: 8px 10px;
   border-radius: 7px;
   position: absolute;
@@ -45,4 +45,11 @@
 .icon {
   width: 30px;
   height: 30px;
+}
+
+.loading-spinner {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 60px;
 }

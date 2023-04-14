@@ -1,4 +1,3 @@
-import { getRandomWords } from 'lib/words';
 import { TypingResult, TypingWords } from '../types';
 import {
   type,
@@ -9,46 +8,57 @@ import {
   restart,
   timeline,
   result,
+  newWords,
+  start,
 } from './actions';
 
 export type TypingState = {
   wordIndex: number;
-  letterIndex: number;
+  charIndex: number;
   words: TypingWords;
   mistype: number;
+  typed: number;
+  typedCorrectly: number;
   wordsTimeline: TypingWords[];
   result: TypingResult;
+  dateTypingStarted: number | null;
 };
 
 export const initialState: TypingState = {
+  words: [],
   wordIndex: 0,
-  letterIndex: 0,
-  words: getRandomWords(),
+  charIndex: 0,
   mistype: 0,
+  typed: 0,
+  typedCorrectly: 0,
   wordsTimeline: [],
   result: {
     showResults: false,
-    wpm: 0,
-    accuracy: 0,
     timeline: [],
+    errors: 0,
   },
+  dateTypingStarted: null,
 };
 
 export type TypingActions =
+  | { type: 'START' }
   | { type: 'TYPE'; payload: string }
   | { type: 'NEXT_WORD' }
   | { type: 'DELETE_KEY' }
   | { type: 'DELETE_WORD' }
   | { type: 'ADD_WORDS'; payload: number }
-  | { type: 'RESTART'; payload?: number }
+  | { type: 'RESTART'; payload: TypingWords }
   | { type: 'TIMELINE' }
-  | { type: 'RESULT' };
+  | { type: 'RESULT'; payload?: number }
+  | { type: 'NEW_WORDS'; payload: { words: TypingWords; author?: string } };
 
-const typingReducer = (
+export default function typingReducer(
   state: TypingState,
   action: TypingActions
-): TypingState => {
+): TypingState {
   switch (action.type) {
+    case 'START':
+      return start(state);
     case 'TYPE':
       return type(state, action.payload);
     case 'NEXT_WORD':
@@ -60,14 +70,14 @@ const typingReducer = (
     case 'ADD_WORDS':
       return addWords(state, action.payload);
     case 'RESTART':
-      return !action.payload ? restart(state) : restart(state, action.payload);
+      return restart(state, action.payload);
     case 'TIMELINE':
       return timeline(state);
     case 'RESULT':
-      return result(state);
+      return result(state, action.payload);
+    case 'NEW_WORDS':
+      return newWords(state, action.payload);
     default:
       return state;
   }
-};
-
-export default typingReducer;
+}

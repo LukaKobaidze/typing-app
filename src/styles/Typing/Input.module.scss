@@ -1,5 +1,5 @@
 .wrapper {
-  height: 120px;
+  height: 125px;
   overflow: hidden;
   position: relative;
 }
@@ -7,7 +7,7 @@
 .words {
   display: flex;
   flex-wrap: wrap;
-  font-size: 25px;
+  font-size: 24px;
   user-select: none;
   transition: transform 50ms;
 }
@@ -28,7 +28,7 @@
       display: block;
       width: 100%;
       height: 1px;
-      background-color: var(--clr-letter-incorrect);
+      background-color: var(--clr-char-incorrect);
       transform: scaleX(0);
       transform-origin: left;
       opacity: 0.75;
@@ -38,21 +38,21 @@
   }
 }
 
-.letter {
+.char {
   display: inline-block;
   border-left: 1px solid transparent;
-  color: var(--clr-letter);
+  color: var(--clr-char);
 
   &--correct {
-    color: var(--clr-letter-correct);
+    color: var(--clr-char-correct);
   }
 
   &--incorrect {
-    color: var(--clr-letter-incorrect);
+    color: var(--clr-char-incorrect);
   }
 
   &--extra {
-    color: var(--clr-letter-extra);
+    color: var(--clr-char-extra);
   }
 }
 
@@ -75,5 +75,31 @@
   }
   100% {
     transform: scaleX(1);
+  }
+}
+
+.caret {
+  width: 2px;
+  height: 32px;
+  background-color: var(--clr-caret);
+  position: absolute;
+  left: 0;
+  top: 2px;
+  border-radius: 2px;
+  transition: transform 100ms;
+
+  &.animate {
+    animation: caretAnimation 1.25s ease infinite;
+  }
+}
+@keyframes caretAnimation {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }

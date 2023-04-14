@@ -1,22 +1,25 @@
-import { getRandomWords } from 'lib/words';
-import { TypingState } from '../typing-reducer';
+import { TypingState } from '../typing.reducer';
+import { TypingWords } from 'components/Typing/types';
 
-const restart = (state: TypingState, wordsAmount?: number): TypingState => {
-  const words = getRandomWords(wordsAmount);
-
+export default function restart(
+  state: TypingState,
+  words: TypingWords
+): TypingState {
   return {
     ...state,
-    wordIndex: 0,
-    letterIndex: 0,
     words,
+    wordIndex: 0,
+    charIndex: 0,
+    typed: 0,
+    typedCorrectly: 0,
     mistype: 0,
     wordsTimeline: [],
     result: {
-      ...state.result,
       showResults: false,
       timeline: [],
+      errors: 0,
+      quoteAuthor: undefined,
     },
+    dateTypingStarted: null,
   };
-};
-
-export default restart;
+}

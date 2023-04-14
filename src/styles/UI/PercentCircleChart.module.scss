@@ -23,7 +23,7 @@
 
   &__empty {
     z-index: 1;
-    background-color: var(--clr-letter-incorrect);
+    background-color: var(--clr-char-incorrect);
   }
   &__filled {
     position: absolute;
@@ -34,7 +34,7 @@
     z-index: 2;
     border-radius: 50%;
     background: conic-gradient(
-      var(--clr-letter-correct) calc(var(--percent) * 1%),
+      var(--clr-char-correct) calc(var(--percent) * 1%),
       #0000 0
     );
   }

@@ -61,11 +61,11 @@
 
 .percentage-circle {
   margin-top: 10px;
+  font-size: 20px;
 
   @media (max-width: 385px) {
     width: 100px;
     height: 100px;
-    font-size: 20px;
   }
 }
 
@@ -102,4 +102,64 @@
   color: var(--clr-blue);
   font-size: 18px;
   text-align: center;
+}
+
+.more-and-restart {
+  @media (max-width: 650px) {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+}
+
+.more {
+  display: flex;
+  justify-content: space-between;
+  width: 70%;
+  max-width: 800px;
+  margin: 20px auto 0 auto;
+
+  & > *:not(:last-child) {
+    margin-bottom: 10px;
+  }
+
+  @media (max-width: 650px) {
+    width: 75%;
+    display: grid;
+    align-items: center;
+    grid-template-columns: repeat(auto-fit, minmax(165px, 1fr));
+  }
+
+  @media (max-width: 460px) {
+    width: 90%;
+  }
+}
+
+.item {
+  text-align: center;
+
+  &__heading {
+    color: var(--clr-char);
+  }
+
+  &__value {
+    margin-top: 4px;
+    font-size: 25px;
+    font-weight: bold;
+  }
+}
+
+.raw-heading {
+  color: var(--clr-raw);
+}
+
+.error-heading {
+  color: var(--clr-char-incorrect);
+
+  &--noerrors {
+    color: #54e7b8;
+  }
+}
+
+.quote-author-value {
+  font-size: 20px;
 }

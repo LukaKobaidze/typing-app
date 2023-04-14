@@ -5,7 +5,9 @@ interface Props {
   className?: string;
 }
 
-const PercentCircleChart = ({ percentage, className }: Props) => {
+export default function PercentCircleChart(props: Props) {
+  const { percentage, className } = props;
+
   const style = { '--percent': percentage } as React.CSSProperties;
 
   return (
@@ -23,6 +25,4 @@ const PercentCircleChart = ({ percentage, className }: Props) => {
       </div>
     </div>
   );
-};
-
-export default PercentCircleChart;
+}

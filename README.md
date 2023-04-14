@@ -27,3 +27,4 @@ npm start
 ## Acknowledgments
 
 - [random-words](https://github.com/apostrophecms/random-words)
+- [quotable API](https://github.com/lukePeavey/quotable)

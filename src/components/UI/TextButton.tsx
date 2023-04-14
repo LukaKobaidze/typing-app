@@ -5,17 +5,15 @@ interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   isActive: boolean;
 }
 
-const TextButton = ({ text, isActive, className, ...rest }: Props) => {
+export default function TextButton(props: Props) {
+  const { text, isActive, className, ...rest } = props;
+
   return (
     <button
-      className={`${styles.button} ${
-        isActive ? styles.active : ''
-      } ${className}`}
+      className={`${styles.button} ${isActive ? styles.active : ''} ${className}`}
       {...rest}
     >
       {text}
     </button>
   );
-};
-
-export default TextButton;
+}

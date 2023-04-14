@@ -1,15 +1,9 @@
 import randomWords from 'random-words';
 import { TypingWords } from 'components/Typing/types';
+import { getTypingWords } from 'utils';
 
 const getRandomWords = (quantity: number = 50): TypingWords => {
-  const words = randomWords({ exactly: quantity, maxLength: 6 });
-
-  return words.map((word: string) => ({
-    isIncorrect: false,
-    letters: word
-      .split('')
-      .map((letter) => ({ letter, type: 'none', extra: false })),
-  }));
+  return getTypingWords(randomWords({ exactly: quantity, maxLength: 6 }));
 };
 
 export { getRandomWords };

@@ -2,14 +2,16 @@ import { useContext, useRef } from 'react';
 import { GlobalContext } from 'context/global-context';
 import { ReactComponent as IconRefresh } from 'assets/images/refresh.svg';
 import { ButtonRounded, TextOnHover } from 'components/UI';
-import styles from 'styles/Typing/TypingRestart.module.scss';
+import styles from 'styles/Typing/Restart.module.scss';
 
-type Props = {
+interface Props {
   onRestart: () => void;
   className?: string;
-};
+}
 
-const TypingRestart = ({ onRestart, className }: Props) => {
+export default function Restart(props: Props) {
+  const { onRestart, className } = props;
+
   const { onTypingEnd } = useContext(GlobalContext);
   const divRef = useRef<HTMLDivElement>(null);
   const resetRef = useRef<HTMLButtonElement>(null);
@@ -23,6 +25,7 @@ const TypingRestart = ({ onRestart, className }: Props) => {
 
   return (
     <>
+      <div ref={divRef} tabIndex={-1} />
       <TextOnHover
         text="Restart"
         classNameWrapper={`${styles.restart} ${className}`}
@@ -33,6 +36,4 @@ const TypingRestart = ({ onRestart, className }: Props) => {
       </TextOnHover>
     </>
   );
-};
-
-export default TypingRestart;
+}
