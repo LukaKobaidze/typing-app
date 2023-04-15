@@ -1,19 +1,20 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 import { GlobalContext } from 'context/global-context';
 import { TypingWords } from './types';
+import Caret from './Caret';
 import styles from 'styles/Typing/Input.module.scss';
 
 interface Props {
   words: TypingWords;
   wordIndex: number;
   charIndex: number;
+  cursorHidden: boolean;
 }
 
 export default function Input(props: Props) {
-  const { words, wordIndex, charIndex } = props;
-  
+  const { words, wordIndex, charIndex, cursorHidden } = props;
+
   const { typingStarted } = useContext(GlobalContext);
-  const [caretPos, setCaretPos] = useState({ x: 0, y: 0 });
   const [wordsOffset, setWordsOffset] = useState(0);
 
   const wordWrapperRef = useRef<HTMLDivElement>(null);
@@ -25,48 +26,32 @@ export default function Input(props: Props) {
     if (typingStarted) hiddenInputRef.current?.focus();
   }, [typingStarted]);
 
-  const firstWord = words[0]?.chars.join('');
-  useEffect(() => {
-    if (!wordRef.current) return;
-    const {
-      offsetLeft: wordOffsetLeft,
-      offsetTop: wordOffsetTop,
-      offsetWidth: wordOffsetWidth,
-    } = wordRef.current;
-
-    if (!charRef.current) {
-      return setCaretPos({
-        x: wordOffsetLeft + wordOffsetWidth,
-        y: wordOffsetTop - wordsOffset,
-      });
-    }
-
-    const { offsetLeft: charOffsetLeft } = charRef.current;
-    setCaretPos({
-      x: wordOffsetLeft + charOffsetLeft,
-      y: wordOffsetTop - wordsOffset,
-    });
-  }, [wordIndex, charIndex, wordsOffset, firstWord]);
-
   useEffect(() => {
     if (!wordWrapperRef.current) return;
     const { offsetTop, clientHeight } = wordWrapperRef.current;
     setWordsOffset(Math.max(offsetTop - clientHeight, 0));
   }, [charIndex]);
 
+  const firstWord = words[0]?.chars.join('');
+
   return (
     <div className={styles.wrapper}>
-      {/* Caret */}
       {words.length !== 0 && (
-        <div
-          className={`${styles.caret} ${!typingStarted ? styles.animate : ''}`}
-          style={{ transform: `translate(${caretPos.x}px, ${caretPos.y}px)` }}
+        <Caret
+          wordIndex={wordIndex}
+          charIndex={charIndex}
+          wordsOffset={wordsOffset}
+          firstWord={firstWord}
+          wordRef={wordRef}
+          charRef={charRef}
         />
       )}
 
       <input
         type="text"
-        className={styles['hidden-input']}
+        className={`${styles['hidden-input']} ${
+          cursorHidden ? styles['hidden-input--nocursor'] : ''
+        }`}
         autoCapitalize="off"
         ref={hiddenInputRef}
         tabIndex={-1}

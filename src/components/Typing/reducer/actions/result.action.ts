@@ -1,4 +1,4 @@
-import { getTypingResults, twoDecimals } from 'utils';
+import { getTypingResults, twoDecimals } from 'helpers';
 import { TypingState } from '../typing.reducer';
 
 export default function result(state: TypingState, time?: number): TypingState {

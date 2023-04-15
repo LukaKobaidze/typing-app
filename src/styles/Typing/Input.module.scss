@@ -64,9 +64,13 @@
   left: 0;
   opacity: 0;
   z-index: 2;
-  cursor: default;
   user-select: none;
   font-size: 16px;
+  cursor: default;
+
+  &--nocursor {
+    cursor: none;
+  }
 }
 
 @keyframes line {
@@ -78,28 +82,3 @@
   }
 }
 
-.caret {
-  width: 2px;
-  height: 32px;
-  background-color: var(--clr-caret);
-  position: absolute;
-  left: 0;
-  top: 2px;
-  border-radius: 2px;
-  transition: transform 100ms;
-
-  &.animate {
-    animation: caretAnimation 1.25s ease infinite;
-  }
-}
-@keyframes caretAnimation {
-  0% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}

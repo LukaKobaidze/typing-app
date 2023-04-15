@@ -2,8 +2,7 @@ import { useCallback, useContext, useEffect, useReducer, useState } from 'react'
 import { GlobalContext } from 'context/global-context';
 import { ReactComponent as IconLock } from 'assets/images/lock.svg';
 import typingReducer, { initialState } from './reducer/typing.reducer';
-import { getRandomWords } from 'lib/words';
-import { getTypingWords } from 'utils';
+import { getRandomQuote, getRandomWords, getTypingWords } from 'helpers';
 import { LoadingSpinner } from 'components/UI';
 import Input from './Input';
 import Restart from './Restart';
@@ -22,10 +21,33 @@ export default function Typing() {
   const [timeCountdown, setTimeCountdown] = useState<number>(time);
   const [wordCount, setWordCount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [cursorHidden, setCursorHidden] = useState(false);
+
+  useEffect(() => {
+    const handleMouseMove = () => {
+      setCursorHidden(false);
+    };
+
+    if (cursorHidden) {
+      document.documentElement.style.cursor = 'none';
+      document.addEventListener('mousemove', handleMouseMove);
+    } else {
+      document.documentElement.style.cursor = 'auto';
+      document.removeEventListener('mousemove', handleMouseMove);
+    }
+
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, [cursorHidden]);
 
   useEffect(() => {
     const typeHandler = (event: KeyboardEvent) => {
       const { key } = event;
+
+      if (key === 'Escape') {
+        setCursorHidden(false);
+      }
 
       if (event.getModifierState && event.getModifierState('CapsLock')) {
         setIsCapsLock(true);
@@ -33,13 +55,16 @@ export default function Typing() {
         setIsCapsLock(false);
       }
       if (event.ctrlKey && key === 'Backspace') {
+        setCursorHidden(true);
         return dispatch({ type: 'DELETE_WORD' });
       }
       if (key === 'Backspace') {
+        setCursorHidden(true);
         return dispatch({ type: 'DELETE_KEY' });
       }
       if (key === ' ') {
         event.preventDefault();
+        setCursorHidden(true);
         return dispatch({ type: 'NEXT_WORD' });
       }
       if (key.length === 1) {
@@ -47,6 +72,7 @@ export default function Typing() {
           onTypingStart();
           dispatch({ type: 'START' });
         }
+        setCursorHidden(true);
         return dispatch({ type: 'TYPE', payload: key });
       }
     };
@@ -72,29 +98,17 @@ export default function Typing() {
       quoteAbortController = new AbortController();
 
       setIsLoading(true);
-      fetch(
-        `https://api.quotable.io/random${
-          quoteLength === 'short'
-            ? '?maxLength=100'
-            : quoteLength === 'medium'
-            ? '?minLength=101&maxLength=250'
-            : quoteLength === 'long'
-            ? '?minLength=251'
-            : ''
-        }`,
-        { method: 'get', signal: quoteAbortController?.signal }
-      )
-        .then((response) => response.json())
-        .then((data) => {
-          dispatch({
-            type: 'NEW_WORDS',
-            payload: {
-              words: getTypingWords(data.content.split(' ')),
-              author: data.author,
-            },
-          });
-          setIsLoading(false);
+
+      getRandomQuote(quoteLength, quoteAbortController).then((data) => {
+        dispatch({
+          type: 'NEW_WORDS',
+          payload: {
+            words: getTypingWords(data.content.split(' ')),
+            author: data.author,
+          },
         });
+        setIsLoading(false);
+      });
     }
   }, [time, mode, wordsAmount, quoteLength]);
 
@@ -106,6 +120,7 @@ export default function Typing() {
       state.words[state.wordIndex].chars.every((char) => char.type === 'correct');
     if (state.wordIndex === state.words.length || lastWordCorrect) {
       dispatch({ type: 'RESULT' });
+      setCursorHidden(false);
     } else {
       setWordCount(state.wordIndex);
     }
@@ -142,6 +157,7 @@ export default function Typing() {
   useEffect(() => {
     if (timeCountdown === 0) {
       dispatch({ type: 'RESULT', payload: time });
+      setCursorHidden(false);
     }
   }, [timeCountdown, time]);
 
@@ -165,6 +181,7 @@ export default function Typing() {
             words={state.words}
             wordIndex={state.wordIndex}
             charIndex={state.charIndex}
+            cursorHidden={cursorHidden}
           />
           <Restart onRestart={onRestart} className={styles.restart} />
         </div>

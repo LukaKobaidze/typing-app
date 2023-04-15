@@ -1,4 +1,4 @@
-import { getTypingResults } from 'utils';
+import { getTypingResults } from 'helpers';
 import { TypingState } from '../typing.reducer';
 
 export default function timeline(state: TypingState): TypingState {
