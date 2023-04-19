@@ -6,12 +6,12 @@ import styles from 'styles/Settings/Settings.module.scss';
 export const settingsData = {
   time: [15, 30, 60, 120] as const,
   words: [10, 25, 50, 100] as const,
-  quotes: ['all', 'short', 'medium', 'long'] as const,
+  quote: ['all', 'short', 'medium', 'long'] as const,
 };
 export type SettingsMode = keyof typeof settingsData;
 export type SettingsTime = typeof settingsData.time[number];
 export type SettingsWords = typeof settingsData.words[number];
-export type SettingsQuote = typeof settingsData.quotes[number];
+export type SettingsQuote = typeof settingsData.quote[number];
 
 interface Props {
   hidden: boolean;
@@ -54,7 +54,7 @@ const Settings = ({ hidden, className }: Props) => {
         />
       ) : (
         <Setting
-          settings={settingsData.quotes}
+          settings={settingsData.quote}
           active={
             quoteLength === 'all'
               ? (['short', 'medium', 'long'] as SettingsQuote[])

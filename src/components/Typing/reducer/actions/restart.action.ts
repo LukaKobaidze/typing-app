@@ -13,7 +13,6 @@ export default function restart(
     typed: 0,
     typedCorrectly: 0,
     mistype: 0,
-    wordsTimeline: [],
     result: {
       showResults: false,
       timeline: [],

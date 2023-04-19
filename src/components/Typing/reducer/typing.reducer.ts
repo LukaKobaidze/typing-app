@@ -19,7 +19,6 @@ export type TypingState = {
   mistype: number;
   typed: number;
   typedCorrectly: number;
-  wordsTimeline: TypingWords[];
   result: TypingResult;
   dateTypingStarted: number | null;
 };
@@ -31,7 +30,6 @@ export const initialState: TypingState = {
   mistype: 0,
   typed: 0,
   typedCorrectly: 0,
-  wordsTimeline: [],
   result: {
     showResults: false,
     timeline: [],
