@@ -20,10 +20,10 @@ interface Context {
   onTypingStart: () => void;
   onTypingEnd: () => void;
 }
-const GlobalContext = createContext<Context>({
-  mode: 'time',
+const initial: Context = {
+  mode: 'quote',
   time: 15,
-  wordsAmount: 25,
+  wordsAmount: 10,
   quoteLength: 'short',
   typingStarted: false,
   onMode: () => {},
@@ -32,24 +32,26 @@ const GlobalContext = createContext<Context>({
   onQuoteLength: () => {},
   onTypingStart: () => {},
   onTypingEnd: () => {},
-});
+};
+
+const GlobalContext = createContext(initial);
 
 interface Props {
   children: React.ReactNode;
 }
 
 const GlobalContextProvider = ({ children }: Props) => {
-  const [mode, setMode] = useStorageState<SettingsMode>('typing-mode', 'words');
+  const [mode, setMode] = useStorageState<SettingsMode>('typing-mode', initial.mode);
   const [quoteLength, setQuoteLength] = useStorageState<SettingsQuote>(
     'typing-quote',
-    'short'
+    initial.quoteLength
   );
-  const [time, setTime] = useStorageState<SettingsTime>('typing-time', 30);
+  const [time, setTime] = useStorageState<SettingsTime>('typing-time', initial.time);
   const [wordsAmount, setWordsAmount] = useStorageState<SettingsWords>(
     'typing-wordsAmount',
-    25
+    initial.wordsAmount
   );
-  const [typingStarted, setTypingStarted] = useState(false);
+  const [typingStarted, setTypingStarted] = useState(initial.typingStarted);
 
   const onMode = (mode: SettingsMode) => setMode(mode);
   const onTime = (time: SettingsTime) => setTime(time);
