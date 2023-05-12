@@ -1,6 +1,5 @@
-import { useContext, useRef } from 'react';
-import { GlobalContext } from 'context/global-context';
-import { ReactComponent as IconRefresh } from 'assets/images/refresh.svg';
+import { useRef } from 'react';
+import { IconRefresh } from 'assets';
 import { ButtonRounded, TextOnHover } from 'components/UI';
 import styles from 'styles/Typing/Restart.module.scss';
 
@@ -12,13 +11,11 @@ interface Props {
 export default function Restart(props: Props) {
   const { onRestart, className } = props;
 
-  const { onTypingEnd } = useContext(GlobalContext);
   const divRef = useRef<HTMLDivElement>(null);
   const resetRef = useRef<HTMLButtonElement>(null);
 
   const resetHandler = () => {
     onRestart();
-    onTypingEnd();
     divRef.current?.focus();
     resetRef.current?.blur();
   };

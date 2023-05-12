@@ -1,7 +1,6 @@
 import { useContext } from 'react';
 import { GlobalContext } from 'context/global-context';
-import { ReactComponent as IconRedirect } from 'assets/images/redirect.svg';
-import { ReactComponent as IconGithub } from 'assets/images/github.svg';
+import { IconRedirect, IconGithub } from 'assets';
 import { Logo, TextOnHover } from 'components/UI';
 import Settings from 'components/Settings';
 import Typing from 'components/Typing';
@@ -37,6 +36,7 @@ export default function App() {
               rel="noreferrer"
               target="_blank"
               className="links-item__link"
+              tabIndex={typingStarted ? -1 : undefined}
             >
               <IconGithub />
             </a>

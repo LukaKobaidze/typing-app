@@ -1,4 +1,4 @@
-import { ReactComponent as IconKeyboard } from 'assets/images/keyboard.svg';
+import { IconKeyboard } from 'assets';
 import styles from 'styles/UI/Logo.module.scss';
 
 interface Props {

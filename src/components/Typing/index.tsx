@@ -1,6 +1,6 @@
 import { useCallback, useContext, useEffect, useReducer, useState } from 'react';
 import { GlobalContext } from 'context/global-context';
-import { ReactComponent as IconLock } from 'assets/images/lock.svg';
+import { IconLock } from 'assets';
 import typingReducer, { initialState } from './reducer/typing.reducer';
 import { getRandomQuote, getRandomWords, getTypingWords } from 'helpers';
 import { LoadingSpinner } from 'components/UI';
@@ -15,8 +15,15 @@ let quoteAbortController: AbortController | null = null;
 
 export default function Typing() {
   const [state, dispatch] = useReducer(typingReducer, initialState);
-  const { mode, wordsAmount, time, quoteLength, typingStarted, onTypingStart } =
-    useContext(GlobalContext);
+  const {
+    mode,
+    wordsAmount,
+    time,
+    quoteLength,
+    typingStarted,
+    onTypingStart,
+    onTypingEnd,
+  } = useContext(GlobalContext);
   const [isCapsLock, setIsCapsLock] = useState(false);
   const [timeCountdown, setTimeCountdown] = useState<number>(time);
   const [wordCount, setWordCount] = useState(0);
@@ -70,7 +77,12 @@ export default function Typing() {
       if (key.length === 1) {
         if (!typingStarted) {
           onTypingStart();
-          dispatch({ type: 'START' });
+          dispatch({
+            type: 'START',
+            payload: `${mode} ${
+              mode === 'time' ? time : mode === 'words' ? wordsAmount : quoteLength
+            }`,
+          });
         }
         setCursorHidden(true);
         return dispatch({ type: 'TYPE', payload: key });
@@ -81,9 +93,19 @@ export default function Typing() {
     } else document.addEventListener('keydown', typeHandler);
 
     return () => document.removeEventListener('keydown', typeHandler);
-  }, [typingStarted, onTypingStart, state.result.showResults]);
+  }, [
+    typingStarted,
+    onTypingStart,
+    state.result.showResults,
+    mode,
+    quoteLength,
+    time,
+    wordsAmount,
+  ]);
 
   const onRestart = useCallback(() => {
+    onTypingEnd();
+
     if (mode === 'time') {
       dispatch({ type: 'RESTART', payload: getRandomWords() });
       setTimeCountdown(time);
@@ -103,14 +125,27 @@ export default function Typing() {
         dispatch({
           type: 'NEW_WORDS',
           payload: {
-            words: getTypingWords(data.content.split(' ')),
+            words: getTypingWords(data.content.replace(/—/g, '-').split(' ')),
             author: data.author,
           },
         });
         setIsLoading(false);
       });
     }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [time, mode, wordsAmount, quoteLength]);
+
+  const onRepeat = () => {
+    onTypingEnd();
+    dispatch({ type: 'RESTART' });
+
+    if (mode === 'time') {
+      setTimeCountdown(time);
+    } else if (mode === 'words') {
+      setWordCount(0);
+    }
+  };
 
   useEffect(() => {
     if (mode === 'time') return;
@@ -186,7 +221,7 @@ export default function Typing() {
           <Restart onRestart={onRestart} className={styles.restart} />
         </div>
       ) : (
-        <Result result={state.result} onRestart={onRestart} />
+        <Result result={state.result} onRestart={onRestart} onRepeat={onRepeat} />
       )}
 
       {isLoading && <LoadingSpinner className={styles['loading-spinner']} />}

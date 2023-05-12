@@ -34,18 +34,19 @@ export const initialState: TypingState = {
     showResults: false,
     timeline: [],
     errors: 0,
+    testType: null,
   },
   dateTypingStarted: null,
 };
 
 export type TypingActions =
-  | { type: 'START' }
+  | { type: 'START'; payload: string }
   | { type: 'TYPE'; payload: string }
   | { type: 'NEXT_WORD' }
   | { type: 'DELETE_KEY' }
   | { type: 'DELETE_WORD' }
   | { type: 'ADD_WORDS'; payload: number }
-  | { type: 'RESTART'; payload: TypingWords }
+  | { type: 'RESTART'; payload?: TypingWords }
   | { type: 'TIMELINE' }
   | { type: 'RESULT'; payload?: number }
   | { type: 'NEW_WORDS'; payload: { words: TypingWords; author?: string } };
@@ -56,7 +57,7 @@ export default function typingReducer(
 ): TypingState {
   switch (action.type) {
     case 'START':
-      return start(state);
+      return start(state, action.payload);
     case 'TYPE':
       return type(state, action.payload);
     case 'NEXT_WORD':

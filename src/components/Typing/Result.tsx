@@ -11,8 +11,9 @@ import {
   Legend,
   Line,
 } from 'recharts';
+import { IconKeyboardArrowLeft, IconLoop, IconRefresh } from 'assets';
 import { TypingResult as TypingResultType } from './types';
-import { PercentCircleChart } from 'components/UI';
+import { ButtonRounded, PercentCircleChart } from 'components/UI';
 import TypingRestart from './Restart';
 import ResultCustomTooltip from './ResultCustomTooltip';
 import styles from 'styles/Typing/Result.module.scss';
@@ -28,10 +29,11 @@ const config = {
 interface Props {
   result: TypingResultType;
   onRestart: () => void;
+  onRepeat: () => void;
 }
 
 export default function Result(props: Props) {
-  const { result, onRestart } = props;
+  const { result, onRestart, onRepeat } = props;
 
   const { onTypingEnd } = useContext(GlobalContext);
 
@@ -141,6 +143,14 @@ export default function Result(props: Props) {
       </div>
       <div className={styles['more-and-restart']}>
         <div className={styles.more}>
+          {result.testType && (
+            <div className={styles.item}>
+              <p className={`${styles['item__heading']} ${styles['raw-heading']}`}>
+                test type
+              </p>
+              <p className={styles['item__value']}>{result.testType}</p>
+            </div>
+          )}
           <div className={styles.item}>
             <p className={`${styles['item__heading']} ${styles['raw-heading']}`}>
               raw
@@ -172,7 +182,18 @@ export default function Result(props: Props) {
             </div>
           )}
         </div>
-        <TypingRestart className={styles.restart} onRestart={onRestart} />
+        <div className={styles['buttons-wrapper']}>
+          <ButtonRounded onClick={onRestart} className={styles.btn}>
+            <IconKeyboardArrowLeft
+              className={`${styles['btn__icon']} ${styles['btn__icon--arrow']}`}
+            />
+            <span> Next Test</span>
+          </ButtonRounded>
+          <ButtonRounded onClick={onRepeat} className={styles.btn}>
+            <IconLoop className={styles['btn__icon']} />
+            <span>Repeat</span>
+          </ButtonRounded>
+        </div>
       </div>
     </div>
   );
