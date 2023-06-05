@@ -11,10 +11,9 @@ import {
   Legend,
   Line,
 } from 'recharts';
-import { IconKeyboardArrowLeft, IconLoop, IconRefresh } from 'assets';
+import { IconKeyboardArrowLeft, IconLoop } from 'assets';
 import { TypingResult as TypingResultType } from './types';
 import { ButtonRounded, PercentCircleChart } from 'components/UI';
-import TypingRestart from './Restart';
 import ResultCustomTooltip from './ResultCustomTooltip';
 import styles from 'styles/Typing/Result.module.scss';
 
@@ -187,7 +186,7 @@ export default function Result(props: Props) {
             <IconKeyboardArrowLeft
               className={`${styles['btn__icon']} ${styles['btn__icon--arrow']}`}
             />
-            <span> Next Test</span>
+            <span>Next Test</span>
           </ButtonRounded>
           <ButtonRounded onClick={onRepeat} className={styles.btn}>
             <IconLoop className={styles['btn__icon']} />
