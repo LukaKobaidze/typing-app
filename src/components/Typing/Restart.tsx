@@ -1,6 +1,6 @@
 import { useRef } from 'react';
-import { IconRefresh } from 'assets';
-import { ButtonRounded, TextOnHover } from 'components/UI';
+import { IconRefresh } from 'assets/image';
+import { ButtonRounded, Tooltip } from 'components/UI';
 import styles from 'styles/Typing/Restart.module.scss';
 
 interface Props {
@@ -23,14 +23,11 @@ export default function Restart(props: Props) {
   return (
     <>
       <div ref={divRef} tabIndex={-1} />
-      <TextOnHover
-        text="Restart"
-        classNameWrapper={`${styles.restart} ${className}`}
-      >
+      <Tooltip text="restart" showOnHover className={`${styles.restart} ${className}`}>
         <ButtonRounded ref={resetRef} onClick={resetHandler}>
           <IconRefresh className={styles.icon} />
         </ButtonRounded>
-      </TextOnHover>
+      </Tooltip>
     </>
   );
 }

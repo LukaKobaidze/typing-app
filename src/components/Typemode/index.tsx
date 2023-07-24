@@ -1,24 +1,18 @@
 import { useContext } from 'react';
-import { GlobalContext } from 'context/global-context';
 import Setting from './Setting';
-import styles from 'styles/Settings/Settings.module.scss';
-
-export const settingsData = {
-  time: [15, 30, 60, 120] as const,
-  words: [10, 25, 50, 100] as const,
-  quote: ['all', 'short', 'medium', 'long'] as const,
-};
-export type SettingsMode = keyof typeof settingsData;
-export type SettingsTime = typeof settingsData.time[number];
-export type SettingsWords = typeof settingsData.words[number];
-export type SettingsQuote = typeof settingsData.quote[number];
+import styles from 'styles/Typemode/Typemode.module.scss';
+import {
+  TypemodeContext,
+  TypemodeQuote,
+  typemodeData,
+} from 'context/typemode.context';
 
 interface Props {
   hidden: boolean;
   className?: string;
 }
 
-const Settings = ({ hidden, className }: Props) => {
+const Typemode = ({ hidden, className }: Props) => {
   const {
     mode,
     time,
@@ -28,36 +22,36 @@ const Settings = ({ hidden, className }: Props) => {
     onTime,
     onWordsAmount,
     onQuoteLength,
-  } = useContext(GlobalContext);
+  } = useContext(TypemodeContext);
 
   return (
     <div className={`${styles.settings} ${className}`}>
       <Setting
-        settings={Object.keys(settingsData)}
+        settings={Object.keys(typemodeData)}
         active={mode}
         onChange={onMode}
         hidden={hidden}
       />
       {mode === 'time' ? (
         <Setting
-          settings={settingsData.time}
+          settings={typemodeData.time}
           active={time}
           onChange={onTime}
           hidden={hidden}
         />
       ) : mode === 'words' ? (
         <Setting
-          settings={settingsData.words}
+          settings={typemodeData.words}
           active={wordsAmount}
           onChange={onWordsAmount}
           hidden={hidden}
         />
       ) : (
         <Setting
-          settings={settingsData.quote}
+          settings={typemodeData.quote}
           active={
             quoteLength === 'all'
-              ? (['short', 'medium', 'long'] as SettingsQuote[])
+              ? (['short', 'medium', 'long'] as TypemodeQuote[])
               : quoteLength
           }
           onChange={onQuoteLength}
@@ -68,4 +62,4 @@ const Settings = ({ hidden, className }: Props) => {
   );
 };
 
-export default Settings;
+export default Typemode;

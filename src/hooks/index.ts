@@ -1,1 +1,2 @@
-export { default as useStorageState } from './useStorageState';;
+export { default as useLocalStorageState } from './useLocalStorageState';
+export { default as useSound } from './useSound';

@@ -63,7 +63,7 @@
   margin-top: 10px;
   font-size: 20px;
 
-  @media (max-width: 385px) {
+  @media (max-width: 650px) {
     width: 100px;
     height: 100px;
   }
@@ -176,12 +176,12 @@
   font-size: 18px;
   color: rgba(255, 255, 255, 0.8);
 
-
   &:not(:last-child) {
     margin-right: 20px;
   }
 
-  &:hover, &:focus-visible {
+  &:hover,
+  &:focus-visible {
     color: #ffffff;
   }
 
@@ -194,4 +194,9 @@
       transform: scale(1.75);
     }
   }
+}
+
+.date {
+  text-align: center;
+  opacity: 0.8;
 }

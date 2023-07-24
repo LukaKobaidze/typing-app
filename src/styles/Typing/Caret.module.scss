@@ -1,17 +1,45 @@
 .caret {
-  width: 2px;
-  height: 32px;
+  display: block;
   background-color: var(--clr-caret);
   position: absolute;
-  left: 0;
-  top: 2px;
   border-radius: 2px;
-  transition: transform 100ms;
 
-  &.animate {
-    animation: caretAnimation 1.25s ease infinite;
+  &--line {
+    width: 2px;
+    height: 32px;
+    left: 0;
+    top: 2px;
+  }
+
+  &--underline {
+    width: 15px;
+    height: 2px;
+    left: 1px;
+    top: 30px;
+  }
+
+  &--block {
+    top: 0;
+    left: 0;
+    width: 16px;
+    height: 30px;
+    opacity: 0.5;
+    animation-name: caretAnimationBlock !important;
+  }
+
+  &.smooth {
+    transition: transform 100ms;
   }
 }
+
+.blink {
+  animation: caretAnimation 1.1s step-start infinite;
+}
+
+.blink-smooth {
+  animation: caretAnimation 1.25s ease infinite;
+}
+
 @keyframes caretAnimation {
   0% {
     opacity: 1;
@@ -21,5 +49,16 @@
   }
   100% {
     opacity: 1;
+  }
+}
+@keyframes caretAnimationBlock {
+  0% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0.5;
   }
 }

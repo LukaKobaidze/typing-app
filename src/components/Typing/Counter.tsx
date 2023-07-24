@@ -1,8 +1,8 @@
-import { SettingsMode } from 'components/Settings';
+import { TypemodeType } from 'context/typemode.context';
 import styles from 'styles/Typing/Counter.module.scss';
 
 interface Props {
-  mode: SettingsMode;
+  mode: TypemodeType;
   counter: number;
   wordsLength: number;
 }

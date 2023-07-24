@@ -1,8 +1,9 @@
 import { useContext, useEffect, useRef, useState } from 'react';
-import { GlobalContext } from 'context/global-context';
+import { GlobalContext } from 'context/global.context';
 import { TypingWords } from './types';
 import Caret from './Caret';
 import styles from 'styles/Typing/Input.module.scss';
+import { CustomizeContext } from 'context/customize.context';
 
 interface Props {
   words: TypingWords;
@@ -15,6 +16,7 @@ export default function Input(props: Props) {
   const { words, wordIndex, charIndex, cursorHidden } = props;
 
   const { typingStarted } = useContext(GlobalContext);
+  const { caretStyle } = useContext(CustomizeContext);
   const [wordsOffset, setWordsOffset] = useState(0);
 
   const wordWrapperRef = useRef<HTMLDivElement>(null);
@@ -36,7 +38,7 @@ export default function Input(props: Props) {
 
   return (
     <div className={styles.wrapper}>
-      {words.length !== 0 && (
+      {words.length !== 0 && caretStyle !== 'off' && (
         <Caret
           wordIndex={wordIndex}
           charIndex={charIndex}

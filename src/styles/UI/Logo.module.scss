@@ -3,6 +3,10 @@
   user-select: none;
   min-width: 255px;
 
+  @media (max-width: 850px) {
+    min-width: initial;
+  }
+
   &--color {
     --clr-logo-text: var(--clr-char-correct);
   }
@@ -30,6 +34,10 @@
   flex-direction: column;
   color: var(--clr-logo-text);
   transition: color 200ms;
+
+  @media (max-width: 850px) {
+    display: none;
+  }
 
   &__title {
     font-weight: var(--font-weight-bold);

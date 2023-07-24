@@ -1,0 +1,107 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.buttonClose {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: inherit;
+}
+
+.customizationsWrapper {
+  width: 100%;
+}
+
+.setting {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.caretStylesButtons {
+  display: flex;
+  align-items: center;
+
+  & > *:not(:last-child) {
+    margin-right: 5px;
+  }
+}
+
+.caretStylesBtn {
+  background: none;
+  border: 2px solid var(--clr-char);
+  border-radius: 5px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  height: 40px;
+  width: 40px;
+  padding: 7px;
+  cursor: pointer;
+
+  &.active {
+    border-color: var(--clr-char-correct);
+  }
+
+  &Caret {
+    position: static !important;
+    max-height: 100%;
+  }
+}
+
+.label {
+  margin-right: 15px;
+  opacity: 0.75;
+  transition: opacity 200ms;
+  user-select: none;
+
+  &.active {
+    opacity: 1;
+  }
+}
+
+.range {
+  position: relative;
+
+  &Input {
+    position: relative;
+    z-index: 2;
+    margin-top: 3px;
+    accent-color: var(--clr-char-correct);
+  }
+
+  &TooltipContainer {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 88%;
+    height: 100%;
+    pointer-events: none;
+  }
+
+  &TooltipRelative {
+    position: relative;
+  }
+  &Tooltip {
+    position: absolute;
+    left: 0;
+  }
+}
+
+.input-width-percentage {
+  position: absolute;
+  right: 0;
+  transform: translateX(100%);
+  font-weight: bold;
+}
+
+.buttonResetToDefault {
+  margin-top: 10px;
+}

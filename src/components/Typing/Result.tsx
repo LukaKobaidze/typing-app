@@ -1,5 +1,5 @@
 import { useContext, useEffect } from 'react';
-import { GlobalContext } from 'context/global-context';
+import { GlobalContext } from 'context/global.context';
 import {
   ResponsiveContainer,
   LineChart,
@@ -7,15 +7,16 @@ import {
   XAxis,
   YAxis,
   Label,
-  Tooltip,
+  Tooltip as RechartsTooltip,
   Legend,
   Line,
 } from 'recharts';
-import { IconKeyboardArrowLeft, IconLoop } from 'assets';
+import { IconKeyboardArrowLeft, IconLoop } from 'assets/image';
 import { TypingResult as TypingResultType } from './types';
-import { ButtonRounded, PercentCircleChart } from 'components/UI';
+import { ButtonRounded, PercentCircleChart, Tooltip } from 'components/UI';
 import ResultCustomTooltip from './ResultCustomTooltip';
 import styles from 'styles/Typing/Result.module.scss';
+import { getTimeSince } from 'helpers';
 
 const config = {
   colorWpm: '#dcdcdc',
@@ -27,12 +28,14 @@ const config = {
 
 interface Props {
   result: TypingResultType;
-  onRestart: () => void;
-  onRepeat: () => void;
+  includeDate?: boolean;
+  onRestart?: () => void;
+  onRepeat?: () => void;
+  onGoBack?: () => void;
 }
 
 export default function Result(props: Props) {
-  const { result, onRestart, onRepeat } = props;
+  const { result, includeDate, onRestart, onRepeat, onGoBack } = props;
 
   const { onTypingEnd } = useContext(GlobalContext);
 
@@ -49,6 +52,15 @@ export default function Result(props: Props) {
 
   return (
     <div className={styles['result__wrapper']}>
+      {includeDate && result.date && (
+        <Tooltip
+          text={new Date(result.date).toLocaleString()}
+          position="top"
+          showOnHover
+        >
+          <div className={styles.date}>{getTimeSince(result.date)}</div>
+        </Tooltip>
+      )}
       <div className={styles.result}>
         <div className={styles['wpm-accuracy-container']}>
           <div className={styles.wpm}>
@@ -95,7 +107,7 @@ export default function Result(props: Props) {
                 />
               </YAxis>
               <CartesianGrid opacity={0.05} />
-              <Tooltip
+              <RechartsTooltip
                 content={<ResultCustomTooltip />}
                 contentStyle={{ backgroundColor: '#0d0d1d' }}
               />
@@ -182,16 +194,28 @@ export default function Result(props: Props) {
           )}
         </div>
         <div className={styles['buttons-wrapper']}>
-          <ButtonRounded onClick={onRestart} className={styles.btn}>
-            <IconKeyboardArrowLeft
-              className={`${styles['btn__icon']} ${styles['btn__icon--arrow']}`}
-            />
-            <span>Next Test</span>
-          </ButtonRounded>
-          <ButtonRounded onClick={onRepeat} className={styles.btn}>
-            <IconLoop className={styles['btn__icon']} />
-            <span>Repeat</span>
-          </ButtonRounded>
+          {onRestart && (
+            <ButtonRounded onClick={onRestart} className={styles.btn}>
+              <IconKeyboardArrowLeft
+                className={`${styles['btn__icon']} ${styles['btn__icon--arrow']}`}
+              />
+              <span>Next Test</span>
+            </ButtonRounded>
+          )}
+          {onRepeat && (
+            <ButtonRounded onClick={onRepeat} className={styles.btn}>
+              <IconLoop className={styles['btn__icon']} />
+              <span>Repeat</span>
+            </ButtonRounded>
+          )}
+          {onGoBack && (
+            <ButtonRounded onClick={onGoBack} className={styles.btn}>
+              <IconKeyboardArrowLeft
+                className={`${styles['btn__icon']} ${styles['btn__icon--arrow']}`}
+              />
+              <span>Go Back</span>
+            </ButtonRounded>
+          )}
         </div>
       </div>
     </div>

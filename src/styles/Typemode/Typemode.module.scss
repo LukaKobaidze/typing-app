@@ -1,0 +1,7 @@
+.settings {
+  flex-shrink: 0;
+  
+  @media (max-width: 550px) {
+    margin-top: 20px;
+  }
+}

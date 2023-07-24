@@ -1,5 +1,6 @@
-import { GlobalContext } from 'context/global-context';
 import { useContext, useEffect, useState } from 'react';
+import { GlobalContext } from 'context/global.context';
+import { CustomizeContext } from 'context/customize.context';
 import styles from 'styles/Typing/Caret.module.scss';
 
 interface Props {
@@ -15,6 +16,7 @@ export default function Caret(props: Props) {
   const { wordIndex, charIndex, wordsOffset, firstWord, wordRef, charRef } = props;
 
   const { typingStarted } = useContext(GlobalContext);
+  const { caretStyle, smoothCaret } = useContext(CustomizeContext);
 
   const [caretPos, setCaretPos] = useState({ x: 0, y: 0 });
 
@@ -42,7 +44,15 @@ export default function Caret(props: Props) {
 
   return (
     <div
-      className={`${styles.caret} ${!typingStarted ? styles.animate : ''}`}
+      className={`${styles.caret} ${styles[`caret--${caretStyle}`]} ${
+        smoothCaret ? styles.smooth : ''
+      } ${
+        !typingStarted
+          ? smoothCaret
+            ? styles['blink-smooth']
+            : styles['blink']
+          : ''
+      }`}
       style={{ transform: `translate(${caretPos.x}px, ${caretPos.y}px)` }}
     />
   );

@@ -1,4 +1,4 @@
-import { IconKeyboard } from 'assets';
+import { IconKeyboard } from 'assets/image';
 import styles from 'styles/UI/Logo.module.scss';
 
 interface Props {

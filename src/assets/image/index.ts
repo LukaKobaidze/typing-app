@@ -1,3 +1,5 @@
+export { ReactComponent as IconClose } from './close.svg';
+export { ReactComponent as IconCustomize } from './customize.svg';
 export { ReactComponent as IconGithub } from './github.svg';
 export { ReactComponent as IconKeyboardArrowDown } from './keyboard_arrow_down.svg';
 export { ReactComponent as IconKeyboardArrowLeft } from './keyboard_arrow_left.svg';
