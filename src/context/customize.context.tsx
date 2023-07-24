@@ -1,4 +1,4 @@
-import { createContext, useState } from 'react';
+import { createContext } from 'react';
 import { useLocalStorageState } from 'hooks';
 
 export const caretStyles = ['line', 'underline', 'block', 'off'] as const;

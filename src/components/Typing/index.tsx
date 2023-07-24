@@ -8,12 +8,12 @@ import typingReducer, { initialState } from './reducer/typing.reducer';
 import { getRandomQuote, getRandomWords, getTypingWords } from 'helpers';
 import { useSound } from 'hooks';
 import { LoadingSpinner } from 'components/UI';
+import { TypingResult } from './types';
 import Input from './Input';
 import Restart from './Restart';
 import Result from './Result';
 import Counter from './Counter';
 import styles from 'styles/Typing/Typing.module.scss';
-import { TypingResult } from './types';
 
 interface Props {
   disabled: boolean;

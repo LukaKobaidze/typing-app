@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react';
 import { RecentResultsData } from 'App';
 import { IconKeyboardArrowDown } from 'assets/image';
 import { AlertOutsideClick, Tooltip } from 'components/UI';
+import { TypingResult } from 'components/Typing/types';
 import ResultButton from './ResultButton';
 import styles from 'styles/RecentResults/RecentResults.module.scss';
-import { TypingResult } from 'components/Typing/types';
 
 interface Props {
   data: RecentResultsData;

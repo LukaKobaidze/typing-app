@@ -12,11 +12,11 @@ import {
   Line,
 } from 'recharts';
 import { IconKeyboardArrowLeft, IconLoop } from 'assets/image';
-import { TypingResult as TypingResultType } from './types';
+import { getTimeSince } from 'helpers';
 import { ButtonRounded, PercentCircleChart, Tooltip } from 'components/UI';
+import { TypingResult as TypingResultType } from './types';
 import ResultCustomTooltip from './ResultCustomTooltip';
 import styles from 'styles/Typing/Result.module.scss';
-import { getTimeSince } from 'helpers';
 
 const config = {
   colorWpm: '#dcdcdc',
