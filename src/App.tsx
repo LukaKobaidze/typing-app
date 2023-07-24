@@ -109,7 +109,7 @@ export default function App() {
                 <IconRedirect className={styles['github-hover-wrapper__icon']} />
               </div>
             }
-            position="top"
+            position="right"
             showOnHover
           >
             <a
