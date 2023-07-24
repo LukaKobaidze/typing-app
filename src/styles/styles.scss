@@ -20,7 +20,8 @@
   --font-weight-bold: 700;
 }
 
-svg, img {
+svg,
+img {
   display: block;
 }
 
@@ -46,7 +47,7 @@ body {
   max-width: 1100px;
   min-width: 280px;
   min-height: 100vh;
-  max-height: -webkit-fill-available;
+  min-height: 100dvh;
   margin: 0 auto;
 }
 
