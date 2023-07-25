@@ -121,6 +121,10 @@ export default function Typing(props: Props) {
   const onRestart = useCallback(() => {
     onTypingEnd();
 
+    quoteAbortController?.abort();
+    quoteAbortController = new AbortController();
+    setIsLoading(false);
+
     if (mode === 'time') {
       dispatch({ type: 'RESTART', payload: getRandomWords() });
       setTimeCountdown(time);
@@ -130,9 +134,6 @@ export default function Typing(props: Props) {
     } else {
       dispatch({ type: 'RESTART', payload: [] });
       setWordCount(0);
-
-      quoteAbortController?.abort();
-      quoteAbortController = new AbortController();
 
       setIsLoading(true);
 
