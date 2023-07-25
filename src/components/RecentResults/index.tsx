@@ -78,8 +78,8 @@ export default function RecentResults(props: Props) {
               recent
             </div>
             <ul>
-              {data.recent.map((result) => (
-                <li className={styles.li}>
+              {data.recent.map((result, i) => (
+                <li key={i} className={styles.li}>
                   <ResultButton
                     result={result}
                     includeDate
