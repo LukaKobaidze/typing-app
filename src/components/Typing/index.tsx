@@ -8,7 +8,6 @@ import typingReducer, { initialState } from './reducer/typing.reducer';
 import { getRandomQuote, getRandomWords, getTypingWords } from 'helpers';
 import { useSound } from 'hooks';
 import { LoadingSpinner } from 'components/UI';
-import { TypingResult } from './types';
 import Input from './Input';
 import Restart from './Restart';
 import Result from './Result';
@@ -196,7 +195,9 @@ export default function Typing(props: Props) {
     if (typingStarted) {
       onTestStart();
     }
-  }, [typingStarted])
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [typingStarted]);
 
   useEffect(() => {
     let interval: NodeJS.Timer;

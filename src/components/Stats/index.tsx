@@ -1,7 +1,6 @@
 import { IconStats } from 'assets/image';
 import { ButtonRounded, Tooltip } from 'components/UI';
 import StatsModal from './StatsModal';
-import styles from 'styles/Stats/Stats.module.scss';
 
 interface Props {
   isOpen: boolean;
