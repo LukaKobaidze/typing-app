@@ -1,5 +1,5 @@
 import { IconCustomize } from 'assets/image';
-import { ButtonRounded } from 'components/UI';
+import { ButtonRounded, Tooltip } from 'components/UI';
 import CustomizeModal from './CustomizeModal';
 import styles from 'styles/Customize/Customize.module.scss';
 
@@ -7,22 +7,37 @@ interface Props {
   isCustomizing: boolean;
   onCustomizeOpen: () => void;
   onCustomizeClose: () => void;
-  className?: string;
+  windowWidth: number;
+  classNameButton?: string;
 }
 
 export default function Customize(props: Props) {
-  const { isCustomizing, onCustomizeOpen, onCustomizeClose, className } = props;
+  const {
+    isCustomizing,
+    onCustomizeOpen,
+    onCustomizeClose,
+    windowWidth,
+    classNameButton,
+  } = props;
 
   return (
     <>
-      <ButtonRounded
-        className={`${styles.button} ${className || ''}`}
-        onClick={onCustomizeOpen}
-      >
-        <IconCustomize className={styles.buttonIcon} />
-
-        <span>Customize</span>
-      </ButtonRounded>
+      {windowWidth > 370 ? (
+        <ButtonRounded className={classNameButton || ''} onClick={onCustomizeOpen}>
+          <IconCustomize className={styles.buttonIcon} />
+          <span>Customize</span>
+        </ButtonRounded>
+      ) : (
+        <Tooltip text="Customize" showOnHover>
+          <ButtonRounded
+            className={classNameButton || ''}
+            onClick={onCustomizeOpen}
+            aria-label="customize"
+          >
+            <IconCustomize />
+          </ButtonRounded>
+        </Tooltip>
+      )}
 
       {isCustomizing && <CustomizeModal onCloseModal={onCustomizeClose} />}
     </>

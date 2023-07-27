@@ -1,17 +1,19 @@
-import { useState, useContext, useCallback } from 'react';
+import { useState, useContext } from 'react';
 import { GlobalContext } from 'context/global.context';
-import { TypemodeContextProvider } from 'context/typemode.context';
+import { StatsContextProvider } from 'context/stats.context';
 import { CustomizeContextProvider } from 'context/customize.context';
+import { TypemodeContextProvider } from 'context/typemode.context';
 import { IconRedirect, IconGithub } from 'assets/image';
-import { useLocalStorageState } from 'hooks';
 import { Logo, Tooltip } from 'components/UI';
 import { TypingResult } from 'components/Typing/types';
 import Result from 'components/Typing/Result';
 import Customize from 'components/Customize';
+import Stats from 'components/Stats';
 import Typemode from 'components/Typemode';
 import Typing from 'components/Typing';
 import RecentResults from 'components/RecentResults';
 import styles from 'styles/App.module.scss';
+import { useWindowDimensions } from 'hooks';
 
 export type RecentResultsData = {
   best: TypingResult;
@@ -22,116 +24,93 @@ export default function App() {
   const { typingStarted } = useContext(GlobalContext);
 
   const [isCustomizing, setIsCustomizing] = useState(false);
-  const [results, setResults] = useLocalStorageState<RecentResultsData | null>(
-    'results',
-    null
-  );
+  const [isStatsOpen, setIsStatsOpen] = useState(false);
   const [previewResult, setPreviewResult] = useState<TypingResult | null>(null);
-
-  const handleNewResult = useCallback(
-    (newResult: TypingResult) => {
-      setResults((state) => {
-        if (!state) {
-          return {
-            best: newResult,
-            recent: [newResult],
-          };
-        }
-
-        let isNewBest = false;
-
-        if (
-          newResult.timeline[newResult.timeline.length - 1].wpm >
-          state.best.timeline[state.best.timeline.length - 1].wpm
-        ) {
-          isNewBest = true;
-        }
-
-        return {
-          best: isNewBest ? newResult : state.best,
-          recent: [newResult, ...state.recent.slice(0, 4)],
-        };
-      });
-    },
-    [setResults]
-  );
+  const [windowWidth] = useWindowDimensions();
 
   return (
     <>
-      <TypemodeContextProvider>
-        <CustomizeContextProvider>
-          <header className={styles.header}>
-            <div className={styles.headerLogoActionsWrapper}>
-              <Logo colored={!typingStarted} />
-              <div
-                className={`opacity-transition ${typingStarted ? 'hide' : ''} ${
-                  styles.headerActions
-                }`}
-              >
-                <Customize
-                  className={styles.customize}
-                  isCustomizing={isCustomizing}
-                  onCustomizeOpen={() => setIsCustomizing(true)}
-                  onCustomizeClose={() => setIsCustomizing(false)}
-                />
+      <StatsContextProvider>
+        <TypemodeContextProvider>
+          <CustomizeContextProvider>
+            <header className={styles.header}>
+              <div className={styles.headerLogoButtonsWrapper}>
+                <Logo colored={!typingStarted} />
+                <div
+                  className={`opacity-transition ${typingStarted ? 'hide' : ''} ${
+                    styles.headerButtons
+                  }`}
+                >
+                  <Customize
+                    classNameButton={`${styles.headerBtn} ${styles.customize}`}
+                    isCustomizing={isCustomizing}
+                    onCustomizeOpen={() => setIsCustomizing(true)}
+                    onCustomizeClose={() => setIsCustomizing(false)}
+                    windowWidth={windowWidth}
+                  />
+                  <Stats
+                    classNameButton={`${styles.headerBtn} ${styles.customize}`}
+                    isOpen={isStatsOpen}
+                    onStatsOpen={() => setIsStatsOpen(true)}
+                    onStatsClose={() => setIsStatsOpen(false)}
+                    windowWidth={windowWidth}
+                  />
+                </div>
               </div>
-            </div>
-            <Typemode
-              className={`opacity-transition ${typingStarted ? 'hide' : ''}`}
-              hidden={typingStarted}
-            />
-          </header>
-
-          <main>
-            {previewResult ? (
-              <Result
-                result={previewResult}
-                onGoBack={() => setPreviewResult(null)}
-                includeDate
+              <Typemode
+                className={`opacity-transition ${typingStarted ? 'hide' : ''}`}
+                hidden={typingStarted}
               />
-            ) : (
-              <Typing disabled={isCustomizing} onNewResult={handleNewResult} />
-            )}
-          </main>
-        </CustomizeContextProvider>
-      </TypemodeContextProvider>
+            </header>
 
-      <footer
-        className={`${styles.footer} opacity-transition ${
-          typingStarted ? 'hide' : ''
-        }`}
-      >
-        <div className={styles.links}>
-          <Tooltip
-            text={
-              <div className={styles['github-hover-wrapper']}>
-                <p>repository</p>
-                <IconRedirect className={styles['github-hover-wrapper__icon']} />
-              </div>
-            }
-            position="right"
-            showOnHover
-          >
-            <a
-              href="https://github.com/LukaKobaidze/typing-app"
-              rel="noreferrer"
-              target="_blank"
-              className="links-item__link"
-              tabIndex={typingStarted ? -1 : undefined}
+            <main>
+              {previewResult ? (
+                <Result
+                  result={previewResult}
+                  onGoBack={() => setPreviewResult(null)}
+                  includeDate
+                />
+              ) : (
+                <Typing disabled={isCustomizing || isStatsOpen} />
+              )}
+            </main>
+          </CustomizeContextProvider>
+        </TypemodeContextProvider>
+
+        <footer
+          className={`${styles.footer} opacity-transition ${
+            typingStarted ? 'hide' : ''
+          }`}
+        >
+          <div className={styles.links}>
+            <Tooltip
+              text={
+                <div className={styles['github-hover-wrapper']}>
+                  <p>repository</p>
+                  <IconRedirect className={styles['github-hover-wrapper__icon']} />
+                </div>
+              }
+              position="right"
+              showOnHover
             >
-              <IconGithub />
-            </a>
-          </Tooltip>
-        </div>
+              <a
+                href="https://github.com/LukaKobaidze/typing-app"
+                rel="noreferrer"
+                target="_blank"
+                className="links-item__link"
+                tabIndex={typingStarted ? -1 : undefined}
+              >
+                <IconGithub />
+              </a>
+            </Tooltip>
+          </div>
 
-        {results && (
           <RecentResults
             className={`opacity-transition ${typingStarted ? 'hide' : ''}`}
-            data={results}
             onPreviewResult={(result) => setPreviewResult(result)}
           />
-        )}
-      </footer>
+        </footer>
+      </StatsContextProvider>
     </>
   );
 }

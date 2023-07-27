@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
-import { IconClose } from 'assets/image';
 import { CustomizeContext, caretStyles } from 'context/customize.context';
+import { IconCustomize } from 'assets/image';
 import { Switch, Tooltip, Modal, ButtonRounded } from 'components/UI';
 import caretCSS from 'styles/Typing/Caret.module.scss';
 import styles from 'styles/Customize/CustomizeModal.module.scss';
@@ -31,20 +31,11 @@ export default function CustomizeModal(props: Props) {
   const [showInputWidthTooltip, setShowInputWidthTooltip] = useState(false);
 
   return (
-    <Modal onCloseModal={onCloseModal}>
-      <div className={styles.header}>
-        <h2>Customize</h2>
-        <Tooltip text="close" showOnHover>
-          <button
-            className={styles.buttonClose}
-            onClick={onCloseModal}
-            aria-label="close"
-          >
-            <IconClose />
-          </button>
-        </Tooltip>
-      </div>
-
+    <Modal
+      onCloseModal={onCloseModal}
+      heading="Customize"
+      HeadingIcon={IconCustomize}
+    >
       <div className={styles.customizationsWrapper}>
         <div className={styles.setting}>
           <label

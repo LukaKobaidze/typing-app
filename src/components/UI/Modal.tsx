@@ -1,12 +1,19 @@
 import { useEffect } from 'react';
 import FocusTrap from 'focus-trap-react';
-import { AlertOutsideClick } from 'components/UI';
+import { IconClose } from 'assets/image';
+import { AlertOutsideClick, Tooltip } from 'components/UI';
 import styles from 'styles/UI/Modal.module.scss';
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   onCloseModal: () => void;
   ignoreKeyboardEscape?: boolean;
   initialFocus?: boolean;
+  heading?: string;
+  HeadingIcon?: React.FunctionComponent<
+    React.SVGProps<SVGSVGElement> & {
+      title?: string | undefined;
+    }
+  >;
 }
 
 export default function Modal(props: Props) {
@@ -14,6 +21,8 @@ export default function Modal(props: Props) {
     onCloseModal,
     ignoreKeyboardEscape,
     initialFocus,
+    heading,
+    HeadingIcon,
     className,
     children,
     ...restProps
@@ -49,6 +58,25 @@ export default function Modal(props: Props) {
           id="modal"
           {...restProps}
         >
+          <div className={styles.header}>
+            {heading && (
+              <div className={styles.headingWrapper}>
+                {HeadingIcon && (
+                  <HeadingIcon className={styles.headingWrapperIcon} />
+                )}
+                <h2>{heading}</h2>
+              </div>
+            )}
+            <Tooltip text="close" showOnHover>
+              <button
+                className={styles.buttonClose}
+                onClick={onCloseModal}
+                aria-label="close"
+              >
+                <IconClose />
+              </button>
+            </Tooltip>
+          </div>
           {children}
         </AlertOutsideClick>
       </div>

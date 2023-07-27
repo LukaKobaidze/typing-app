@@ -1,19 +1,20 @@
-import { useState, useEffect } from 'react';
-import { RecentResultsData } from 'App';
+import { useState, useEffect, useContext } from 'react';
 import { IconKeyboardArrowDown } from 'assets/image';
 import { AlertOutsideClick, Tooltip } from 'components/UI';
 import { TypingResult } from 'components/Typing/types';
 import ResultButton from './ResultButton';
 import styles from 'styles/RecentResults/RecentResults.module.scss';
+import { StatsContext } from 'context/stats.context';
 
 interface Props {
-  data: RecentResultsData;
   onPreviewResult: (result: TypingResult) => void;
   className?: string;
 }
 
 export default function RecentResults(props: Props) {
-  const { data, onPreviewResult, className } = props;
+  const { onPreviewResult, className } = props;
+
+  const { recentTests, bestTest } = useContext(StatsContext);
 
   const [expanded, setExpanded] = useState(false);
 
@@ -37,6 +38,8 @@ export default function RecentResults(props: Props) {
 
   const expandButtonText = expanded ? 'hide recent' : 'show recent';
 
+  if (!recentTests || !bestTest) return <></>;
+
   return (
     <AlertOutsideClick
       onOutsideClick={() => setExpanded(false)}
@@ -50,10 +53,10 @@ export default function RecentResults(props: Props) {
         <div className={`${styles.lineText} ${styles.lineTextBest}`}>best</div>
         <div className={styles.bestResultButtonWrapper}>
           <ResultButton
-            result={data.best}
+            result={bestTest}
             className={styles.bestResultButton}
             onClick={() => {
-              onPreviewResult(data.best);
+              onPreviewResult(bestTest);
               setExpanded(false);
             }}
           />
@@ -78,7 +81,7 @@ export default function RecentResults(props: Props) {
               recent
             </div>
             <ul>
-              {data.recent.map((result, i) => (
+              {recentTests.slice(0, 5).map((result, i) => (
                 <li key={i} className={styles.li}>
                   <ResultButton
                     result={result}

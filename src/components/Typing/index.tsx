@@ -14,20 +14,21 @@ import Restart from './Restart';
 import Result from './Result';
 import Counter from './Counter';
 import styles from 'styles/Typing/Typing.module.scss';
+import { StatsContext } from 'context/stats.context';
 
 interface Props {
   disabled: boolean;
-  onNewResult: (newResult: TypingResult) => void;
 }
 
 // Used to abort previous fetch call if new one is called
 let quoteAbortController: AbortController | null = null;
 
 export default function Typing(props: Props) {
-  const { disabled, onNewResult } = props;
+  const { disabled } = props;
 
   const [state, dispatch] = useReducer(typingReducer, initialState);
   const { typingStarted, onTypingStart, onTypingEnd } = useContext(GlobalContext);
+  const { onTestStart, onTestComplete } = useContext(StatsContext);
   const { mode, wordsAmount, time, quoteLength } = useContext(TypemodeContext);
   const { liveWpm, liveAccuracy, inputWidth, soundOnClick } =
     useContext(CustomizeContext);
@@ -192,6 +193,12 @@ export default function Typing(props: Props) {
   }, [onRestart]);
 
   useEffect(() => {
+    if (typingStarted) {
+      onTestStart();
+    }
+  }, [typingStarted])
+
+  useEffect(() => {
     let interval: NodeJS.Timer;
 
     if (typingStarted) {
@@ -216,11 +223,11 @@ export default function Typing(props: Props) {
 
   useEffect(() => {
     if (state.result.showResults) {
-      onNewResult(state.result);
+      onTestComplete(state.result);
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.result.showResults, onNewResult]);
+  }, [state.result.showResults]);
 
   const timelineLatest = state.result.timeline[state.result.timeline.length - 1];
 

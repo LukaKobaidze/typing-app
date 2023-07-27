@@ -39,27 +39,29 @@ interface Props {
 }
 
 export const TypemodeContextProvider = ({ children }: Props) => {
-  const [mode, setMode] = useLocalStorageState<TypemodeType>(
-    'typing-mode',
-    initial.mode
-  );
-  const [quoteLength, setQuoteLength] = useLocalStorageState<TypemodeQuote>(
+  const [mode, setMode] = useLocalStorageState('typing-mode', initial.mode);
+  const [quoteLength, setQuoteLength] = useLocalStorageState(
     'typing-quote',
     initial.quoteLength
   );
-  const [time, setTime] = useLocalStorageState<TypemodeTime>(
-    'typing-time',
-    initial.time
-  );
-  const [wordsAmount, setWordsAmount] = useLocalStorageState<TypemodeWords>(
+  const [time, setTime] = useLocalStorageState('typing-time', initial.time);
+  const [wordsAmount, setWordsAmount] = useLocalStorageState(
     'typing-wordsAmount',
     initial.wordsAmount
   );
 
-  const onMode = (mode: TypemodeType) => setMode(mode);
-  const onTime = (time: TypemodeTime) => setTime(time);
-  const onWordsAmount = (amount: TypemodeWords) => setWordsAmount(amount);
-  const onQuoteLength = (length: TypemodeQuote) => setQuoteLength(length);
+  const onMode: Context['onMode'] = (mode) => {
+    setMode(mode);
+  };
+  const onTime: Context['onTime'] = (time) => {
+    setTime(time);
+  };
+  const onWordsAmount: Context['onWordsAmount'] = (amount) => {
+    setWordsAmount(amount);
+  };
+  const onQuoteLength: Context['onQuoteLength'] = (length) => {
+    setQuoteLength(length);
+  };
 
   return (
     <TypemodeContext.Provider

@@ -23,4 +23,31 @@
   @media (max-width: 525px) {
     --modal-padding: 24px;
   }
+
+  @media (max-width: 370px) {
+    --modal-padding: 17px;
+  }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 25px;
+}
+
+.buttonClose {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: inherit;
+}
+
+.headingWrapper {
+  display: flex;
+  align-items: center;
+
+  &Icon {
+    margin-right: 10px;
+  }
 }

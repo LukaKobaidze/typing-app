@@ -9,3 +9,4 @@ export { ReactComponent as IconLoop } from './loop.svg';
 export { ReactComponent as IconPercent } from './percent.svg';
 export { ReactComponent as IconRedirect } from './redirect.svg';
 export { ReactComponent as IconRefresh } from './refresh.svg';
+export { ReactComponent as IconStats } from './stats.svg';

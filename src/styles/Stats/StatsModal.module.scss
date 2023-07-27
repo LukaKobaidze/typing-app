@@ -1,0 +1,34 @@
+.testsCountWrapper {
+  display: flex;
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 15px 15px 10px 15px;
+  border-radius: 10px;
+
+  & > :first-child {
+    margin-right: 50px;
+  }
+}
+
+.averageAndHighestWrapper {
+  display: flex;
+  margin-top: 30px;
+  padding: 0 10px;
+
+  @media (max-width: 425px) {
+    justify-content: space-between;
+  }
+
+  & > :first-child {
+    margin-right: 70px;
+
+    @media (max-width: 425px) {
+      margin-right: 15px;
+    }
+  }
+}
+
+.testStatsWrapper {
+  & > * {
+    margin-bottom: 15px;
+  }
+}
