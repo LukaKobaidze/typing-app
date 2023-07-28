@@ -102,7 +102,7 @@ export const CustomizeContextProvider = ({ children }: Props) => {
       }
     }
 
-    document.body.classList.add(`theme--${state.theme}`);
+    document.body.classList.add(`theme--${state.theme || 'default'}`);
   }, [state.theme]);
 
   return (
