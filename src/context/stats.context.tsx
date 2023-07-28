@@ -108,7 +108,6 @@ export function StatsContextProvider({ children }: Props) {
 
   useEffect(() => {
     // Calculate average
-
     const sum = recentTests.reduce(
       (acc, test) => {
         const { wpm, accuracy, raw } = test.timeline[test.timeline.length - 1];
