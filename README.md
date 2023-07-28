@@ -1,7 +1,7 @@
 ## About The Project
 
-![Project image](screenshot.png)
-![Project image](screenshot2.png)
+![Project image](screenshot-one.png)
+![Project image](screenshot-two.png)
 
 ### Built with
 
