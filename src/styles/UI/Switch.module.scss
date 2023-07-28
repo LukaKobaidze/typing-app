@@ -6,7 +6,7 @@
   height: 27px;
   position: relative;
   background-color: transparent;
-  border: 2px solid var(--clr-char-correct);
+  border: 2px solid var(--clr-main);
   cursor: pointer;
   transition: background-color var(--transition);
 
@@ -19,15 +19,15 @@
     width: 20px;
     display: block;
     border-radius: 50%;
-    background-color: var(--clr-char-correct);
+    background-color: var(--clr-main);
     transition: transform 300ms, background-color var(--transition);
   }
 
   &--on {
-    background-color: var(--clr-char-correct);
+    background-color: var(--clr-main);
 
     .switch__circle {
-      background-color: var(--clr-bg-dark);
+      background-color: var(--clr-bg);
       transform: translateY(-50%) translateX(100%);
     }
   }

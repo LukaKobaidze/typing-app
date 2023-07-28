@@ -12,19 +12,11 @@ import {
   Line,
 } from 'recharts';
 import { IconKeyboardArrowLeft, IconLoop } from 'assets/image';
-import { getTimeSince } from 'helpers';
+import { addColorOpacity, getTimeSince } from 'helpers';
 import { ButtonRounded, PercentCircleChart, Tooltip } from 'components/UI';
 import { TypingResult as TypingResultType } from './types';
 import ResultCustomTooltip from './ResultCustomTooltip';
 import styles from 'styles/Typing/Result.module.scss';
-
-const config = {
-  colorWpm: '#dcdcdc',
-  colorAccuracy: '#54e7b8',
-  colorRaw: '#817979',
-  labelOffset: -40,
-  labelFontSize: 14,
-};
 
 interface Props {
   result: TypingResultType;
@@ -42,6 +34,19 @@ export default function Result(props: Props) {
   useEffect(() => {
     onTypingEnd();
   }, [onTypingEnd]);
+
+  const textColorFromCSS = window
+    .getComputedStyle(document.body)
+    .getPropertyValue('--clr-text');
+  const config = {
+    colorWpm: textColorFromCSS,
+    colorAccuracy: window
+      .getComputedStyle(document.body)
+      .getPropertyValue('--clr-char-incorrect'),
+    colorRaw: addColorOpacity(textColorFromCSS, 0.6),
+    labelOffset: -40,
+    labelFontSize: 14,
+  };
 
   const {
     wpm,

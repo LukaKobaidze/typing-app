@@ -1,19 +1,13 @@
+@use 'theme/default';
+@use 'theme/midnight';
+@use 'theme/retro';
+@use 'theme/superuser';
+@use 'theme/vscode';
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&display=swap');
 
 :root {
-  --clr-bg-dark: #0d0d1d;
-  --clr-dark: #000;
-  --clr-modal: #121229;
-  --clr-white: #dcdcdc;
-  --clr-char: #ffffff63;
-  --clr-char-correct: #f3f2f2;
-  --clr-char-incorrect: #fc626a;
-  --clr-char-extra: #dcdcdc40;
-  --clr-caret: #f8aa35;
-  --clr-icon: #f0f6fc;
-  --clr-blue: #add8e6;
-  --clr-logo-icon: #fc626a;
   --clr-raw: #817979;
+  --clr-logo-icon: #fc626a;
 
   --font-family-default: 'Roboto Mono', monospace;
   --font-weight-regular: 400;
@@ -36,8 +30,24 @@ img {
 body {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-regular);
-  background-color: var(--clr-bg-dark);
-  color: var(--clr-white);
+  background-color: var(--clr-bg);
+  color: var(--clr-text);
+
+  &.theme--default {
+    @include default.theme;
+  }
+  &.theme--midnight {
+    @include midnight.theme;
+  }
+  &.theme--retro {
+    @include retro.theme;
+  }
+  &.theme--superuser {
+    @include superuser.theme;
+  }
+  &.theme--vscode {
+    @include vscode.theme;
+  }
 }
 
 #root {
@@ -48,6 +58,18 @@ body {
   min-width: 280px;
   min-height: 100vh;
   margin: 0 auto;
+}
+
+::-webkit-scrollbar {
+  width: 0.5em;
+  
+  &-track {
+    background: var(--clr-modal);
+  }
+  &-thumb {
+    background: var(--clr-main);
+    border-radius: 100vw;
+  }
 }
 
 .opacity-transition {

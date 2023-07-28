@@ -1,8 +1,10 @@
-import { createContext } from 'react';
+import { createContext, useEffect } from 'react';
+import { themes } from 'data';
 import { useLocalStorageState } from 'hooks';
 
 export const caretStyles = ['line', 'underline', 'block', 'off'] as const;
 export type CaretStyleType = (typeof caretStyles)[number];
+export type ThemeType = (typeof themes)[number];
 
 interface ContextState {
   liveWpm: boolean;
@@ -11,6 +13,7 @@ interface ContextState {
   caretStyle: CaretStyleType;
   smoothCaret: boolean;
   soundOnClick: boolean;
+  theme: ThemeType;
 }
 
 interface ContextFunctions {
@@ -21,6 +24,7 @@ interface ContextFunctions {
   onToggleSmoothCaret: () => void;
   onToggleSoundOnClick: () => void;
   onResetToDefault: () => void;
+  onUpdateTheme: (theme: ThemeType) => void;
 }
 
 const defaultState: ContextState = {
@@ -30,6 +34,7 @@ const defaultState: ContextState = {
   caretStyle: 'line',
   smoothCaret: true,
   soundOnClick: false,
+  theme: 'default',
 };
 
 const contextInitial: ContextState & ContextFunctions = {
@@ -41,6 +46,7 @@ const contextInitial: ContextState & ContextFunctions = {
   onToggleSmoothCaret: () => {},
   onToggleSoundOnClick: () => {},
   onResetToDefault: () => {},
+  onUpdateTheme: () => {},
 };
 
 export const CustomizeContext = createContext(contextInitial);
@@ -82,6 +88,23 @@ export const CustomizeContextProvider = ({ children }: Props) => {
     setState(defaultState);
   };
 
+  const onUpdateTheme: ContextFunctions['onUpdateTheme'] = (theme) => {
+    setState((state) => ({ ...state, theme }));
+  };
+
+  useEffect(() => {
+    const classList = document.body.classList;
+
+    for (let i = 0; i < classList.length; i++) {
+      if (classList[i].startsWith('theme--')) {
+        classList.remove(classList[i]);
+        break;
+      }
+    }
+
+    document.body.classList.add(`theme--${state.theme}`);
+  }, [state.theme]);
+
   return (
     <CustomizeContext.Provider
       value={{
@@ -93,6 +116,7 @@ export const CustomizeContextProvider = ({ children }: Props) => {
         onToggleSmoothCaret,
         onToggleSoundOnClick,
         onResetToDefault,
+        onUpdateTheme,
       }}
     >
       {children}

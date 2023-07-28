@@ -1,5 +1,6 @@
 .container {
-  background-color: #000;
+  background-color: var(--clr-tooltip-bg);
+  color: var(--clr-tooltip-text);
   padding: 10px 15px;
   border-radius: 8px;
 }
@@ -9,10 +10,11 @@
   align-items: center;
 
   &__color-block {
-    width: 12px;
-    height: 12px;
+    width: 15px;
+    height: 15px;
     margin-right: 5px;
     border-radius: 2px;
+    border: 1px solid var(--clr-tooltip-text);
   }
 
   &__text {
@@ -22,5 +24,4 @@
   &__value {
     font-weight: bold;
   }
-
 }

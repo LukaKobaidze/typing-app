@@ -2,6 +2,7 @@
   display: flex;
   user-select: none;
   min-width: 255px;
+  cursor: pointer;
 
   @media (max-width: 850px) {
     min-width: initial;
@@ -9,6 +10,7 @@
 
   &--color {
     --clr-logo-text: var(--clr-char-correct);
+    --clr-logo-icon: var(--clr-main);
   }
 
   &--nocolor {
@@ -27,7 +29,6 @@
     transition: fill 200ms;
   }
 }
-
 
 .text-div {
   display: flex;
@@ -48,5 +49,6 @@
     margin-top: 2px;
     font-size: 13px;
     text-indent: 5px;
+    opacity: 0.75;
   }
 }

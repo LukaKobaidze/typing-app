@@ -50,8 +50,8 @@
   font-size: 15px;
   position: absolute;
   opacity: 0;
-  background-color: var(--clr-dark);
-  color: var(--clr-white);
+  background-color: var(--clr-tooltip-bg);
+  color: var(--clr-tooltip-text);
   border-radius: 4px;
   padding: 4px 13px;
   pointer-events: none;

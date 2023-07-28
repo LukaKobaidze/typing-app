@@ -1,0 +1,1 @@
+export const themes = ['default', 'midnight', 'retro', 'superuser', 'vscode'] as const;

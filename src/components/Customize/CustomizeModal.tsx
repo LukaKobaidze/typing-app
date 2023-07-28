@@ -1,6 +1,7 @@
 import { useContext, useState } from 'react';
 import { CustomizeContext, caretStyles } from 'context/customize.context';
 import { IconCustomize } from 'assets/image';
+import { themes } from 'data';
 import { Switch, Tooltip, Modal, ButtonRounded } from 'components/UI';
 import caretCSS from 'styles/Typing/Caret.module.scss';
 import styles from 'styles/Customize/CustomizeModal.module.scss';
@@ -19,6 +20,7 @@ export default function CustomizeModal(props: Props) {
     caretStyle,
     smoothCaret,
     soundOnClick,
+    theme,
     onToggleLiveWpm,
     onToggleLiveAccuracy,
     onUpdateInputWidth,
@@ -26,6 +28,7 @@ export default function CustomizeModal(props: Props) {
     onToggleSmoothCaret,
     onToggleSoundOnClick,
     onResetToDefault,
+    onUpdateTheme,
   } = useContext(CustomizeContext);
 
   const [showInputWidthTooltip, setShowInputWidthTooltip] = useState(false);
@@ -168,6 +171,25 @@ export default function CustomizeModal(props: Props) {
               className={styles.switch}
             />
           </Tooltip>
+        </div>
+
+        <div className={`${styles.setting} ${styles.settingTheme}`}>
+          <label htmlFor="theme" className={`${styles.label} ${styles.active}`}>
+            Theme
+          </label>
+
+          <div className={styles.themeButtons}>
+            {themes.map((mapTheme) => (
+              <button
+                className={`${styles.themeBtn} ${styles[`themeBtn--${mapTheme}`]} ${
+                  mapTheme === theme ? styles.active : ''
+                }`}
+                onClick={() => onUpdateTheme(mapTheme)}
+              >
+                {mapTheme}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 

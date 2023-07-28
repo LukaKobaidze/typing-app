@@ -4,16 +4,16 @@
   font-size: inherit;
   background: none;
   border: none;
-  color: var(--clr-char-incorrect);
+  color: var(--clr-char);
   cursor: pointer;
   transition: color 125ms ease-out;
 
   &:hover,
   &:focus-visible {
-    color: var(--clr-white);
+    color: var(--clr-char-correct);
   }
 
   &.active {
-    color: var(--clr-char-correct);
+    color: var(--clr-main);
   }
 }

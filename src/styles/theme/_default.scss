@@ -1,0 +1,16 @@
+@use 'themes-preview' as t;
+
+@mixin theme {
+  --clr-main: #fe6969;
+  --clr-bg: #{t.$default-bg};
+  --clr-text: #{t.$default-text};
+  --clr-tooltip-bg: #000;
+  --clr-tooltip-text: #{t.$default-text};
+  --clr-modal: #121229;
+  --clr-char: #ffffff63;
+  --clr-char-correct: #f3f2f2;
+  --clr-char-incorrect: #fc626a;
+  --clr-char-extra: #dcdcdc40;
+  --clr-caret: #f8aa35;
+  --clr-border: #28285a;
+}

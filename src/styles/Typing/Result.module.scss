@@ -87,21 +87,11 @@
 }
 
 .tooltip {
-  background-color: var(--clr-bg-dark);
+  background-color: var(--clr-bg);
 }
 
 .restart {
   margin: 30px auto 0 auto;
-}
-
-.best {
-  position: absolute;
-  top: -40px;
-  left: 50%;
-  transform: translateX(-50%);
-  color: var(--clr-blue);
-  font-size: 18px;
-  text-align: center;
 }
 
 .more-and-restart {
@@ -156,7 +146,7 @@
   color: var(--clr-char-incorrect);
 
   &--noerrors {
-    color: #54e7b8;
+    color: var(--clr-char-correct);
   }
 }
 
@@ -174,15 +164,9 @@
   align-items: center;
   font-weight: bold;
   font-size: 18px;
-  color: rgba(255, 255, 255, 0.8);
 
   &:not(:last-child) {
     margin-right: 20px;
-  }
-
-  &:hover,
-  &:focus-visible {
-    color: #ffffff;
   }
 
   &__icon {

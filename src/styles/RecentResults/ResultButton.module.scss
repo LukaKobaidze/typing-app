@@ -11,7 +11,7 @@
   padding: 9px 10px;
 
   &:hover {
-    background-color: #21214d;
+    background-color: var(--clr-modal);
   }
 
   &.disabled {

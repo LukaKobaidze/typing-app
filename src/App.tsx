@@ -4,6 +4,7 @@ import { StatsContextProvider } from 'context/stats.context';
 import { CustomizeContextProvider } from 'context/customize.context';
 import { TypemodeContextProvider } from 'context/typemode.context';
 import { IconRedirect, IconGithub } from 'assets/image';
+import { useWindowDimensions } from 'hooks';
 import { Logo, Tooltip } from 'components/UI';
 import { TypingResult } from 'components/Typing/types';
 import Result from 'components/Typing/Result';
@@ -13,7 +14,6 @@ import Typemode from 'components/Typemode';
 import Typing from 'components/Typing';
 import RecentResults from 'components/RecentResults';
 import styles from 'styles/App.module.scss';
-import { useWindowDimensions } from 'hooks';
 
 export type RecentResultsData = {
   best: TypingResult;
@@ -35,7 +35,13 @@ export default function App() {
           <CustomizeContextProvider>
             <header className={styles.header}>
               <div className={styles.headerLogoButtonsWrapper}>
-                <Logo colored={!typingStarted} />
+                <div
+                  onClick={() => {
+                    setPreviewResult(null);
+                  }}
+                >
+                  <Logo colored={!typingStarted} />
+                </div>
                 <div
                   className={`opacity-transition ${typingStarted ? 'hide' : ''} ${
                     styles.headerButtons
@@ -97,7 +103,7 @@ export default function App() {
                 href="https://github.com/LukaKobaidze/typing-app"
                 rel="noreferrer"
                 target="_blank"
-                className="links-item__link"
+                className={styles.linksItemAnchor}
                 tabIndex={typingStarted ? -1 : undefined}
               >
                 <IconGithub />
