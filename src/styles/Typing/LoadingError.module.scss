@@ -1,0 +1,26 @@
+.container {
+  text-align: center;
+  color: var(--clr-char-incorrect);
+  font-size: 18px;
+}
+
+.textTryOther {
+  color: var(--clr-text);
+  opacity: 0.75;
+  margin-top: 5px;
+  font-size: 16px;
+}
+
+.otherTypemodes {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+
+  & > button:not(:last-child) {
+    margin-right: 10px;
+  }
+}
+
+.typemodeButton {
+  font-size: 18px;
+}

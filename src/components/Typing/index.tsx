@@ -2,6 +2,7 @@ import { useCallback, useContext, useEffect, useReducer, useState } from 'react'
 import { GlobalContext } from 'context/global.context';
 import { TypemodeContext } from 'context/typemode.context';
 import { CustomizeContext } from 'context/customize.context';
+import { StatsContext } from 'context/stats.context';
 import { IconLock } from 'assets/image';
 import typewriterSound from 'assets/audio/typewriter.wav';
 import typingReducer, { initialState } from './reducer/typing.reducer';
@@ -12,8 +13,8 @@ import Input from './Input';
 import Restart from './Restart';
 import Result from './Result';
 import Counter from './Counter';
+import LoadingError from './LoadingError';
 import styles from 'styles/Typing/Typing.module.scss';
-import { StatsContext } from 'context/stats.context';
 
 interface Props {
   disabled: boolean;
@@ -36,6 +37,7 @@ export default function Typing(props: Props) {
   const [wordCount, setWordCount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [cursorHidden, setCursorHidden] = useState(false);
+  const [isLoadingError, setIsLoadingError] = useState(false);
   const playTypingSound = useSound(typewriterSound, 0.3);
 
   useEffect(() => {
@@ -124,6 +126,7 @@ export default function Typing(props: Props) {
     quoteAbortController?.abort();
     quoteAbortController = new AbortController();
     setIsLoading(false);
+    setIsLoadingError(false);
 
     if (mode === 'time') {
       dispatch({ type: 'RESTART', payload: getRandomWords() });
@@ -137,18 +140,23 @@ export default function Typing(props: Props) {
 
       setIsLoading(true);
 
-      getRandomQuote(quoteLength, quoteAbortController).then((data) => {
-        dispatch({
-          type: 'NEW_WORDS',
-          payload: {
-            words: getTypingWords(
-              data.content.replace(/—/g, '-').replace(/…/g, '...').split(' ')
-            ),
-            author: data.author,
-          },
+      getRandomQuote(quoteLength, quoteAbortController)
+        .then((data) => {
+          dispatch({
+            type: 'NEW_WORDS',
+            payload: {
+              words: getTypingWords(
+                data.content.replace(/—/g, '-').replace(/…/g, '...').split(' ')
+              ),
+              author: data.author,
+            },
+          });
+          setIsLoading(false);
+        })
+        .catch(() => {
+          setIsLoading(false);
+          setIsLoadingError(true);
         });
-        setIsLoading(false);
-      });
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -267,12 +275,16 @@ export default function Typing(props: Props) {
                 <p>CAPS LOCK</p>
               </div>
             )}
-            <Input
-              words={state.words}
-              wordIndex={state.wordIndex}
-              charIndex={state.charIndex}
-              cursorHidden={cursorHidden}
-            />
+            {isLoadingError && state.words.length === 0 ? (
+              <LoadingError />
+            ) : (
+              <Input
+                words={state.words}
+                wordIndex={state.wordIndex}
+                charIndex={state.charIndex}
+                cursorHidden={cursorHidden}
+              />
+            )}
             <Restart onRestart={onRestart} className={styles.restart} />
           </div>
         </>
