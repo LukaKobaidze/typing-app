@@ -15,11 +15,6 @@ import Typing from 'components/Typing';
 import RecentResults from 'components/RecentResults';
 import styles from 'styles/App.module.scss';
 
-export type RecentResultsData = {
-  best: TypingResult;
-  recent: TypingResult[];
-};
-
 export default function App() {
   const { typingStarted } = useContext(GlobalContext);
 
