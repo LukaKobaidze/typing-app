@@ -151,9 +151,13 @@ export default function Typing(props: Props) {
               author: data.author,
             },
           });
+
           setIsLoading(false);
+          setIsLoadingError(false);
         })
-        .catch(() => {
+        .catch((err) => {
+          if (String(err).startsWith('AbortError')) return;
+
           setIsLoading(false);
           setIsLoadingError(true);
         });
