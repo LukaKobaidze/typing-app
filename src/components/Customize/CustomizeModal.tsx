@@ -122,7 +122,7 @@ export default function CustomizeModal(props: Props) {
           </label>
           <div className={styles.caretStylesButtons}>
             {data.caret.map((caret) => (
-              <Tooltip text={caret} showOnHover>
+              <Tooltip key={caret} text={caret} showOnHover>
                 <button
                   onClick={() => onUpdateCaretStyle(caret)}
                   className={`${styles.caretStylesBtn} ${
@@ -185,6 +185,7 @@ export default function CustomizeModal(props: Props) {
                   mapTheme === theme ? styles.active : ''
                 }`}
                 onClick={() => onUpdateTheme(mapTheme)}
+                key={mapTheme}
               >
                 {mapTheme}
               </button>
