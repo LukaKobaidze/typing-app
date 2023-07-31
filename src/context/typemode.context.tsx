@@ -1,15 +1,11 @@
 import { createContext } from 'react';
+import {
+  TypemodeQuote,
+  TypemodeTime,
+  TypemodeType,
+  TypemodeWords,
+} from 'data/types';
 import { useLocalStorageState } from 'hooks';
-
-export const typemodeData = {
-  time: [15, 30, 60, 120],
-  words: [10, 25, 50, 100],
-  quote: ['all', 'short', 'medium', 'long'],
-} as const;
-export type TypemodeType = keyof typeof typemodeData;
-export type TypemodeTime = (typeof typemodeData.time)[number];
-export type TypemodeWords = (typeof typemodeData.words)[number];
-export type TypemodeQuote = (typeof typemodeData.quote)[number];
 
 interface Context {
   mode: TypemodeType;
