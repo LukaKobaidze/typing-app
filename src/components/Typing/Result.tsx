@@ -111,11 +111,8 @@ export default function Result(props: Props) {
                   className={styles.label}
                 />
               </YAxis>
-              <CartesianGrid opacity={0.05} />
-              <RechartsTooltip
-                content={<ResultCustomTooltip />}
-                contentStyle={{ backgroundColor: '#0d0d1d' }}
-              />
+              <CartesianGrid className={styles.cartesianGrid} />
+              <RechartsTooltip content={<ResultCustomTooltip />} />
               <Legend />
               <Line
                 type="monotone"
