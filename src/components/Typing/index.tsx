@@ -58,6 +58,8 @@ export default function Typing(props: Props) {
     };
   }, [cursorHidden]);
 
+  useEffect(() => {}, []);
+
   useEffect(() => {
     const typeHandler = (event: KeyboardEvent) => {
       const { key } = event;
@@ -201,6 +203,10 @@ export default function Typing(props: Props) {
 
   useEffect(() => {
     onRestart();
+
+    return () => {
+      quoteAbortController?.abort();
+    };
   }, [onRestart]);
 
   useEffect(() => {
