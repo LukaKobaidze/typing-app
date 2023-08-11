@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react';
-import { CustomizeContext, caretStyles } from 'context/customize.context';
+import { CustomizeContext } from 'context/customize.context';
 import { IconCustomize } from 'assets/image';
-import { themes } from 'data';
+import { data } from 'data';
 import { Switch, Tooltip, Modal, ButtonRounded } from 'components/UI';
 import caretCSS from 'styles/Typing/Caret.module.scss';
 import styles from 'styles/Customize/CustomizeModal.module.scss';
@@ -121,8 +121,8 @@ export default function CustomizeModal(props: Props) {
             Caret Style
           </label>
           <div className={styles.caretStylesButtons}>
-            {caretStyles.map((caret) => (
-              <Tooltip text={caret} showOnHover>
+            {data.caret.map((caret) => (
+              <Tooltip key={caret} text={caret} showOnHover>
                 <button
                   onClick={() => onUpdateCaretStyle(caret)}
                   className={`${styles.caretStylesBtn} ${
@@ -179,12 +179,13 @@ export default function CustomizeModal(props: Props) {
           </label>
 
           <div className={styles.themeButtons}>
-            {themes.map((mapTheme) => (
+            {data.theme.map((mapTheme) => (
               <button
                 className={`${styles.themeBtn} ${styles[`themeBtn--${mapTheme}`]} ${
                   mapTheme === theme ? styles.active : ''
                 }`}
                 onClick={() => onUpdateTheme(mapTheme)}
+                key={mapTheme}
               >
                 {mapTheme}
               </button>

@@ -155,7 +155,7 @@
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 .btn {
@@ -164,6 +164,7 @@
   align-items: center;
   font-weight: bold;
   font-size: 18px;
+  margin-top: 10px;
 
   &:not(:last-child) {
     margin-right: 20px;
@@ -183,4 +184,9 @@
 .date {
   text-align: center;
   opacity: 0.8;
+}
+
+.cartesianGrid {
+  stroke: var(--clr-text);
+  opacity: 0.07;
 }

@@ -1,4 +1,4 @@
-import { TypemodeType } from 'context/typemode.context';
+import { TypemodeType } from 'data/types';
 import styles from 'styles/Typing/Counter.module.scss';
 
 interface Props {

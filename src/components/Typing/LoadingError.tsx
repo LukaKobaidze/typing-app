@@ -1,6 +1,7 @@
-import { ButtonRounded } from 'components/UI';
-import { TypemodeContext, typemodeData } from 'context/typemode.context';
 import { useContext, Fragment } from 'react';
+import { TypemodeContext } from 'context/typemode.context';
+import { data } from 'data';
+import { ButtonRounded } from 'components/UI';
 import styles from 'styles/Typing/LoadingError.module.scss';
 
 interface Props {}
@@ -16,7 +17,7 @@ export default function LoadingError(props: Props) {
       </p>
       <p className={styles.textTryOther}>For now you can try other type modes</p>
       <div className={styles.otherTypemodes}>
-        {Object.keys(typemodeData).map((mapMode) =>
+        {Object.keys(data.typemode).map((mapMode) =>
           mapMode === mode ? (
             <Fragment key={mapMode} />
           ) : (

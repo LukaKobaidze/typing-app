@@ -1,9 +1,7 @@
 import { useContext } from 'react';
-import {
-  TypemodeContext,
-  TypemodeQuote,
-  typemodeData,
-} from 'context/typemode.context';
+import { TypemodeContext } from 'context/typemode.context';
+import { data } from 'data';
+import { TypemodeQuote } from 'data/types';
 import Setting from './Setting';
 import styles from 'styles/Typemode/Typemode.module.scss';
 
@@ -27,28 +25,28 @@ const Typemode = ({ hidden, className }: Props) => {
   return (
     <div className={`${styles.settings} ${className}`}>
       <Setting
-        settings={Object.keys(typemodeData)}
+        settings={Object.keys(data.typemode)}
         active={mode}
         onChange={onMode}
         hidden={hidden}
       />
       {mode === 'time' ? (
         <Setting
-          settings={typemodeData.time}
+          settings={data.typemode.time}
           active={time}
           onChange={onTime}
           hidden={hidden}
         />
       ) : mode === 'words' ? (
         <Setting
-          settings={typemodeData.words}
+          settings={data.typemode.words}
           active={wordsAmount}
           onChange={onWordsAmount}
           hidden={hidden}
         />
       ) : (
         <Setting
-          settings={typemodeData.quote}
+          settings={data.typemode.quote}
           active={
             quoteLength === 'all'
               ? (['short', 'medium', 'long'] as TypemodeQuote[])

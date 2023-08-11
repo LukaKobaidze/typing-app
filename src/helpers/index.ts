@@ -1,6 +1,6 @@
 import randomWords from 'random-words';
+import { TypemodeQuote } from 'data/types';
 import { TypingWords } from 'components/Typing/types';
-import { TypemodeQuote } from 'context/typemode.context';
 
 export function getRandomWords(quantity: number = 50): TypingWords {
   return getTypingWords(randomWords({ exactly: quantity, maxLength: 6 }));

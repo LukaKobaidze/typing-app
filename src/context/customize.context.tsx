@@ -1,10 +1,6 @@
 import { createContext, useEffect } from 'react';
-import { themes } from 'data';
+import { CaretStyleType, ThemeType } from 'data/types';
 import { useLocalStorageState } from 'hooks';
-
-export const caretStyles = ['line', 'underline', 'block', 'off'] as const;
-export type CaretStyleType = (typeof caretStyles)[number];
-export type ThemeType = (typeof themes)[number];
 
 interface ContextState {
   liveWpm: boolean;
