@@ -8,26 +8,40 @@ import typewriterSound from 'assets/audio/typewriter.wav';
 import typingReducer, { initialState } from './reducer/typing.reducer';
 import { getRandomQuote, getRandomWords, getTypingWords } from 'helpers';
 import { useSound } from 'hooks';
-import { LoadingSpinner } from 'components/UI';
+import { Loading } from 'components/UI';
 import Input from './Input';
 import Restart from './Restart';
 import Result from './Result';
 import Counter from './Counter';
 import LoadingError from './LoadingError';
 import styles from 'styles/Typing/Typing.module.scss';
+import counterStyles from 'styles/Typing/Counter.module.scss';
+import { TypingResult } from './types';
 
 interface Props {
   disabled: boolean;
+  testText?: string;
+  secondCaret?: { wordIndex: number; charIndex: number };
+  raceMode?: boolean;
+  onCaretPositionChange?: (wordIndex: number, charIndex: number) => void;
+  onResult?: (result: TypingResult) => void;
 }
 
 // Used to abort previous fetch call if new one is called
 let quoteAbortController: AbortController | null = null;
 
 export default function Typing(props: Props) {
-  const { disabled } = props;
+  const {
+    disabled,
+    testText,
+    secondCaret,
+    raceMode,
+    onCaretPositionChange,
+    onResult,
+  } = props;
 
-  const [state, dispatch] = useReducer(typingReducer, initialState);
   const { typingStarted, onTypingStart, onTypingEnd } = useContext(GlobalContext);
+  const [state, dispatch] = useReducer(typingReducer, initialState);
   const { onTestStart, onTestComplete } = useContext(StatsContext);
   const { mode, wordsAmount, time, quoteLength } = useContext(TypemodeContext);
   const { liveWpm, liveAccuracy, inputWidth, soundOnClick } =
@@ -39,6 +53,8 @@ export default function Typing(props: Props) {
   const [cursorHidden, setCursorHidden] = useState(false);
   const [isLoadingError, setIsLoadingError] = useState(false);
   const playTypingSound = useSound(typewriterSound, 0.3);
+
+  const isDisabled = disabled || (raceMode && !typingStarted);
 
   useEffect(() => {
     const handleMouseMove = () => {
@@ -57,8 +73,6 @@ export default function Typing(props: Props) {
       document.removeEventListener('mousemove', handleMouseMove);
     };
   }, [cursorHidden]);
-
-  useEffect(() => {}, []);
 
   useEffect(() => {
     const typeHandler = (event: KeyboardEvent) => {
@@ -90,21 +104,15 @@ export default function Typing(props: Props) {
         return dispatch({ type: 'NEXT_WORD' });
       }
       if (key.length === 1) {
-        if (!typingStarted) {
+        if (!typingStarted && !raceMode) {
           onTypingStart();
-          dispatch({
-            type: 'START',
-            payload: `${mode} ${
-              mode === 'time' ? time : mode === 'words' ? wordsAmount : quoteLength
-            }`,
-          });
         }
         setCursorHidden(true);
         if (soundOnClick) playTypingSound();
         return dispatch({ type: 'TYPE', payload: key });
       }
     };
-    if (state.result.showResults || disabled) {
+    if (state.result.showResults || isDisabled) {
       document.removeEventListener('keydown', typeHandler);
     } else document.addEventListener('keydown', typeHandler);
 
@@ -117,10 +125,26 @@ export default function Typing(props: Props) {
     quoteLength,
     time,
     wordsAmount,
-    disabled,
+    isDisabled,
     playTypingSound,
     soundOnClick,
+    raceMode,
   ]);
+
+  useEffect(() => {
+    if (typingStarted) {
+      dispatch({
+        type: 'START',
+        payload: raceMode
+          ? 'race'
+          : `${mode} ${
+              mode === 'time' ? time : mode === 'words' ? wordsAmount : quoteLength
+            }`,
+      });
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [typingStarted]);
 
   const onRestart = useCallback(() => {
     onTypingEnd();
@@ -130,43 +154,53 @@ export default function Typing(props: Props) {
     setIsLoading(false);
     setIsLoadingError(false);
 
-    if (mode === 'time') {
-      dispatch({ type: 'RESTART', payload: getRandomWords() });
-      setTimeCountdown(time);
-    } else if (mode === 'words') {
-      dispatch({ type: 'RESTART', payload: getRandomWords(wordsAmount) });
-      setWordCount(0);
-    } else {
-      dispatch({ type: 'RESTART', payload: [] });
-      setWordCount(0);
-
-      setIsLoading(true);
-
-      getRandomQuote(quoteLength, quoteAbortController)
-        .then((data) => {
-          dispatch({
-            type: 'NEW_WORDS',
-            payload: {
-              words: getTypingWords(
-                data.content.replace(/—/g, '-').replace(/…/g, '...').split(' ')
-              ),
-              author: data.author,
-            },
-          });
-
-          setIsLoading(false);
-          setIsLoadingError(false);
-        })
-        .catch((err) => {
-          if (String(err).startsWith('AbortError')) return;
-
-          setIsLoading(false);
-          setIsLoadingError(true);
-        });
+    if (testText !== undefined) {
+      if (!testText.trim().length) {
+        setIsLoading(true);
+      } else {
+        dispatch({ type: 'RESTART', payload: getTypingWords(testText.split(' ')) });
+        setIsLoading(false);
+      }
     }
 
+    if (!raceMode) {
+      if (mode === 'time') {
+        dispatch({ type: 'RESTART', payload: getRandomWords() });
+        setTimeCountdown(time);
+      } else if (mode === 'words') {
+        dispatch({ type: 'RESTART', payload: getRandomWords(wordsAmount) });
+        setWordCount(0);
+      } else {
+        dispatch({ type: 'RESTART', payload: [] });
+        setWordCount(0);
+
+        setIsLoading(true);
+
+        getRandomQuote(quoteLength, quoteAbortController)
+          .then((data) => {
+            dispatch({
+              type: 'NEW_WORDS',
+              payload: {
+                words: getTypingWords(
+                  data.content.replace(/—/g, '-').replace(/…/g, '...').split(' ')
+                ),
+                author: data.author,
+              },
+            });
+
+            setIsLoading(false);
+            setIsLoadingError(false);
+          })
+          .catch((err) => {
+            if (String(err).startsWith('AbortError')) return;
+
+            setIsLoading(false);
+            setIsLoadingError(true);
+          });
+      }
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [time, mode, wordsAmount, quoteLength]);
+  }, [time, mode, wordsAmount, quoteLength, testText, raceMode]);
 
   const onRepeat = () => {
     onTypingEnd();
@@ -180,26 +214,29 @@ export default function Typing(props: Props) {
   };
 
   useEffect(() => {
-    if (mode === 'time') return;
+    if (!state.words.length || (mode === 'time' && !raceMode)) return;
 
     const lastWordCorrect =
       state.wordIndex === state.words.length - 1 &&
       state.words[state.wordIndex].chars.every((char) => char.type === 'correct');
+
     if (state.wordIndex === state.words.length || lastWordCorrect) {
       dispatch({ type: 'RESULT' });
       setCursorHidden(false);
     } else {
       setWordCount(state.wordIndex);
     }
-  }, [mode, state.words, state.charIndex, state.wordIndex]);
+  }, [mode, state.words, state.charIndex, state.wordIndex, raceMode]);
 
   useEffect(() => {
+    if (raceMode) return;
+
     if (mode === 'time') {
       if ((state.wordIndex + 1) % 10 === 0) {
         dispatch({ type: 'ADD_WORDS', payload: 10 });
       }
     }
-  }, [mode, state.wordIndex]);
+  }, [mode, state.wordIndex, raceMode]);
 
   useEffect(() => {
     onRestart();
@@ -224,14 +261,15 @@ export default function Typing(props: Props) {
       interval = setInterval(() => {
         dispatch({ type: 'TIMELINE' });
 
-        if (mode === 'time') setTimeCountdown((prevState) => prevState - 1);
+        if (mode === 'time' && !raceMode)
+          setTimeCountdown((prevState) => prevState - 1);
       }, 1000);
     } else {
       clearInterval(interval!);
     }
 
     return () => clearInterval(interval);
-  }, [typingStarted, mode]);
+  }, [typingStarted, mode, raceMode]);
 
   useEffect(() => {
     if (timeCountdown === 0) {
@@ -243,16 +281,27 @@ export default function Typing(props: Props) {
   useEffect(() => {
     if (state.result.showResults) {
       onTestComplete(state.result);
+
+      if (onResult) {
+        onResult(state.result);
+        onTypingEnd();
+      }
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.result.showResults]);
 
+  useEffect(() => {
+    if (onCaretPositionChange) {
+      onCaretPositionChange(state.wordIndex, state.charIndex);
+    }
+  }, [state.wordIndex, state.charIndex, onCaretPositionChange]);
+
   const timelineLatest = state.result.timeline[state.result.timeline.length - 1];
 
   return (
     <div className={styles.typing}>
-      {!state.result.showResults ? (
+      {raceMode || !state.result.showResults ? (
         <>
           <div className={styles.liveResult}>
             {liveWpm && (
@@ -273,11 +322,17 @@ export default function Typing(props: Props) {
             className={styles['typing__container']}
             style={{ width: inputWidth * 0.8 + '%' }}
           >
-            <Counter
-              mode={mode}
-              counter={mode === 'time' ? timeCountdown : wordCount}
-              wordsLength={state.words.length}
-            />
+            {raceMode && state.result.showResults ? (
+              <div className={counterStyles.counter}>
+                Waiting for your opponent to finish...
+              </div>
+            ) : (
+              <Counter
+                mode={raceMode ? 'quote' : mode}
+                counter={mode === 'time' && !raceMode ? timeCountdown : wordCount}
+                wordsLength={state.words.length}
+              />
+            )}
 
             {isCapsLock && (
               <div className={styles.capslock}>
@@ -293,16 +348,19 @@ export default function Typing(props: Props) {
                 wordIndex={state.wordIndex}
                 charIndex={state.charIndex}
                 cursorHidden={cursorHidden}
+                secondCaret={secondCaret}
               />
             )}
-            <Restart onRestart={onRestart} className={styles.restart} />
+            {!raceMode && (
+              <Restart onRestart={onRestart} className={styles.restart} />
+            )}
           </div>
         </>
       ) : (
         <Result result={state.result} onRestart={onRestart} onRepeat={onRepeat} />
       )}
 
-      {isLoading && <LoadingSpinner className={styles['loading-spinner']} />}
+      {isLoading && <Loading type="spinner" className={styles['loading-spinner']} />}
     </div>
   );
 }

@@ -8,12 +8,21 @@ interface Props {
   charIndex: number;
   wordsOffset: number;
   firstWord: string;
-  wordRef: React.RefObject<HTMLDivElement>;
-  charRef: React.RefObject<HTMLSpanElement>;
+  wordRef: React.MutableRefObject<HTMLDivElement | undefined>;
+  charRef: React.MutableRefObject<HTMLSpanElement | undefined>;
+  className?: string;
 }
 
 export default function Caret(props: Props) {
-  const { wordIndex, charIndex, wordsOffset, firstWord, wordRef, charRef } = props;
+  const {
+    wordIndex,
+    charIndex,
+    wordsOffset,
+    firstWord,
+    wordRef,
+    charRef,
+    className,
+  } = props;
 
   const { typingStarted } = useContext(GlobalContext);
   const { caretStyle, smoothCaret } = useContext(CustomizeContext);
@@ -52,7 +61,7 @@ export default function Caret(props: Props) {
             ? styles['blink-smooth']
             : styles['blink']
           : ''
-      }`}
+      } ${className || ''}`}
       style={{ transform: `translate(${caretPos.x}px, ${caretPos.y}px)` }}
     />
   );

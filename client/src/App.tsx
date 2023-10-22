@@ -1,11 +1,11 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { GlobalContext } from 'context/global.context';
 import { StatsContextProvider } from 'context/stats.context';
 import { CustomizeContextProvider } from 'context/customize.context';
 import { TypemodeContextProvider } from 'context/typemode.context';
 import { IconRedirect, IconGithub } from 'assets/image';
 import { useWindowDimensions } from 'hooks';
-import { Logo, Tooltip } from 'components/UI';
+import { ButtonRounded, Logo, Tooltip } from 'components/UI';
 import { TypingResult } from 'components/Typing/types';
 import Result from 'components/Typing/Result';
 import Customize from 'components/Customize';
@@ -14,14 +14,37 @@ import Typemode from 'components/Typemode';
 import Typing from 'components/Typing';
 import RecentResults from 'components/RecentResults';
 import styles from 'styles/App.module.scss';
+import Race from 'components/Race';
+import RaceButtonAndModal from 'components/RaceButtonAndModal';
+import socket from 'socket-connection';
 
 export default function App() {
   const { typingStarted } = useContext(GlobalContext);
 
   const [isCustomizing, setIsCustomizing] = useState(false);
   const [isStatsOpen, setIsStatsOpen] = useState(false);
+  const [isRaceModalOpen, setIsRaceModalOpen] = useState(false);
+  const [roomCode, setRoomCode] = useState<string | null>(null);
   const [previewResult, setPreviewResult] = useState<TypingResult | null>(null);
   const [windowWidth] = useWindowDimensions();
+
+  useEffect(() => {
+    if (isRaceModalOpen) {
+      socket.on('joinedRoom', (roomCode: string) => {
+        setRoomCode(roomCode);
+      });
+    }
+
+    return () => {
+      socket.off('joinedRoom');
+    };
+  }, [isRaceModalOpen]);
+
+  useEffect(() => {
+    if (roomCode) {
+      setIsRaceModalOpen(false);
+    }
+  }, [roomCode]);
 
   return (
     <>
@@ -56,23 +79,47 @@ export default function App() {
                     onStatsClose={() => setIsStatsOpen(false)}
                     windowWidth={windowWidth}
                   />
+
+                  {!roomCode && (
+                    <RaceButtonAndModal
+                      isModalOpen={isRaceModalOpen}
+                      onModalOpen={() => setIsRaceModalOpen(true)}
+                      onModalClose={() => setIsRaceModalOpen(false)}
+                      windowWidth={windowWidth}
+                      classNameButton={styles.headerBtn}
+                    />
+                  )}
                 </div>
               </div>
-              <Typemode
-                className={`opacity-transition ${typingStarted ? 'hide' : ''}`}
-                hidden={typingStarted}
-              />
+              {roomCode ? (
+                <ButtonRounded variant="2" onClick={() => setRoomCode(null)}>
+                  Leave Room
+                </ButtonRounded>
+              ) : (
+                <Typemode
+                  className={`opacity-transition ${typingStarted ? 'hide' : ''}`}
+                  hidden={typingStarted}
+                />
+              )}
             </header>
 
             <main>
-              {previewResult ? (
-                <Result
-                  result={previewResult}
-                  onGoBack={() => setPreviewResult(null)}
-                  includeDate
-                />
+              {roomCode ? (
+                <Race roomCode={roomCode} />
               ) : (
-                <Typing disabled={isCustomizing || isStatsOpen} />
+                <>
+                  {previewResult ? (
+                    <Result
+                      result={previewResult}
+                      onGoBack={() => setPreviewResult(null)}
+                      includeDate
+                    />
+                  ) : (
+                    <Typing
+                      disabled={isCustomizing || isStatsOpen || isRaceModalOpen}
+                    />
+                  )}
+                </>
               )}
             </main>
           </CustomizeContextProvider>
@@ -106,10 +153,12 @@ export default function App() {
             </Tooltip>
           </div>
 
-          <RecentResults
-            className={`opacity-transition ${typingStarted ? 'hide' : ''}`}
-            onPreviewResult={(result) => setPreviewResult(result)}
-          />
+          {!roomCode && (
+            <RecentResults
+              className={`opacity-transition ${typingStarted ? 'hide' : ''}`}
+              onPreviewResult={(result) => setPreviewResult(result)}
+            />
+          )}
         </footer>
       </StatsContextProvider>
     </>

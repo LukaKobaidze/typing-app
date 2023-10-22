@@ -1,6 +1,5 @@
 .button {
   font-family: inherit;
-
   background: none;
   border: none;
   border-radius: 10px;
@@ -10,12 +9,13 @@
   transition: opacity 175ms, background-color 75ms;
   opacity: 0.7;
 
-  &:hover,
-  &:focus-visible {
+  &:hover:not(&--disabled),
+  &:focus-visible:not(&--disabled) {
     opacity: 1;
   }
 
-  &:active {
+  &:active:not(&--disabled),
+  &.active {
     opacity: 1;
     background-color: var(--clr-tooltip-bg);
     color: var(--clr-tooltip-text);
@@ -25,4 +25,21 @@
     background-color: var(--clr-tooltip-bg);
     color: var(--clr-tooltip-text);
   }
+
+  &--disabled {
+    cursor: default;
+    opacity: 0.5;
+  }
+
+  &--loading {
+    position: relative;
+    color: rgba(0, 0, 0, 0);
+  }
+}
+
+.loadingSpinner {
+  position: absolute;
+  top: calc(50% + 2px);
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.6);
 }

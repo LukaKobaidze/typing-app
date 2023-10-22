@@ -16,7 +16,6 @@
   --modal-padding: 32px;
   background-color: var(--clr-modal);
   border-radius: 6px;
-  width: 480px;
   max-width: 91.47%;
   max-height: 90%;
   padding: var(--modal-padding);
@@ -47,6 +46,7 @@
   z-index: 4;
   padding-top: var(--modal-padding);
   padding-bottom: 7px;
+  width: 97%;
 }
 
 .buttonClose {

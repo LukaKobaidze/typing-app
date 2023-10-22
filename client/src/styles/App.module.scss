@@ -54,6 +54,12 @@
   font-size: 16px;
   display: flex;
   align-items: center;
+  word-spacing: -3px;
+
+  @media (max-width: 1040px) {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
 
   @media (max-width: 650px) {
     padding-left: 10px;

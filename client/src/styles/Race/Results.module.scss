@@ -1,0 +1,89 @@
+.winnerText {
+  display: block;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 12px;
+
+  &Lost {
+    color: var(--clr-char-incorrect);
+  }
+
+  &Won {
+    color: var(--clr-char-correct);
+  }
+}
+
+.playerResultButtons {
+  margin: 0 auto;
+  display: flex;
+  width: 300px;
+  max-width: 90%;
+
+  &Btn {
+    background: none;
+    border: none;
+    color: inherit;
+    font-family: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    cursor: pointer;
+    font-size: 15px;
+    border: 1px solid var(--clr-char);
+    padding-top: 5px;
+    padding-bottom: 5px;
+
+    &:first-child {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+
+    &:last-child {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+
+    &:active {
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+
+    &.active {
+      opacity: 1;
+      background-color: rgba(255, 255, 255, 0.07);
+    }
+  }
+}
+
+.iconTrophy {
+  width: 23px;
+  margin-right: 7px;
+}
+
+.playAgainWrapper {
+  position: relative;
+}
+
+.playAgain {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 16px;
+  margin-top: 20px;
+
+  &Icon {
+    margin-right: 10px;
+  }
+}
+
+.playAgainText {
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translate(-50%, 100%);
+  opacity: 0.75;
+  text-align: center;
+  width: 75%;
+}

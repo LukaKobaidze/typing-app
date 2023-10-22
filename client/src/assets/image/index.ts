@@ -1,4 +1,5 @@
 export { ReactComponent as IconClose } from './close.svg';
+export { ReactComponent as IconContentCopy } from './content_copy.svg';
 export { ReactComponent as IconCustomize } from './customize.svg';
 export { ReactComponent as IconGithub } from './github.svg';
 export { ReactComponent as IconKeyboardArrowDown } from './keyboard_arrow_down.svg';
@@ -9,4 +10,7 @@ export { ReactComponent as IconLoop } from './loop.svg';
 export { ReactComponent as IconPercent } from './percent.svg';
 export { ReactComponent as IconRedirect } from './redirect.svg';
 export { ReactComponent as IconRefresh } from './refresh.svg';
+export { ReactComponent as IconSpeed } from './speed.svg';
 export { ReactComponent as IconStats } from './stats.svg';
+export { ReactComponent as IconTrophy } from './trophy.svg';
+export { ReactComponent as IconUser } from './user.svg';

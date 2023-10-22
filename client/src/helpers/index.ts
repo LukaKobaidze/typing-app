@@ -23,7 +23,7 @@ export function getTypingResults(
 
   return {
     wpm: Math.round(typedCorrectly / 5 / timeTookInMin),
-    accuracy: Number((((typed - mistype) / typed) * 100).toFixed(2)),
+    accuracy: Number((((typed - mistype) / typed) * 100).toFixed(2)) || 100,
     raw: Math.round(typed / 5 / timeTookInMin),
   };
 }

@@ -22,8 +22,12 @@ export default function Customize(props: Props) {
 
   return (
     <>
-      {windowWidth > 370 ? (
-        <ButtonRounded className={classNameButton || ''} onClick={onCustomizeOpen}>
+      {windowWidth > 770 ? (
+        <ButtonRounded
+          className={classNameButton || ''}
+          onClick={onCustomizeOpen}
+          active={isCustomizing}
+        >
           <IconCustomize className={styles.buttonIcon} />
           <span>Customize</span>
         </ButtonRounded>

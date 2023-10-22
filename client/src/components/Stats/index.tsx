@@ -15,8 +15,8 @@ export default function Stats(props: Props) {
 
   return (
     <>
-      {windowWidth > 650 || (windowWidth < 551 && windowWidth > 370) ? (
-        <ButtonRounded className={classNameButton || ''} onClick={onStatsOpen}>
+      {windowWidth > 770 || (windowWidth < 551 && windowWidth > 370) ? (
+        <ButtonRounded className={classNameButton || ''} onClick={onStatsOpen} active={isOpen}>
           <IconStats />
           <span>Stats</span>
         </ButtonRounded>

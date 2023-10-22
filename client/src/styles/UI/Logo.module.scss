@@ -4,7 +4,7 @@
   min-width: 255px;
   cursor: pointer;
 
-  @media (max-width: 850px) {
+  @media (max-width: 980px) {
     min-width: initial;
   }
 
@@ -36,7 +36,7 @@
   color: var(--clr-logo-text);
   transition: color 200ms;
 
-  @media (max-width: 850px) {
+  @media (max-width: 980px) {
     display: none;
   }
 

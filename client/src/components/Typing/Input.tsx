@@ -10,19 +10,25 @@ interface Props {
   wordIndex: number;
   charIndex: number;
   cursorHidden: boolean;
+
+  /* Used for the Race (1v1) mode */
+  secondCaret?: { wordIndex: number; charIndex: number };
 }
 
 export default function Input(props: Props) {
-  const { words, wordIndex, charIndex, cursorHidden } = props;
+  const { words, wordIndex, charIndex, cursorHidden, secondCaret } = props;
 
   const { typingStarted } = useContext(GlobalContext);
   const { caretStyle } = useContext(CustomizeContext);
   const [wordsOffset, setWordsOffset] = useState(0);
 
   const wordWrapperRef = useRef<HTMLDivElement>(null);
-  const wordRef = useRef<HTMLDivElement>(null);
-  const charRef = useRef<HTMLSpanElement>(null);
+  const wordRef = useRef<HTMLDivElement>();
+  const charRef = useRef<HTMLSpanElement>();
   const hiddenInputRef = useRef<HTMLInputElement>(null);
+
+  const secondCaretWordRef = useRef<HTMLDivElement>();
+  const secondCaretCharRef = useRef<HTMLSpanElement>();
 
   useEffect(() => {
     if (typingStarted) hiddenInputRef.current?.focus();
@@ -49,6 +55,18 @@ export default function Input(props: Props) {
         />
       )}
 
+      {typingStarted && secondCaret && (
+        <Caret
+          wordIndex={secondCaret.wordIndex}
+          charIndex={secondCaret.charIndex}
+          wordRef={secondCaretWordRef}
+          charRef={secondCaretCharRef}
+          firstWord={firstWord}
+          wordsOffset={wordsOffset}
+          className={styles.secondCaret}
+        />
+      )}
+
       <input
         type="text"
         className={`${styles['hidden-input']} ${
@@ -60,10 +78,16 @@ export default function Input(props: Props) {
       />
       <div
         className={styles.words}
-        style={typingStarted ? { transform: `translateY(-${wordsOffset}px)` } : {}}
+        style={
+          secondCaret || typingStarted
+            ? { transform: `translateY(-${wordsOffset}px)` }
+            : {}
+        }
       >
         {words.map((word, index) => {
           const isCurrentWord = index === wordIndex;
+          const isSecondCaretWord = secondCaret && index === secondCaret.wordIndex;
+
           return (
             <div
               key={index}
@@ -74,7 +98,11 @@ export default function Input(props: Props) {
                 className={`${styles.word} ${
                   word.isIncorrect ? styles.wordIncorrect : ''
                 }`}
-                ref={isCurrentWord ? wordRef : undefined}
+                ref={(node) => {
+                  if (isCurrentWord) wordRef.current = node || undefined;
+                  if (isSecondCaretWord)
+                    secondCaretWordRef.current = node || undefined;
+                }}
               >
                 {word.chars.map((char, index) => (
                   <span
@@ -82,7 +110,14 @@ export default function Input(props: Props) {
                     className={`${styles.char} ${
                       char.type !== 'none' ? styles[`char--${char.type}`] : ''
                     }`}
-                    ref={isCurrentWord && index === charIndex ? charRef : undefined}
+                    ref={(node) => {
+                      if (isCurrentWord && index === charIndex) {
+                        charRef.current = node || undefined;
+                      }
+                      if (isSecondCaretWord && index === secondCaret.charIndex) {
+                        secondCaretCharRef.current = node || undefined;
+                      }
+                    }}
                   >
                     {char.content}
                   </span>
