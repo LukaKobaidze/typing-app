@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { ButtonRounded, Modal } from 'components/UI';
 import socket from 'socket-connection';
 import styles from 'styles/RaceButtonAndModal/RaceModal.module.scss';
-import { IconSpeed } from 'assets/image';
 
 interface Props {
   onCloseModal: () => void;

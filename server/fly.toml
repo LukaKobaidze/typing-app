@@ -1,4 +1,4 @@
-# fly.toml app configuration file generated for typing-app on 2023-10-20T16:22:03+04:00
+# fly.toml app configuration file generated for typing-app on 2023-10-22T15:26:16+04:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
@@ -6,11 +6,13 @@
 app = "typing-app"
 primary_region = "ams"
 
+[build]
+
 [env]
-PORT = "8080"
+  PORT = "8080"
 
 [http_service]
-  internal_port = 8080
+  internal_port = 3000
   force_https = true
   auto_stop_machines = true
   auto_start_machines = true
