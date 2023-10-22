@@ -1,5 +1,5 @@
 import { io } from 'socket.io-client';
 
-const socket = io(process.env.API_URL || 'http://localhost:8080');
+const socket = io('https://typing-app.fly.dev');
 
 export default socket;
