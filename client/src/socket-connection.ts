@@ -1,5 +1,5 @@
 import { io } from 'socket.io-client';
 
-const socket = io('https://typing-app.fly.de');
+const socket = io('https://typing-app.fly.dev');
 
 export default socket;
