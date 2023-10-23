@@ -21,6 +21,7 @@ import socket from 'socket-connection';
 export default function App() {
   const { typingStarted } = useContext(GlobalContext);
 
+  const [isSocketConnected, setIsSocketConnected] = useState(false);
   const [isCustomizing, setIsCustomizing] = useState(false);
   const [isStatsOpen, setIsStatsOpen] = useState(false);
   const [isRaceModalOpen, setIsRaceModalOpen] = useState(false);
@@ -29,6 +30,14 @@ export default function App() {
   const [windowWidth] = useWindowDimensions();
 
   useEffect(() => {
+    socket.on('connect', () => {
+      setIsSocketConnected(true);
+    });
+
+    socket.on('disconnect', () => {
+      setIsSocketConnected(false);
+    });
+
     if (isRaceModalOpen) {
       socket.on('joinedRoom', (roomCode: string) => {
         setRoomCode(roomCode);
@@ -87,6 +96,7 @@ export default function App() {
                       onModalClose={() => setIsRaceModalOpen(false)}
                       windowWidth={windowWidth}
                       classNameButton={styles.headerBtn}
+                      isSocketConnected={isSocketConnected}
                     />
                   )}
                 </div>

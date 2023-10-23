@@ -4,6 +4,7 @@ import { IconSpeed } from 'assets/image';
 
 interface Props {
   isModalOpen: boolean;
+  isSocketConnected: boolean;
   onModalOpen: () => void;
   onModalClose: () => void;
   windowWidth: number;
@@ -11,8 +12,14 @@ interface Props {
 }
 
 export default function RaceButtonAndModal(props: Props) {
-  const { isModalOpen, onModalOpen, onModalClose, windowWidth, classNameButton } =
-    props;
+  const {
+    isModalOpen,
+    isSocketConnected,
+    onModalOpen,
+    onModalClose,
+    windowWidth,
+    classNameButton,
+  } = props;
 
   return (
     <>
@@ -24,7 +31,12 @@ export default function RaceButtonAndModal(props: Props) {
         <IconSpeed />
         <span>Race{windowWidth > 585 ? ' (1v1)' : ''}</span>
       </ButtonRounded>
-      {isModalOpen && <RaceModal onCloseModal={onModalClose} />}
+      {isModalOpen && (
+        <RaceModal
+          isSocketConnected={isSocketConnected}
+          onCloseModal={onModalClose}
+        />
+      )}
     </>
   );
 }

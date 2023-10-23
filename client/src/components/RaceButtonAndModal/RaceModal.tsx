@@ -2,13 +2,15 @@ import { useState, useEffect } from 'react';
 import { ButtonRounded, Modal } from 'components/UI';
 import socket from 'socket-connection';
 import styles from 'styles/RaceButtonAndModal/RaceModal.module.scss';
+import { IconAlertCircle } from 'assets/image';
 
 interface Props {
+  isSocketConnected: boolean;
   onCloseModal: () => void;
 }
 
 export default function RaceModal(props: Props) {
-  const { onCloseModal } = props;
+  const { isSocketConnected, onCloseModal } = props;
 
   const [inputCode, setInputCode] = useState('');
   const [codeError, setCodeError] = useState(false);
@@ -38,10 +40,23 @@ export default function RaceModal(props: Props) {
 
   return (
     <Modal heading="Race 1v1" className={styles.modal} onCloseModal={onCloseModal}>
-      <div className={styles.wrapper}>
+      {!isSocketConnected && (
+        <div className={styles.serverErrorMessage}>
+          <IconAlertCircle className={styles.serverErrorMessageIcon} />
+          <span>Couldn't connect to the server.</span>
+        </div>
+      )}
+      <div
+        className={styles.wrapper}
+        style={!isSocketConnected ? { opacity: 0.7 } : undefined}
+      >
         <div className={`${styles.box} ${styles.boxCreate}`}>
           <h2 className={styles.heading}>Create</h2>
-          <ButtonRounded variant="2" onClick={onCreateRoom}>
+          <ButtonRounded
+            variant="2"
+            disabled={!isSocketConnected}
+            onClick={onCreateRoom}
+          >
             Create Room
           </ButtonRounded>
         </div>
@@ -73,7 +88,7 @@ export default function RaceModal(props: Props) {
               variant="2"
               className={styles.joinButton}
               onClick={onJoinRoom}
-              disabled={inputCode.length !== 6}
+              disabled={!isSocketConnected || inputCode.length !== 6}
               loading={codeLoading}
             >
               Join

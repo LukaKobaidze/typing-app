@@ -1,3 +1,4 @@
+export { ReactComponent as IconAlertCircle } from './alert-circle.svg';
 export { ReactComponent as IconClose } from './close.svg';
 export { ReactComponent as IconContentCopy } from './content_copy.svg';
 export { ReactComponent as IconCustomize } from './customize.svg';

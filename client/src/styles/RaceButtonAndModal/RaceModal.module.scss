@@ -4,6 +4,17 @@
   }
 }
 
+.serverErrorMessage {
+  color: var(--clr-char-incorrect);
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 10px;
+
+  &Icon {
+    margin-right: 5px;
+  }
+}
+
 .wrapper {
   display: flex;
   justify-content: space-between;
