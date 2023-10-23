@@ -182,7 +182,6 @@ io.on('connection', (socket) => {
       return;
     }
 
-    socket.leave(roomCode);
     delete clientRooms[socket.id];
 
     const player =
@@ -198,11 +197,9 @@ io.on('connection', (socket) => {
         'opponentDisconnected'
       );
     }
-
   };
 
   socket.on('leaveRoom', handleRoomDisconnect);
-
   socket.on('disconnect', handleRoomDisconnect);
 });
 
