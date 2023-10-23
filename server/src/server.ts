@@ -187,15 +187,14 @@ io.on('connection', (socket) => {
     const player =
       roomState[roomCode].players.player1.id === socket.id ? 'player1' : 'player2';
 
-    const opponentPlayer = player === 'player1' ? 'player2' : 'player1';
+    const opponentPlayerState =
+      roomState[roomCode].players[player === 'player1' ? 'player2' : 'player1'];
 
-    if (roomState[roomCode].players[opponentPlayer]?.disconnected) {
+    if (!opponentPlayerState || opponentPlayerState?.disconnected) {
       delete roomState[roomCode];
     } else {
       roomState[roomCode].players[player]!.disconnected = true;
-      io.to(roomState[roomCode].players[opponentPlayer]!.id).emit(
-        'opponentDisconnected'
-      );
+      io.to(opponentPlayerState.id).emit('opponentDisconnected');
     }
   };
 
