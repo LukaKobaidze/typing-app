@@ -38,6 +38,10 @@ export default function RaceModal(props: Props) {
     };
   }, []);
 
+  useEffect(() => {
+    setCodeLoading(false);
+  }, [isSocketConnected]);
+
   return (
     <Modal heading="Race 1v1" className={styles.modal} onCloseModal={onCloseModal}>
       {!isSocketConnected && (

@@ -23,13 +23,19 @@ export async function fetchQuote() {
 }
 
 export function startCountdown(roomCode: string, io: Server) {
-  const startsAt = new Date().getTime() + 5000;
-  io.sockets.to(roomCode).emit('typingStartsAt', startsAt);
+  const startsIn = 5000;
 
+  const startsAt = new Date().getTime() + startsIn;
+
+  io.sockets.to(roomCode).emit('typingStartsIn', startsIn);
   const interval = setInterval(() => {
-    if (new Date().getTime() > startsAt) {
+    const remaining = startsAt - new Date().getTime();
+
+    if (remaining > 0) {
+      io.sockets.to(roomCode).emit('typingStartsIn', remaining);
+    } else {
       io.sockets.to(roomCode).emit('typingStarted');
       clearInterval(interval);
     }
-  }, 500);
+  }, 1000);
 }

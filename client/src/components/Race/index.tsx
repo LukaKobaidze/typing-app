@@ -88,12 +88,8 @@ export default function Race(props: Props) {
       }
     );
 
-    socket.on('typingStartsAt', (dateMs: number) => {
-      countdownInterval = setInterval(() => {
-        setStartsInSeconds(
-          Math.max(Math.ceil((dateMs - new Date().getTime()) / 1000), 1)
-        );
-      }, 200);
+    socket.on('typingStartsIn', (ms: number) => {
+      setStartsInSeconds(Math.max(Math.ceil(ms / 1000), 1));
     });
 
     socket.on('typingStarted', () => {
