@@ -47,7 +47,7 @@ export default function RaceModal(props: Props) {
       {!isSocketConnected && (
         <div className={styles.serverErrorMessage}>
           <IconAlertCircle className={styles.serverErrorMessageIcon} />
-          <span>Couldn't connect to the server. Try again later</span>
+          <span>Trying to connect to the server...</span>
         </div>
       )}
       <div
