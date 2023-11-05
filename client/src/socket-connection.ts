@@ -1,6 +1,13 @@
 import { io } from 'socket.io-client';
 
-// const socket = io('http://localhost:8080');
-const socket = io('https://typing-app.fly.dev');
+const socket = io(
+  process.env.NODE_ENV === 'production'
+    ? process.env.WEBSOCKET_URL ||
+        (() => {
+          console.error("Environment variable `WEBSOCKET_URL` wasn't provided");
+          return 'http://localhost:8080';
+        })()
+    : 'http://localhost:8080'
+);
 
 export default socket;

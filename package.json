@@ -1,0 +1,23 @@
+{
+  "name": "typing-app",
+  "version": "1.0.0",
+  "description": "![Project image](screenshot-one.png)\r ![Project image](screenshot-two.png)",
+  "main": "index.js",
+  "scripts": {
+    "start": "concurrently \"cd client && npm run dev\" \"cd server && npm run dev\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LukaKobaidze/typing-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LukaKobaidze/typing-app/issues"
+  },
+  "homepage": "https://github.com/LukaKobaidze/typing-app#readme",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
