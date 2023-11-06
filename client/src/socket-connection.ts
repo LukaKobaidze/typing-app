@@ -1,7 +1,7 @@
 import { io } from 'socket.io-client';
 
 const socket = io(
-  import.meta.env.PROD ? import.meta.env.WEBSOCKET_URL : 'http://localhost:8080'
+  import.meta.env.PROD ? 'https://typing-app.fly.dev' : 'http://localhost:8080'
 );
 
 export default socket;
