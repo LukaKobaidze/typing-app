@@ -1,4 +1,4 @@
-import styles from 'styles/UI/Switch.module.scss';
+import styles from '@/styles/UI/Switch.module.scss';
 
 interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   state: boolean;

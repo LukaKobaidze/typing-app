@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import { IconContentCopy } from 'assets/image';
+import { IconContentCopy } from '@/assets/image';
 import ButtonRounded from './ButtonRounded';
 import Tooltip from './Tooltip';
-import styles from 'styles/UI/CopyButton.module.scss';
+import styles from '@/styles/UI/CopyButton.module.scss';
 
 interface Props {
   value: string;

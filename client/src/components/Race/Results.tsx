@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { RoomStateType } from '.';
-import Result from 'components/Typing/Result';
-import { ButtonRounded } from 'components/UI';
-import { IconRefresh, IconTrophy } from 'assets/image';
-import styles from 'styles/Race/Results.module.scss';
+import Result from '@/components/Typing/Result';
+import { ButtonRounded } from '@/components/UI';
+import { IconRefresh, IconTrophy } from '@/assets/image';
+import styles from '@/styles/Race/Results.module.scss';
 
 interface Props {
   playersState: RoomStateType['players'];

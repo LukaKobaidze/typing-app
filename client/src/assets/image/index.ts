@@ -1,17 +1,19 @@
-export { ReactComponent as IconAlertCircle } from './alert-circle.svg';
-export { ReactComponent as IconClose } from './close.svg';
-export { ReactComponent as IconContentCopy } from './content_copy.svg';
-export { ReactComponent as IconCustomize } from './customize.svg';
-export { ReactComponent as IconGithub } from './github.svg';
-export { ReactComponent as IconKeyboardArrowDown } from './keyboard_arrow_down.svg';
-export { ReactComponent as IconKeyboardArrowLeft } from './keyboard_arrow_left.svg';
-export { ReactComponent as IconKeyboard } from './keyboard.svg';
-export { ReactComponent as IconLock } from './lock.svg';
-export { ReactComponent as IconLoop } from './loop.svg';
-export { ReactComponent as IconPercent } from './percent.svg';
-export { ReactComponent as IconRedirect } from './redirect.svg';
-export { ReactComponent as IconRefresh } from './refresh.svg';
-export { ReactComponent as IconSpeed } from './speed.svg';
-export { ReactComponent as IconStats } from './stats.svg';
-export { ReactComponent as IconTrophy } from './trophy.svg';
-export { ReactComponent as IconUser } from './user.svg';
+/// <reference types="vite-plugin-svgr/client" />
+
+export { default as IconAlertCircle } from './alert-circle.svg?react';
+export { default as IconClose } from './close.svg?react';
+export { default as IconContentCopy } from './content_copy.svg?react';
+export { default as IconCustomize } from './customize.svg?react';
+export { default as IconGithub } from './github.svg?react';
+export { default as IconKeyboardArrowDown } from './keyboard_arrow_down.svg?react';
+export { default as IconKeyboardArrowLeft } from './keyboard_arrow_left.svg?react';
+export { default as IconKeyboard } from './keyboard.svg?react';
+export { default as IconLock } from './lock.svg?react';
+export { default as IconLoop } from './loop.svg?react';
+export { default as IconPercent } from './percent.svg?react';
+export { default as IconRedirect } from './redirect.svg?react';
+export { default as IconRefresh } from './refresh.svg?react';
+export { default as IconSpeed } from './speed.svg?react';
+export { default as IconStats } from './stats.svg?react';
+export { default as IconTrophy } from './trophy.svg?react';
+export { default as IconUser } from './user.svg?react';

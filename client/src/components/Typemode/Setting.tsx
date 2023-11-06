@@ -1,5 +1,5 @@
-import { TextButton } from 'components/UI';
-import styles from 'styles/Typemode/Setting.module.scss';
+import { TextButton } from '@/components/UI';
+import styles from '@/styles/Typemode/Setting.module.scss';
 
 interface Props {
   settings: readonly (string | number)[];

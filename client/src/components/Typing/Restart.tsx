@@ -1,7 +1,7 @@
 import { useRef } from 'react';
-import { IconRefresh } from 'assets/image';
-import { ButtonRounded, Tooltip } from 'components/UI';
-import styles from 'styles/Typing/Restart.module.scss';
+import { IconRefresh } from '@/assets/image';
+import { ButtonRounded, Tooltip } from '@/components/UI';
+import styles from '@/styles/Typing/Restart.module.scss';
 
 interface Props {
   onRestart: () => void;

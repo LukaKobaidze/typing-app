@@ -1,10 +1,10 @@
 import { useContext, useState } from 'react';
-import { CustomizeContext } from 'context/customize.context';
-import { IconCustomize } from 'assets/image';
-import { data } from 'data';
-import { Switch, Tooltip, Modal, ButtonRounded } from 'components/UI';
-import caretCSS from 'styles/Typing/Caret.module.scss';
-import styles from 'styles/Customize/CustomizeModal.module.scss';
+import { CustomizeContext } from '@/context/customize.context';
+import { IconCustomize } from '@/assets/image';
+import { data } from '@/data';
+import { Switch, Tooltip, Modal, ButtonRounded } from '@/components/UI';
+import caretCSS from '@/styles/Typing/Caret.module.scss';
+import styles from '@/styles/Customize/CustomizeModal.module.scss';
 
 interface Props {
   onCloseModal: () => void;

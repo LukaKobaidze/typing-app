@@ -1,9 +1,9 @@
 import { useContext } from 'react';
-import { TypemodeContext } from 'context/typemode.context';
-import { data } from 'data';
-import { TypemodeQuote } from 'data/types';
+import { TypemodeContext } from '@/context/typemode.context';
+import { data } from '@/data';
+import { TypemodeQuote } from '@/data/types';
 import Setting from './Setting';
-import styles from 'styles/Typemode/Typemode.module.scss';
+import styles from '@/styles/Typemode/Typemode.module.scss';
 
 interface Props {
   hidden: boolean;

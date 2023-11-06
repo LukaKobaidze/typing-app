@@ -1,9 +1,9 @@
 import { useContext } from 'react';
-import { StatsContext } from 'context/stats.context';
-import { IconStats } from 'assets/image';
-import { Modal } from 'components/UI';
+import { StatsContext } from '@/context/stats.context';
+import { IconStats } from '@/assets/image';
+import { Modal } from '@/components/UI';
 import StatItem from './StatItem';
-import styles from 'styles/Stats/StatsModal.module.scss';
+import styles from '@/styles/Stats/StatsModal.module.scss';
 
 interface Props {
   onCloseModal: () => void;

@@ -1,9 +1,9 @@
 import { useContext, useEffect, useRef, useState } from 'react';
-import { GlobalContext } from 'context/global.context';
-import { CustomizeContext } from 'context/customize.context';
+import { GlobalContext } from '@/context/global.context';
+import { CustomizeContext } from '@/context/customize.context';
 import { TypingWords } from './types';
 import Caret from './Caret';
-import styles from 'styles/Typing/Input.module.scss';
+import styles from '@/styles/Typing/Input.module.scss';
 
 interface Props {
   words: TypingWords;

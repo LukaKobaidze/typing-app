@@ -1,4 +1,4 @@
-import styles from 'styles/UI/Loading.module.scss';
+import styles from '@/styles/UI/Loading.module.scss';
 
 interface Props {
   type: 'spinner' | 'dot-flashing';

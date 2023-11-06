@@ -1,7 +1,7 @@
-import { IconCustomize } from 'assets/image';
-import { ButtonRounded, Tooltip } from 'components/UI';
+import { IconCustomize } from '@/assets/image';
+import { ButtonRounded, Tooltip } from '@/components/UI';
 import CustomizeModal from './CustomizeModal';
-import styles from 'styles/Customize/Customize.module.scss';
+import styles from '@/styles/Customize/Customize.module.scss';
 
 interface Props {
   isCustomizing: boolean;

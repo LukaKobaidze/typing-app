@@ -1,5 +1,5 @@
-import { IconKeyboard } from 'assets/image';
-import styles from 'styles/UI/Logo.module.scss';
+import { IconKeyboard } from '@/assets/image';
+import styles from '@/styles/UI/Logo.module.scss';
 
 interface Props {
   colored: boolean;

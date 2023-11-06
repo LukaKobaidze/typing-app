@@ -1,6 +1,6 @@
 import { createContext, useEffect } from 'react';
-import { CaretStyleType, ThemeType } from 'data/types';
-import { useLocalStorageState } from 'hooks';
+import { CaretStyleType, ThemeType } from '@/data/types';
+import { useLocalStorageState } from '@/hooks';
 
 interface ContextState {
   liveWpm: boolean;

@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import { ButtonRounded, Modal } from 'components/UI';
-import socket from 'socket-connection';
-import styles from 'styles/RaceButtonAndModal/RaceModal.module.scss';
-import { IconAlertCircle } from 'assets/image';
+import socket from '@/socket-connection';
+import { IconAlertCircle } from '@/assets/image';
+import { ButtonRounded, Modal } from '@/components/UI';
+import styles from '@/styles/RaceButtonAndModal/RaceModal.module.scss';
 
 interface Props {
   isSocketConnected: boolean;

@@ -1,4 +1,4 @@
-import styles from 'styles/Stats/StatItem.module.scss';
+import styles from '@/styles/Stats/StatItem.module.scss';
 
 interface Props {
   name: string;

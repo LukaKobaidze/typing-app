@@ -1,4 +1,4 @@
-import { TypingWords } from 'components/Typing/types';
+import { TypingWords } from '@/components/Typing/types';
 import { TypingState } from '../typing.reducer';
 
 export default function newWords(

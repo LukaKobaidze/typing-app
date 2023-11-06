@@ -1,6 +1,6 @@
 import { TooltipProps } from 'recharts';
 import { NameType, ValueType } from 'recharts/types/component/DefaultTooltipContent';
-import styles from 'styles/Typing/ResultCustomTooltip.module.scss';
+import styles from '@/styles/Typing/ResultCustomTooltip.module.scss';
 
 type Props = TooltipProps<ValueType, NameType>;
 

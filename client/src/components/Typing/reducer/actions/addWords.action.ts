@@ -1,4 +1,4 @@
-import { getRandomWords } from 'helpers';
+import { getRandomWords } from '@/helpers';
 import { TypingState } from '../typing.reducer';
 
 export default function addWords(state: TypingState, amount: number): TypingState {

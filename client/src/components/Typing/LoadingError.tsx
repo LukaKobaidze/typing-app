@@ -1,8 +1,8 @@
 import { useContext, Fragment } from 'react';
-import { TypemodeContext } from 'context/typemode.context';
-import { data } from 'data';
-import { ButtonRounded } from 'components/UI';
-import styles from 'styles/Typing/LoadingError.module.scss';
+import { TypemodeContext } from '@/context/typemode.context';
+import { data } from '@/data';
+import { ButtonRounded } from '@/components/UI';
+import styles from '@/styles/Typing/LoadingError.module.scss';
 
 interface Props {}
 

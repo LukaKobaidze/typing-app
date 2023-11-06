@@ -1,6 +1,6 @@
-import { ButtonRounded } from 'components/UI';
+import { IconSpeed } from '@/assets/image';
+import { ButtonRounded } from '@/components/UI';
 import RaceModal from './RaceModal';
-import { IconSpeed } from 'assets/image';
 
 interface Props {
   isModalOpen: boolean;

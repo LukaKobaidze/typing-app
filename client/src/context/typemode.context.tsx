@@ -4,8 +4,8 @@ import {
   TypemodeTime,
   TypemodeType,
   TypemodeWords,
-} from 'data/types';
-import { useLocalStorageState } from 'hooks';
+} from '@/data/types';
+import { useLocalStorageState } from '@/hooks';
 
 interface Context {
   mode: TypemodeType;

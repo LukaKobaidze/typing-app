@@ -1,5 +1,5 @@
 import { TypingState } from '../typing.reducer';
-import { TypingWords } from 'components/Typing/types';
+import { TypingWords } from '@/components/Typing/types';
 
 export default function restart(
   state: TypingState,

@@ -1,5 +1,5 @@
-import { TypemodeType } from 'data/types';
-import styles from 'styles/Typing/Counter.module.scss';
+import { TypemodeType } from '@/data/types';
+import styles from '@/styles/Typing/Counter.module.scss';
 
 interface Props {
   mode: TypemodeType;

@@ -1,4 +1,4 @@
-import styles from 'styles/UI/Tooltip.module.scss';
+import styles from '@/styles/UI/Tooltip.module.scss';
 
 interface Props {
   text: React.ReactNode;

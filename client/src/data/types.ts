@@ -1,4 +1,4 @@
-import { data } from "data";
+import { data } from "@/data";
 
 export type TypemodeType = keyof typeof data.typemode;
 export type TypemodeTime = (typeof data.typemode.time)[number];

@@ -1,12 +1,12 @@
 import { useEffect, useState, useCallback, useContext, useMemo } from 'react';
-import Typing from 'components/Typing';
-import socket from 'socket-connection';
-import { TypingResult } from 'components/Typing/types';
-import { GlobalContext } from 'context/global.context';
+import Typing from '@/components/Typing';
+import socket from '@/socket-connection';
+import { TypingResult } from '@/components/Typing/types';
+import { GlobalContext } from '@/context/global.context';
 import Results from './Results';
-import { IconUser } from 'assets/image';
-import { CopyButton, Loading } from 'components/UI';
-import styles from 'styles/Race/Race.module.scss';
+import { IconUser } from '@/assets/image';
+import { CopyButton, Loading } from '@/components/UI';
+import styles from '@/styles/Race/Race.module.scss';
 
 export type RoomPlayerState = {
   id: string;

@@ -1,5 +1,5 @@
 import { useContext, useEffect } from 'react';
-import { GlobalContext } from 'context/global.context';
+import { GlobalContext } from '@/context/global.context';
 import {
   ResponsiveContainer,
   LineChart,
@@ -11,12 +11,12 @@ import {
   Legend,
   Line,
 } from 'recharts';
-import { IconKeyboardArrowLeft, IconLoop } from 'assets/image';
-import { addColorOpacity, getTimeSince } from 'helpers';
-import { ButtonRounded, PercentCircleChart, Tooltip } from 'components/UI';
+import { IconKeyboardArrowLeft, IconLoop } from '@/assets/image';
+import { addColorOpacity, getTimeSince } from '@/helpers';
+import { ButtonRounded, PercentCircleChart, Tooltip } from '@/components/UI';
 import { TypingResult as TypingResultType } from './types';
 import ResultCustomTooltip from './ResultCustomTooltip';
-import styles from 'styles/Typing/Result.module.scss';
+import styles from '@/styles/Typing/Result.module.scss';
 
 interface Props {
   result: TypingResultType;

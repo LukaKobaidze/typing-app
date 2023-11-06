@@ -1,5 +1,5 @@
-import { IconStats } from 'assets/image';
-import { ButtonRounded, Tooltip } from 'components/UI';
+import { IconStats } from '@/assets/image';
+import { ButtonRounded, Tooltip } from '@/components/UI';
 import StatsModal from './StatsModal';
 
 interface Props {

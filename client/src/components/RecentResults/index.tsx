@@ -1,10 +1,10 @@
 import { useState, useEffect, useContext } from 'react';
-import { IconKeyboardArrowDown } from 'assets/image';
-import { AlertOutsideClick, Tooltip } from 'components/UI';
-import { TypingResult } from 'components/Typing/types';
+import { StatsContext } from '@/context/stats.context';
+import { IconKeyboardArrowDown } from '@/assets/image';
+import { TypingResult } from '@/components/Typing/types';
+import { AlertOutsideClick, Tooltip } from '@/components/UI';
 import ResultButton from './ResultButton';
-import styles from 'styles/RecentResults/RecentResults.module.scss';
-import { StatsContext } from 'context/stats.context';
+import styles from '@/styles/RecentResults/RecentResults.module.scss';
 
 interface Props {
   onPreviewResult: (result: TypingResult) => void;

@@ -1,4 +1,4 @@
-import styles from 'styles/UI/TextButton.module.scss';
+import styles from '@/styles/UI/TextButton.module.scss';
 
 interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   text: string;

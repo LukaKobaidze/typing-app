@@ -1,4 +1,4 @@
-import styles from 'styles/UI/PercentCircleChart.module.scss';
+import styles from '@/styles/UI/PercentCircleChart.module.scss';
 
 interface Props {
   percentage: number;

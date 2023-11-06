@@ -1,21 +1,21 @@
 import { useCallback, useContext, useEffect, useReducer, useState } from 'react';
-import { GlobalContext } from 'context/global.context';
-import { TypemodeContext } from 'context/typemode.context';
-import { CustomizeContext } from 'context/customize.context';
-import { StatsContext } from 'context/stats.context';
-import { IconLock } from 'assets/image';
-import typewriterSound from 'assets/audio/typewriter.wav';
+import { GlobalContext } from '@/context/global.context';
+import { TypemodeContext } from '@/context/typemode.context';
+import { CustomizeContext } from '@/context/customize.context';
+import { StatsContext } from '@/context/stats.context';
+import { IconLock } from '@/assets/image';
+import typewriterSound from '@/assets/audio/typewriter.wav';
 import typingReducer, { initialState } from './reducer/typing.reducer';
-import { getRandomQuote, getRandomWords, getTypingWords } from 'helpers';
-import { useSound } from 'hooks';
-import { Loading } from 'components/UI';
+import { getRandomQuote, getRandomWords, getTypingWords } from '@/helpers';
+import { useSound } from '@/hooks';
+import { Loading } from '@/components/UI';
 import Input from './Input';
 import Restart from './Restart';
 import Result from './Result';
 import Counter from './Counter';
 import LoadingError from './LoadingError';
-import styles from 'styles/Typing/Typing.module.scss';
-import counterStyles from 'styles/Typing/Counter.module.scss';
+import styles from '@/styles/Typing/Typing.module.scss';
+import counterStyles from '@/styles/Typing/Counter.module.scss';
 import { TypingResult } from './types';
 
 interface Props {

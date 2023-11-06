@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
-import { GlobalContext } from 'context/global.context';
-import { CustomizeContext } from 'context/customize.context';
-import styles from 'styles/Typing/Caret.module.scss';
+import { GlobalContext } from '@/context/global.context';
+import { CustomizeContext } from '@/context/customize.context';
+import styles from '@/styles/Typing/Caret.module.scss';
 
 interface Props {
   wordIndex: number;
