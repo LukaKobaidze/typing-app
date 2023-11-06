@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { SocketEvent } from 'shared/types';
 import { Server } from 'socket.io';
 
 export function generateCode(length: number) {
@@ -27,14 +28,14 @@ export function startCountdown(roomCode: string, io: Server) {
 
   const startsAt = new Date().getTime() + startsIn;
 
-  io.sockets.to(roomCode).emit('typingStartsIn', startsIn);
+  io.sockets.to(roomCode).emit(SocketEvent.TypingStartsIn, startsIn);
   const interval = setInterval(() => {
     const remaining = startsAt - new Date().getTime();
 
     if (remaining > 0) {
-      io.sockets.to(roomCode).emit('typingStartsIn', remaining);
+      io.sockets.to(roomCode).emit(SocketEvent.TypingStartsIn, remaining);
     } else {
-      io.sockets.to(roomCode).emit('typingStarted');
+      io.sockets.to(roomCode).emit(SocketEvent.TypingStarted);
       clearInterval(interval);
     }
   }, 1000);

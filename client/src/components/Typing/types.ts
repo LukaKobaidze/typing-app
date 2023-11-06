@@ -8,13 +8,4 @@ type TypingWords = {
   }[];
 }[];
 
-type TypingResult = {
-  showResults: boolean;
-  timeline: { wpm: number; accuracy: number; raw: number; second: number }[];
-  errors: number;
-  testType: string | null;
-  date?: number;
-  quoteAuthor?: string;
-};
-
-export type { TypingCharType, TypingWords, TypingResult };
+export type { TypingCharType, TypingWords };

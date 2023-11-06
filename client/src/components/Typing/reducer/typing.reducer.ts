@@ -1,4 +1,5 @@
-import { TypingResult, TypingWords } from '../types';
+import { TypingResult } from 'shared/types';
+import { TypingWords } from '../types';
 import {
   type,
   nextWord,

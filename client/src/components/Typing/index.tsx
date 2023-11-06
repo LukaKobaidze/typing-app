@@ -16,7 +16,7 @@ import Counter from './Counter';
 import LoadingError from './LoadingError';
 import styles from '@/styles/Typing/Typing.module.scss';
 import counterStyles from '@/styles/Typing/Counter.module.scss';
-import { TypingResult } from './types';
+import { TypingResult } from 'shared/types';
 
 interface Props {
   disabled: boolean;

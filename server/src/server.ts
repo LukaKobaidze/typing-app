@@ -2,6 +2,7 @@ import express from 'express';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
 import { fetchQuote, generateCode, startCountdown } from './helpers';
+import { RaceStateType, SocketEvent } from 'shared/types';
 
 const PORT = process.env.PORT || 8080;
 
@@ -15,34 +16,13 @@ const io = new Server(httpServer, {
   },
 });
 
-export type RoomPlayerState = {
-  id: string;
-  wordIndex: number;
-  charIndex: number;
-  result?: {
-    showResults: boolean;
-    timeline: { wpm: number; accuracy: number; raw: number; second: number }[];
-    errors: number;
-    testType: string | null;
-    date?: number;
-    quoteAuthor?: string;
-  };
-  playAgain?: boolean;
-  disconnected?: boolean;
-};
-
 const clientRooms: { [key: string]: string } = {};
-const roomState: {
-  [key: string]: {
-    players: { player1: RoomPlayerState; player2?: RoomPlayerState };
-    testText?: string;
-  };
-} = {};
+const roomState: { [key: string]: RaceStateType } = {};
 
 io.on('connection', (socket) => {
   console.log('New Connection: ', socket.id);
 
-  socket.on('createRoom', () => {
+  socket.on(SocketEvent.CreateRoom, () => {
     const roomCode = generateCode(6);
 
     clientRooms[socket.id] = roomCode;
@@ -51,13 +31,13 @@ io.on('connection', (socket) => {
     };
 
     socket.join(roomCode);
-    socket.emit('joinedRoom', roomCode);
-    io.sockets.to(roomCode).emit('roomState', roomState[roomCode]);
+    socket.emit(SocketEvent.HasJoinedRoom, roomCode);
+    io.sockets.to(roomCode).emit(SocketEvent.RoomState, roomState[roomCode]);
   });
 
-  socket.on('joinRoom', (roomCode: string) => {
+  socket.on(SocketEvent.JoinRoom, (roomCode: string) => {
     if (!roomState.hasOwnProperty(roomCode)) {
-      socket.emit('joinRoomError');
+      socket.emit(SocketEvent.JoinRoomError);
       return;
     }
 
@@ -68,22 +48,22 @@ io.on('connection', (socket) => {
       charIndex: 0,
     };
     socket.join(roomCode);
-    socket.emit('joinedRoom', roomCode);
+    socket.emit(SocketEvent.HasJoinedRoom, roomCode);
 
     fetchQuote()
       .then((quote: string) => {
         roomState[roomCode].testText = quote;
-        io.sockets.to(roomCode).emit('testText', quote);
+        io.sockets.to(roomCode).emit(SocketEvent.TestText, quote);
       })
       .then(() => {
         startCountdown(roomCode, io);
       });
 
-    io.sockets.to(roomCode).emit('roomState', roomState[roomCode]);
+    io.sockets.to(roomCode).emit(SocketEvent.RoomState, roomState[roomCode]);
   });
 
   socket.on(
-    'caretPositionChange',
+    SocketEvent.CaretPositionChange,
     ({ wordIndex, charIndex }: { wordIndex: number; charIndex: number }) => {
       const roomCode = clientRooms[socket.id];
 
@@ -102,11 +82,11 @@ io.on('connection', (socket) => {
 
       socket.broadcast
         .to(roomCode)
-        .emit('caretPositionChange', { player, wordIndex, charIndex });
+        .emit(SocketEvent.CaretPositionChange, { player, wordIndex, charIndex });
     }
   );
 
-  socket.on('result', (result) => {
+  socket.on(SocketEvent.Result, (result) => {
     const roomCode = clientRooms[socket.id];
 
     if (!roomCode || !roomState.hasOwnProperty(roomCode)) {
@@ -123,7 +103,7 @@ io.on('connection', (socket) => {
       roomState[roomCode].players[player]!.result = result;
 
       const typedWords = roomState[roomCode].testText?.split(' ')!;
-      io.sockets.to(roomCode).emit('caretPositionChange', {
+      io.sockets.to(roomCode).emit(SocketEvent.CaretPositionChange, {
         player,
         wordIndex: typedWords.length - 1,
         charIndex: typedWords[typedWords.length - 1].length,
@@ -131,11 +111,13 @@ io.on('connection', (socket) => {
     }
 
     if (roomState[roomCode].players[opponentPlayer]?.result) {
-      io.sockets.to(roomCode).emit('roomPlayersState', roomState[roomCode].players);
+      io.sockets
+        .to(roomCode)
+        .emit(SocketEvent.PlayersState, roomState[roomCode].players);
     }
   });
 
-  socket.on('playAgain', () => {
+  socket.on(SocketEvent.PlayAgain, () => {
     const roomCode = clientRooms[socket.id];
 
     if (!roomCode || !roomState.hasOwnProperty(roomCode)) {
@@ -158,12 +140,12 @@ io.on('connection', (socket) => {
         },
       };
 
-      io.sockets.to(roomCode).emit('roomState', roomState[roomCode]);
+      io.sockets.to(roomCode).emit(SocketEvent.RoomState, roomState[roomCode]);
 
       fetchQuote()
         .then((quote: string) => {
           roomState[roomCode].testText = quote;
-          io.sockets.to(roomCode).emit('testText', quote);
+          io.sockets.to(roomCode).emit(SocketEvent.TestText, quote);
         })
         .then(() => {
           startCountdown(roomCode, io);
@@ -171,7 +153,7 @@ io.on('connection', (socket) => {
     } else {
       roomState[roomCode].players[player]!.playAgain = true;
 
-      io.to(state.players[opponentPlayer]!.id).emit('opponentPlayAgain');
+      io.to(state.players[opponentPlayer]!.id).emit(SocketEvent.OpponentPlayAgain);
     }
   });
 
@@ -194,11 +176,11 @@ io.on('connection', (socket) => {
       delete roomState[roomCode];
     } else {
       roomState[roomCode].players[player]!.disconnected = true;
-      io.to(opponentPlayerState.id).emit('opponentDisconnected');
+      io.to(opponentPlayerState.id).emit(SocketEvent.OpponentDisconnected);
     }
   };
 
-  socket.on('leaveRoom', handleRoomDisconnect);
+  socket.on(SocketEvent.LeaveRoom, handleRoomDisconnect);
   socket.on('disconnect', handleRoomDisconnect);
 });
 

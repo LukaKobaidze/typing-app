@@ -3,6 +3,7 @@ import socket from '@/socket-connection';
 import { IconAlertCircle } from '@/assets/image';
 import { ButtonRounded, Modal } from '@/components/UI';
 import styles from '@/styles/RaceButtonAndModal/RaceModal.module.scss';
+import { SocketEvent } from 'shared/types';
 
 interface Props {
   isSocketConnected: boolean;
@@ -17,24 +18,24 @@ export default function RaceModal(props: Props) {
   const [codeLoading, setCodeLoading] = useState(false);
 
   const onCreateRoom = () => {
-    socket.emit('createRoom');
+    socket.emit(SocketEvent.CreateRoom);
   };
 
   const onJoinRoom = () => {
     if (inputCode.length !== 6) return;
 
     setCodeLoading(true);
-    socket.emit('joinRoom', inputCode);
+    socket.emit(SocketEvent.JoinRoom, inputCode);
   };
 
   useEffect(() => {
-    socket.on('joinRoomError', () => {
+    socket.on(SocketEvent.JoinRoomError, () => {
       setCodeLoading(false);
       setCodeError(true);
     });
 
     return () => {
-      socket.off('joinRoomError');
+      socket.off(SocketEvent.JoinRoomError);
     };
   }, []);
 

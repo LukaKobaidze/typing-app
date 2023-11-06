@@ -1,25 +1,13 @@
 import { useEffect, useState, useCallback, useContext, useMemo } from 'react';
+import { RacePlayerState, RaceStateType, SocketEvent } from 'shared/types';
 import Typing from '@/components/Typing';
 import socket from '@/socket-connection';
-import { TypingResult } from '@/components/Typing/types';
+import { TypingResult } from 'shared/types';
 import { GlobalContext } from '@/context/global.context';
 import Results from './Results';
 import { IconUser } from '@/assets/image';
 import { CopyButton, Loading } from '@/components/UI';
 import styles from '@/styles/Race/Race.module.scss';
-
-export type RoomPlayerState = {
-  id: string;
-  wordIndex: number;
-  charIndex: number;
-  result?: TypingResult;
-  playAgain?: boolean;
-  disconnected?: boolean;
-};
-export type RoomStateType = {
-  players: { player1: RoomPlayerState | null; player2?: RoomPlayerState | null };
-  testText: string;
-};
 
 interface Props {
   roomCode: string;
@@ -31,7 +19,7 @@ export default function Race(props: Props) {
   const { roomCode } = props;
 
   const { onTypingStart } = useContext(GlobalContext);
-  const [roomState, setRoomState] = useState<RoomStateType | null>(null);
+  const [roomState, setRoomState] = useState<RaceStateType | null>(null);
   const [startsInSeconds, setStartsInSeconds] = useState<number | null>(null);
 
   const currentPlayer = useMemo(() => {
@@ -44,27 +32,27 @@ export default function Race(props: Props) {
 
   useEffect(() => {
     return () => {
-      socket.emit('leaveRoom');
+      socket.emit(SocketEvent.LeaveRoom);
     };
   }, []);
 
   useEffect(() => {
-    socket.on('roomState', (argRoomState: RoomStateType) => {
+    socket.on(SocketEvent.RoomState, (argRoomState: RaceStateType) => {
       setRoomState(argRoomState);
     });
 
-    socket.on('testText', (text) => {
+    socket.on(SocketEvent.TestText, (text) => {
       setRoomState((state) => (!state ? null : { ...state, testText: text }));
     });
 
-    socket.on('roomPlayersState', (roomPlayersState: RoomStateType['players']) => {
+    socket.on(SocketEvent.PlayersState, (playersState: RaceStateType['players']) => {
       setRoomState((state) =>
-        state === null ? null : { ...state, players: roomPlayersState }
+        state === null ? null : { ...state, players: playersState }
       );
     });
 
     socket.on(
-      'caretPositionChange',
+      SocketEvent.CaretPositionChange,
       ({
         player,
         wordIndex,
@@ -88,17 +76,17 @@ export default function Race(props: Props) {
       }
     );
 
-    socket.on('typingStartsIn', (ms: number) => {
+    socket.on(SocketEvent.TypingStartsIn, (ms: number) => {
       setStartsInSeconds(Math.max(Math.ceil(ms / 1000), 1));
     });
 
-    socket.on('typingStarted', () => {
+    socket.on(SocketEvent.TypingStarted, () => {
       clearInterval(countdownInterval);
       setStartsInSeconds(0);
       onTypingStart();
     });
 
-    socket.on('opponentPlayAgain', () => {
+    socket.on(SocketEvent.OpponentPlayAgain, () => {
       setRoomState((state) => {
         if (!state) return null;
 
@@ -113,29 +101,29 @@ export default function Race(props: Props) {
     });
 
     return () => {
-      socket.off('roomState');
-      socket.off('testText');
-      socket.off('roomPlayerState');
-      socket.off('caretPositionChange');
-      socket.off('typingStartsAt');
-      socket.off('typingStarted');
-      socket.off('opponentPlayAgain');
+      socket.off(SocketEvent.RoomState);
+      socket.off(SocketEvent.TestText);
+      socket.off(SocketEvent.PlayersState);
+      socket.off(SocketEvent.CaretPositionChange);
+      socket.off(SocketEvent.TypingStartsIn);
+      socket.off(SocketEvent.TypingStarted);
+      socket.off(SocketEvent.OpponentPlayAgain);
     };
   }, [onTypingStart, opponentPlayer, currentPlayer]);
 
   const handleCaretPositionChange = useCallback(
     (wordIndex: number, charIndex: number) => {
-      socket.emit('caretPositionChange', { wordIndex, charIndex });
+      socket.emit(SocketEvent.CaretPositionChange, { wordIndex, charIndex });
     },
     []
   );
 
   const handleResult = useCallback((result: TypingResult) => {
-    socket.emit('result', result);
+    socket.emit(SocketEvent.Result, result);
   }, []);
 
   const handlePlayAgain = useCallback(() => {
-    socket.emit('playAgain');
+    socket.emit(SocketEvent.PlayAgain);
 
     setRoomState((state) => {
       if (!state) return null;

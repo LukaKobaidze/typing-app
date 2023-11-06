@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { RoomStateType } from '.';
+import { RaceStateType } from 'shared/types';
 import Result from '@/components/Typing/Result';
 import { ButtonRounded } from '@/components/UI';
 import { IconRefresh, IconTrophy } from '@/assets/image';
 import styles from '@/styles/Race/Results.module.scss';
 
 interface Props {
-  playersState: RoomStateType['players'];
+  playersState: RaceStateType['players'];
   currentPlayer: 'player1' | 'player2';
   opponentPlayer: 'player1' | 'player2';
   onPlayAgain: () => void;

@@ -6,7 +6,7 @@ import { TypemodeContextProvider } from '@/context/typemode.context';
 import { IconRedirect, IconGithub } from '@/assets/image';
 import { useWindowDimensions } from '@/hooks';
 import { ButtonRounded, Logo, Tooltip } from '@/components/UI';
-import { TypingResult } from '@/components/Typing/types';
+import { SocketEvent, TypingResult } from 'shared/types';
 import Result from '@/components/Typing/Result';
 import Customize from '@/components/Customize';
 import Stats from '@/components/Stats';
@@ -39,13 +39,13 @@ export default function App() {
     });
 
     if (isRaceModalOpen) {
-      socket.on('joinedRoom', (roomCode: string) => {
+      socket.on(SocketEvent.HasJoinedRoom, (roomCode: string) => {
         setRoomCode(roomCode);
       });
     }
 
     return () => {
-      socket.off('joinedRoom');
+      socket.off(SocketEvent.HasJoinedRoom);
     };
   }, [isRaceModalOpen]);
 
