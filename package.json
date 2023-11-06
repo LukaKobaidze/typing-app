@@ -4,6 +4,7 @@
   "description": "![Project image](screenshot-one.png)\r ![Project image](screenshot-two.png)",
   "main": "index.js",
   "scripts": {
+    "install": "concurrently \"cd client && npm install\" \"cd server && npm install\"",
     "start": "concurrently \"cd client && npm run dev\" \"cd server && npm run dev\""
   },
   "repository": {
