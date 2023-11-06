@@ -28,19 +28,19 @@
 1. Clone the repository, and move to the root directory of the project
 
 ```sh
-  git clone https://github.com/LukaKobaidze/typing-app
+git clone https://github.com/LukaKobaidze/typing-app
 ```
 
 2. Install NPM packages (handles both client & server packages)
 
 ```sh
-  npm install
+npm install
 ```
 
 3. Run the app (handles both client & server)
 
 ```sh
-  npm start
+npm start
 ```
 
 ## Acknowledgments
