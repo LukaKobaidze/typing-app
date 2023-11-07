@@ -2,7 +2,7 @@ import express from 'express';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
 import { fetchQuote, generateCode, startCountdown } from './helpers';
-import { RaceStateType, SocketEvent } from 'shared/types';
+import { QuoteLengthType, RaceStateType, SocketEvent } from 'shared/types';
 
 const PORT = process.env.PORT || 8080;
 
@@ -22,12 +22,13 @@ const roomState: { [key: string]: RaceStateType } = {};
 io.on('connection', (socket) => {
   console.log('New Connection: ', socket.id);
 
-  socket.on(SocketEvent.CreateRoom, () => {
+  socket.on(SocketEvent.CreateRoom, (quoteLength: QuoteLengthType) => {
     const roomCode = generateCode(6);
 
     clientRooms[socket.id] = roomCode;
     roomState[roomCode] = {
       players: { player1: { id: socket.id, wordIndex: 0, charIndex: 0 } },
+      quoteLength: quoteLength,
     };
 
     socket.join(roomCode);
@@ -50,7 +51,7 @@ io.on('connection', (socket) => {
     socket.join(roomCode);
     socket.emit(SocketEvent.HasJoinedRoom, roomCode);
 
-    fetchQuote()
+    fetchQuote(roomState[roomCode].quoteLength)
       .then((quote: string) => {
         roomState[roomCode].testText = quote;
         io.sockets.to(roomCode).emit(SocketEvent.TestText, quote);
@@ -134,6 +135,7 @@ io.on('connection', (socket) => {
     if (state.players[opponentPlayer]?.playAgain) {
       roomState[roomCode] = {
         testText: '',
+        quoteLength: state.quoteLength,
         players: {
           player1: { id: state.players.player1.id, wordIndex: 0, charIndex: 0 },
           player2: { id: state.players.player2!.id, wordIndex: 0, charIndex: 0 },
@@ -142,7 +144,7 @@ io.on('connection', (socket) => {
 
       io.sockets.to(roomCode).emit(SocketEvent.RoomState, roomState[roomCode]);
 
-      fetchQuote()
+      fetchQuote(state.quoteLength)
         .then((quote: string) => {
           roomState[roomCode].testText = quote;
           io.sockets.to(roomCode).emit(SocketEvent.TestText, quote);

@@ -23,6 +23,7 @@ interface Props {
   testText?: string;
   secondCaret?: { wordIndex: number; charIndex: number };
   raceMode?: boolean;
+  typeModeCustom?: string;
   onCaretPositionChange?: (wordIndex: number, charIndex: number) => void;
   onResult?: (result: TypingResult) => void;
 }
@@ -36,6 +37,7 @@ export default function Typing(props: Props) {
     testText,
     secondCaret,
     raceMode,
+    typeModeCustom,
     onCaretPositionChange,
     onResult,
   } = props;
@@ -135,11 +137,11 @@ export default function Typing(props: Props) {
     if (typingStarted) {
       dispatch({
         type: 'START',
-        payload: raceMode
-          ? 'race'
-          : `${mode} ${
-              mode === 'time' ? time : mode === 'words' ? wordsAmount : quoteLength
-            }`,
+        payload:
+          typeModeCustom ||
+          `${mode} ${
+            mode === 'time' ? time : mode === 'words' ? wordsAmount : quoteLength
+          }`,
       });
     }
 

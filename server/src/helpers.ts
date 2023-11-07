@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { SocketEvent } from 'shared/types';
+import { QuoteLengthType, SocketEvent } from 'shared/types';
+import { getQuoteFetchURL } from 'shared/functions';
 import { Server } from 'socket.io';
 
 export function generateCode(length: number) {
@@ -13,12 +14,10 @@ export function generateCode(length: number) {
   return output;
 }
 
-export async function fetchQuote() {
-  const res = await axios
-    .get(`https://api.quotable.io/random?minLength=75`)
-    .then((res: any) => {
-      return res.data.content.replace(/—/g, '-').replace(/…/g, '...');
-    });
+export async function fetchQuote(length: QuoteLengthType) {
+  const res = await axios.get(getQuoteFetchURL(length)).then((res: any) => {
+    return res.data.content.replace(/—/g, '-').replace(/…/g, '...');
+  });
 
   return res;
 }

@@ -1,7 +1,5 @@
 .modal {
-  max-width: 475px;
-  @media (max-width: 480px) {
-    width: 325px;
+  @media (max-width: 660px) {
   }
 }
 
@@ -20,7 +18,7 @@
   display: flex;
   justify-content: space-between;
 
-  @media (max-width: 480px) {
+  @media (max-width: 660px) {
     flex-direction: column;
   }
 }
@@ -42,13 +40,50 @@
   }
 }
 
+.setting {
+  margin-bottom: 20px;
+
+  &Heading {
+    color: var(--clr-raw);
+    font-weight: 400;
+    font-size: 15px;
+    margin-bottom: 5px;
+    margin-left: 7px;
+  }
+
+  &ButtonOptions {
+    display: flex;
+    flex-wrap: wrap;
+
+    & > button {
+      margin-top: 5px;
+
+      &:not(:last-child) {
+        margin-right: 5px;
+      }
+    }
+  }
+
+  &Button {
+    background-color: rgba(0, 0, 0, 0.3);
+
+    &:active {
+      background-color: rgba(0, 0, 0, 0.3) !important;
+    }
+
+    &.active {
+      
+    }
+  }
+}
+
 .or {
   display: flex;
   flex-direction: column;
   align-items: center;
   margin: 0 20px;
 
-  @media (max-width: 480px) {
+  @media (max-width: 660px) {
     flex-direction: row;
     margin: 20px 0;
   }
@@ -61,7 +96,7 @@
     width: 1px;
     margin: 5px 0;
 
-    @media (max-width: 480px) {
+    @media (max-width: 660px) {
       width: 100%;
       height: 1px;
       margin: 0 5px;
@@ -96,7 +131,7 @@
   padding: 0 37px 0 0.5em;
   border: 1px solid transparent;
 
-  @media (max-width: 480px) {
+  @media (max-width: 660px) {
     width: 100%;
   }
 

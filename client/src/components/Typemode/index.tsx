@@ -1,9 +1,9 @@
 import { useContext } from 'react';
 import { TypemodeContext } from '@/context/typemode.context';
 import { data } from '@/data';
-import { TypemodeQuote } from '@/data/types';
 import Setting from './Setting';
 import styles from '@/styles/Typemode/Typemode.module.scss';
+import { QuoteLengthType } from 'shared/types';
 
 interface Props {
   hidden: boolean;
@@ -49,7 +49,7 @@ const Typemode = ({ hidden, className }: Props) => {
           settings={data.typemode.quote}
           active={
             quoteLength === 'all'
-              ? (['short', 'medium', 'long'] as TypemodeQuote[])
+              ? (['short', 'medium', 'long'] as QuoteLengthType[])
               : quoteLength
           }
           onChange={onQuoteLength}

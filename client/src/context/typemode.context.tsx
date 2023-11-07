@@ -1,21 +1,17 @@
 import { createContext } from 'react';
-import {
-  TypemodeQuote,
-  TypemodeTime,
-  TypemodeType,
-  TypemodeWords,
-} from '@/data/types';
+import { TypemodeTime, TypemodeType, TypemodeWords } from '@/data/types';
 import { useLocalStorageState } from '@/hooks';
+import { QuoteLengthType } from 'shared/types';
 
 interface Context {
   mode: TypemodeType;
   time: TypemodeTime;
   wordsAmount: TypemodeWords;
-  quoteLength: TypemodeQuote;
+  quoteLength: QuoteLengthType;
   onMode: (mode: TypemodeType) => void;
   onTime: (time: TypemodeTime) => void;
   onWordsAmount: (amount: TypemodeWords) => void;
-  onQuoteLength: (length: TypemodeQuote) => void;
+  onQuoteLength: (length: QuoteLengthType) => void;
 }
 const initial: Context = {
   mode: 'quote',

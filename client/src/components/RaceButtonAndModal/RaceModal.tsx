@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
+import { QuoteLengthType, SocketEvent } from 'shared/types';
 import socket from '@/socket-connection';
+import { data } from '@/data';
 import { IconAlertCircle } from '@/assets/image';
 import { ButtonRounded, Modal } from '@/components/UI';
 import styles from '@/styles/RaceButtonAndModal/RaceModal.module.scss';
-import { SocketEvent } from 'shared/types';
 
 interface Props {
   isSocketConnected: boolean;
@@ -16,9 +17,10 @@ export default function RaceModal(props: Props) {
   const [inputCode, setInputCode] = useState('');
   const [codeError, setCodeError] = useState(false);
   const [codeLoading, setCodeLoading] = useState(false);
+  const [quoteLength, setQuoteLength] = useState<QuoteLengthType>('medium');
 
   const onCreateRoom = () => {
-    socket.emit(SocketEvent.CreateRoom);
+    socket.emit(SocketEvent.CreateRoom, quoteLength);
   };
 
   const onJoinRoom = () => {
@@ -57,6 +59,23 @@ export default function RaceModal(props: Props) {
       >
         <div className={`${styles.box} ${styles.boxCreate}`}>
           <h2 className={styles.heading}>Create</h2>
+
+          <div className={styles.setting}>
+            <h3 className={styles.settingHeading}>Qoute Length</h3>
+            <div className={styles.settingButtonOptions}>
+              {data.typemode.quote.map((quoteLengthCurrent) => (
+                <ButtonRounded
+                  key={quoteLengthCurrent}
+                  onClick={() => setQuoteLength(quoteLengthCurrent)}
+                  className={styles.settingButton}
+                  active={quoteLengthCurrent === quoteLength}
+                >
+                  {quoteLengthCurrent}
+                </ButtonRounded>
+              ))}
+            </div>
+          </div>
+
           <ButtonRounded
             variant="2"
             disabled={!isSocketConnected}

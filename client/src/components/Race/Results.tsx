@@ -15,14 +15,19 @@ interface Props {
 export default function Results(props: Props) {
   const { playersState, currentPlayer, opponentPlayer, onPlayAgain } = props;
 
+  const opponentDisconnected = playersState[opponentPlayer]?.disconnected;
+
+  console.log(playersState);
+
   const wpmYou =
     playersState[currentPlayer]!.result!.timeline[
       playersState[currentPlayer]!.result!.timeline.length - 1
     ].wpm;
-  const wpmOpponent =
-    playersState[opponentPlayer]!.result!.timeline[
-      playersState[opponentPlayer]!.result!.timeline.length - 1
-    ].wpm;
+  const wpmOpponent = !opponentDisconnected
+    ? playersState[opponentPlayer]!.result!.timeline[
+        playersState[opponentPlayer]!.result!.timeline.length - 1
+      ].wpm
+    : -1;
 
   const [showPlayerResult, setShowPlayerResult] = useState<'player1' | 'player2'>(
     currentPlayer
@@ -75,20 +80,30 @@ export default function Results(props: Props) {
         </div>
       </div>
 
-      <Result result={playersState[showPlayerResult]!.result!} />
+      {!playersState[showPlayerResult]!.result &&
+      playersState[showPlayerResult]!.disconnected ? (
+        <p>Opponent disconnected before finish typing :(</p>
+      ) : (
+        <Result result={playersState[showPlayerResult]!.result!} />
+      )}
 
       <div className={styles.playAgainWrapper}>
         <ButtonRounded
           variant="2"
           className={styles.playAgain}
           onClick={onPlayAgain}
-          disabled={playersState[currentPlayer]?.playAgain}
+          disabled={
+            playersState[currentPlayer]?.playAgain ||
+            playersState[opponentPlayer]?.disconnected
+          }
         >
           <IconRefresh className={styles.playAgainIcon} />
           <span>Play Again</span>
         </ButtonRounded>
         <span className={styles.playAgainText}>
-          {playersState[opponentPlayer]?.playAgain
+          {playersState[opponentPlayer]?.disconnected
+            ? 'Opponent disconnected!'
+            : playersState[opponentPlayer]?.playAgain
             ? 'Opponent wants to play again!'
             : playersState[currentPlayer]?.playAgain
             ? 'Play again requested to your opponent!'

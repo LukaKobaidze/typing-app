@@ -30,6 +30,8 @@ export default function Race(props: Props) {
     [currentPlayer]
   );
 
+  console.log({ currentPlayer, opponentPlayer });
+
   useEffect(() => {
     return () => {
       socket.emit(SocketEvent.LeaveRoom);
@@ -100,6 +102,23 @@ export default function Race(props: Props) {
       });
     });
 
+    socket.on(SocketEvent.OpponentDisconnected, () => {
+      setRoomState((state) => {
+        if (!state) return null;
+
+        return {
+          ...state,
+          players: {
+            ...state.players,
+            [opponentPlayer]: {
+              ...state.players[opponentPlayer],
+              disconnected: true,
+            } as RacePlayerState,
+          },
+        };
+      });
+    });
+
     return () => {
       socket.off(SocketEvent.RoomState);
       socket.off(SocketEvent.TestText);
@@ -108,6 +127,7 @@ export default function Race(props: Props) {
       socket.off(SocketEvent.TypingStartsIn);
       socket.off(SocketEvent.TypingStarted);
       socket.off(SocketEvent.OpponentPlayAgain);
+      socket.off(SocketEvent.OpponentDisconnected);
     };
   }, [onTypingStart, opponentPlayer, currentPlayer]);
 
@@ -118,9 +138,27 @@ export default function Race(props: Props) {
     []
   );
 
-  const handleResult = useCallback((result: TypingResult) => {
-    socket.emit(SocketEvent.Result, result);
-  }, []);
+  const handleResult = useCallback(
+    (result: TypingResult) => {
+      socket.emit(SocketEvent.Result, result);
+
+      setRoomState((state) => {
+        if (!state) return null;
+
+        return {
+          ...state,
+          players: {
+            ...state.players,
+            [currentPlayer]: {
+              ...state.players[currentPlayer],
+              result,
+            } as RacePlayerState,
+          },
+        };
+      });
+    },
+    [currentPlayer]
+  );
 
   const handlePlayAgain = useCallback(() => {
     socket.emit(SocketEvent.PlayAgain);
@@ -148,10 +186,15 @@ export default function Race(props: Props) {
     }
   }, [showResults]);
 
+  console.log(roomState);
+
   return (
     <>
       {roomState?.players.player2 ? (
-        roomState.players.player1?.result && roomState.players.player2.result ? (
+        (roomState.players.player1?.result ||
+          roomState.players.player1?.disconnected) &&
+        (roomState.players.player2.result ||
+          roomState.players.player2.disconnected) ? (
           <Results
             playersState={roomState.players}
             currentPlayer={currentPlayer}
@@ -172,6 +215,7 @@ export default function Race(props: Props) {
             <Typing
               disabled={false}
               testText={roomState!.testText || ''}
+              typeModeCustom={`quote ${roomState.quoteLength}`}
               onCaretPositionChange={handleCaretPositionChange}
               secondCaret={{
                 wordIndex: opponentPlayerState?.wordIndex || 0,
