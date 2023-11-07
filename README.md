@@ -12,17 +12,11 @@
 
 ### Built with
 
-* [![React][https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB]][https://react.dev/]
-* [![TypeScript][https://shields.io/badge/TypeScript-3178C6?logo=TypeScript&logoColor=FFF&style=for-the-badge]][https://www.typescriptlang.org/]
-* [![Sass][https://img.shields.io/badge/Sass-CC6699?style=for-the-badge&logo=sass&logoColor=white]][https://sass-lang.com/]
-* [![Node.js][https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white]][https://nodejs.org/en]
-* [![Socket.io][https://img.shields.io/badge/Socket.io-010101?&style=for-the-badge&logo=Socket.io&logoColor=white]][https://socket.io/]
-
-* [React.js](https://reactjs.org/)
-* [TypeScript](https://www.typescriptlang.org/)
-* [Sass](https://sass-lang.com/)
-* [Node.js](https://nodejs.org/en)
-* [Socket.io](https://socket.io/)
+- [![React][react-image]][react-url]
+- [![TypeScript][typescript-image]][typescript-url]
+- [![Sass][sass-image]][sass-url]
+- [![Node.js][nodejs-image]][nodejs-url]
+- [![Socket.io][socketio-image]][socketio-url]
 
 ### Description
 
@@ -63,3 +57,14 @@ npm start
 - [random-words](https://github.com/apostrophecms/random-words)
 - [quotable API](https://github.com/lukePeavey/quotable)
 - Inspired by [monkeytype](https://monkeytype.com/)
+
+[react-image]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
+[typescript-image]: https://shields.io/badge/TypeScript-3178C6?logo=TypeScript&logoColor=FFF&style=for-the-badge
+[sass-image]: https://img.shields.io/badge/Sass-CC6699?style=for-the-badge&logo=sass&logoColor=white
+[nodejs-image]: https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white
+[socketio-image]: https://img.shields.io/badge/Socket.io-010101?&style=for-the-badge&logo=Socket.io&logoColor=white
+[react-url]: https://react.dev/
+[typescript-url]: https://www.typescriptlang.org/
+[sass-url]: https://sass-lang.com/
+[nodejs-url]: https://nodejs.org/en
+[socketio-url]: https://socket.io/
