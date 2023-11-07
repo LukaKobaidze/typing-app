@@ -1,5 +1,9 @@
 @use '../theme/themes-preview' as theme;
 
+.modal {
+  max-width: 460px;
+}
+
 .customizationsWrapper {
   width: 100%;
 }

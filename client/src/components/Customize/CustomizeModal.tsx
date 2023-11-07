@@ -38,6 +38,7 @@ export default function CustomizeModal(props: Props) {
       onCloseModal={onCloseModal}
       heading="Customize"
       HeadingIcon={IconCustomize}
+      className={styles.modal}
     >
       <div className={styles.customizationsWrapper}>
         <div className={styles.setting}>
