@@ -1,14 +1,28 @@
+## Table of contents
+
+- [About The Project](#about-the-project)
+  - [Description](#description)
+  - [Built with](#built-with)
+- [Getting Started](#getting-started)
+- [Acknowledgments](#acknowledgments)
+
 ## About The Project
 
 ![Project image](screenshot-one.png)
 
 ### Built with
 
-- [React.js](https://reactjs.org/)
-- [TypeScript](https://www.typescriptlang.org/)
-- [Sass](https://sass-lang.com/)
-- [Node.js](https://nodejs.org/en)
-- [Socket.io](https://socket.io/)
+* [![React][https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB]][https://react.dev/]
+* [![TypeScript][https://shields.io/badge/TypeScript-3178C6?logo=TypeScript&logoColor=FFF&style=for-the-badge]][https://www.typescriptlang.org/]
+* [![Sass][https://img.shields.io/badge/Sass-CC6699?style=for-the-badge&logo=sass&logoColor=white]][https://sass-lang.com/]
+* [![Node.js][https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white]][https://nodejs.org/en]
+* [![Socket.io][https://img.shields.io/badge/Socket.io-010101?&style=for-the-badge&logo=Socket.io&logoColor=white]][https://socket.io/]
+
+* [React.js](https://reactjs.org/)
+* [TypeScript](https://www.typescriptlang.org/)
+* [Sass](https://sass-lang.com/)
+* [Node.js](https://nodejs.org/en)
+* [Socket.io](https://socket.io/)
 
 ### Description
 
@@ -21,6 +35,8 @@
 - User can customize the app to their liking.
 - Various app themes.
 - App tracks your overall typing stats, including average wpm, accuracy and more.
+
+![Project image](screenshot-two.png)
 
 ## Getting Started
 
@@ -46,3 +62,4 @@ npm start
 
 - [random-words](https://github.com/apostrophecms/random-words)
 - [quotable API](https://github.com/lukePeavey/quotable)
+- Inspired by [monkeytype](https://monkeytype.com/)
