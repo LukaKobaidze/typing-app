@@ -1,4 +1,4 @@
-import { TypingResult } from 'shared/types';
+import { TypingResult } from '@/types';
 import { TypingWords } from '../types';
 import {
   type,

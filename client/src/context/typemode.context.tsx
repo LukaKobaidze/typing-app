@@ -1,7 +1,7 @@
 import { createContext } from 'react';
 import { TypemodeTime, TypemodeType, TypemodeWords } from '@/data/types';
 import { useLocalStorageState } from '@/hooks';
-import { QuoteLengthType } from 'shared/types';
+import { QuoteLengthType } from '@/types';
 
 interface Context {
   mode: TypemodeType;

@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
 import { StatsContext } from '@/context/stats.context';
 import { IconKeyboardArrowDown } from '@/assets/image';
-import { TypingResult } from 'shared/types';
+import { TypingResult } from '@/types';
 import { AlertOutsideClick, Tooltip } from '@/components/UI';
 import ResultButton from './ResultButton';
 import styles from '@/styles/RecentResults/RecentResults.module.scss';

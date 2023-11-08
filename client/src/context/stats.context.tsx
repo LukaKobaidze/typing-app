@@ -1,6 +1,6 @@
 import { createContext, useEffect } from 'react';
 import { useLocalStorageState } from '@/hooks';
-import { TypingResult } from 'shared/types';
+import { TypingResult } from '@/types';
 
 type TestStats = {
   wpm: number;

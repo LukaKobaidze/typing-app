@@ -1,5 +1,5 @@
 import { getTimeSince } from '@/helpers';
-import { TypingResult } from 'shared/types';
+import { TypingResult } from '@/types';
 import styles from '@/styles/RecentResults/ResultButton.module.scss';
 
 interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {

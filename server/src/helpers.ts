@@ -1,6 +1,5 @@
 import axios from 'axios';
-import { QuoteLengthType, SocketEvent } from 'shared/types';
-import { getQuoteFetchURL } from 'shared/functions';
+import { QuoteLengthType } from './types';
 import { Server } from 'socket.io';
 
 export function generateCode(length: number) {
@@ -15,9 +14,21 @@ export function generateCode(length: number) {
 }
 
 export async function fetchQuote(length: QuoteLengthType) {
-  const res = await axios.get(getQuoteFetchURL(length)).then((res: any) => {
-    return res.data.content.replace(/—/g, '-').replace(/…/g, '...');
-  });
+  const res = await axios
+    .get(
+      `https://api.quotable.io/random${
+        length === 'short'
+          ? '?maxLength=100'
+          : length === 'medium'
+          ? '?minLength=101&maxLength=250'
+          : length === 'long'
+          ? '?minLength=251'
+          : ''
+      }`
+    )
+    .then((res: any) => {
+      return res.data.content.replace(/—/g, '-').replace(/…/g, '...');
+    });
 
   return res;
 }
@@ -27,14 +38,14 @@ export function startCountdown(roomCode: string, io: Server) {
 
   const startsAt = new Date().getTime() + startsIn;
 
-  io.sockets.to(roomCode).emit(SocketEvent.TypingStartsIn, startsIn);
+  io.sockets.to(roomCode).emit('typing-starts-in', startsIn);
   const interval = setInterval(() => {
     const remaining = startsAt - new Date().getTime();
 
     if (remaining > 0) {
-      io.sockets.to(roomCode).emit(SocketEvent.TypingStartsIn, remaining);
+      io.sockets.to(roomCode).emit('typing-starts-in', remaining);
     } else {
-      io.sockets.to(roomCode).emit(SocketEvent.TypingStarted);
+      io.sockets.to(roomCode).emit('typing-started');
       clearInterval(interval);
     }
   }, 1000);

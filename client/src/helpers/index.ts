@@ -1,7 +1,6 @@
 import randomWords from 'random-words';
 import { TypingWords } from '@/components/Typing/types';
-import { QuoteLengthType } from 'shared/types';
-import { getQuoteFetchURL } from 'shared/functions';
+import { QuoteLengthType } from '@/types';
 
 export function getRandomWords(quantity: number = 50): TypingWords {
   return getTypingWords(randomWords({ exactly: quantity, maxLength: 6 }));
@@ -40,10 +39,21 @@ export async function getRandomQuote(
   length: QuoteLengthType,
   abortController?: AbortController | null
 ) {
-  const response = await fetch(getQuoteFetchURL(length), {
-    method: 'get',
-    signal: abortController?.signal,
-  });
+  const response = await fetch(
+    `https://api.quotable.io/random${
+      length === 'short'
+        ? '?maxLength=100'
+        : length === 'medium'
+        ? '?minLength=101&maxLength=250'
+        : length === 'long'
+        ? '?minLength=251'
+        : ''
+    }`,
+    {
+      method: 'get',
+      signal: abortController?.signal,
+    }
+  );
 
   return await response.json();
 }

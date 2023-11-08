@@ -1,21 +1,3 @@
-export enum SocketEvent {
-  CreateRoom = 'create-room',
-  JoinRoom = 'join-room',
-  HasJoinedRoom = 'has-joined-room',
-  JoinRoomError = 'join-room-error',
-  RoomState = 'room-state',
-  TestText = 'test-text',
-  TypingStartsIn = 'typing-starts-in',
-  TypingStarted = 'typing-started',
-  CaretPositionChange = 'caret-position-change',
-  Result = 'result',
-  PlayersState = 'players-state',
-  PlayAgain = 'play-again',
-  OpponentPlayAgain = 'opponent-play-again',
-  OpponentDisconnected = 'opponent-disconnected',
-  LeaveRoom = 'leave-room',
-}
-
 export type TypingResult = {
   showResults: boolean;
   timeline: { wpm: number; accuracy: number; raw: number; second: number }[];

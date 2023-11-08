@@ -1,4 +1,4 @@
-import { QuoteLengthType } from 'shared/types';
+import { QuoteLengthType } from '@/types';
 
 export const data = {
   theme: ['default', 'midnight', 'retro', 'superuser', 'vscode'],

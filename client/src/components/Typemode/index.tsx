@@ -3,7 +3,7 @@ import { TypemodeContext } from '@/context/typemode.context';
 import { data } from '@/data';
 import Setting from './Setting';
 import styles from '@/styles/Typemode/Typemode.module.scss';
-import { QuoteLengthType } from 'shared/types';
+import { QuoteLengthType } from '@/types';
 
 interface Props {
   hidden: boolean;

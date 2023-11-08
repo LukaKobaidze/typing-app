@@ -2,7 +2,7 @@ import express from 'express';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
 import { fetchQuote, generateCode, startCountdown } from './helpers';
-import { QuoteLengthType, RaceStateType, SocketEvent } from 'shared/types';
+import { QuoteLengthType, RaceStateType } from './types';
 
 const PORT = process.env.PORT || 8080;
 
@@ -22,7 +22,7 @@ const roomState: { [key: string]: RaceStateType } = {};
 io.on('connection', (socket) => {
   console.log('New Connection: ', socket.id);
 
-  socket.on(SocketEvent.CreateRoom, (quoteLength: QuoteLengthType) => {
+  socket.on('create-room', (quoteLength: QuoteLengthType) => {
     const roomCode = generateCode(6);
 
     clientRooms[socket.id] = roomCode;
@@ -32,13 +32,13 @@ io.on('connection', (socket) => {
     };
 
     socket.join(roomCode);
-    socket.emit(SocketEvent.HasJoinedRoom, roomCode);
-    io.sockets.to(roomCode).emit(SocketEvent.RoomState, roomState[roomCode]);
+    socket.emit('has-joined-room', roomCode);
+    io.sockets.to(roomCode).emit('room-state', roomState[roomCode]);
   });
 
-  socket.on(SocketEvent.JoinRoom, (roomCode: string) => {
+  socket.on('join-room', (roomCode: string) => {
     if (!roomState.hasOwnProperty(roomCode)) {
-      socket.emit(SocketEvent.JoinRoomError);
+      socket.emit('join-room-error');
       return;
     }
 
@@ -49,22 +49,22 @@ io.on('connection', (socket) => {
       charIndex: 0,
     };
     socket.join(roomCode);
-    socket.emit(SocketEvent.HasJoinedRoom, roomCode);
+    socket.emit('has-joined-room', roomCode);
 
     fetchQuote(roomState[roomCode].quoteLength)
       .then((quote: string) => {
         roomState[roomCode].testText = quote;
-        io.sockets.to(roomCode).emit(SocketEvent.TestText, quote);
+        io.sockets.to(roomCode).emit('test-text', quote);
       })
       .then(() => {
         startCountdown(roomCode, io);
       });
 
-    io.sockets.to(roomCode).emit(SocketEvent.RoomState, roomState[roomCode]);
+    io.sockets.to(roomCode).emit('room-state', roomState[roomCode]);
   });
 
   socket.on(
-    SocketEvent.CaretPositionChange,
+    'caret-position-change',
     ({ wordIndex, charIndex }: { wordIndex: number; charIndex: number }) => {
       const roomCode = clientRooms[socket.id];
 
@@ -83,11 +83,11 @@ io.on('connection', (socket) => {
 
       socket.broadcast
         .to(roomCode)
-        .emit(SocketEvent.CaretPositionChange, { player, wordIndex, charIndex });
+        .emit('caret-position-change', { player, wordIndex, charIndex });
     }
   );
 
-  socket.on(SocketEvent.Result, (result) => {
+  socket.on('result', (result) => {
     const roomCode = clientRooms[socket.id];
 
     if (!roomCode || !roomState.hasOwnProperty(roomCode)) {
@@ -104,7 +104,7 @@ io.on('connection', (socket) => {
       roomState[roomCode].players[player]!.result = result;
 
       const typedWords = roomState[roomCode].testText?.split(' ')!;
-      io.sockets.to(roomCode).emit(SocketEvent.CaretPositionChange, {
+      io.sockets.to(roomCode).emit('caret-position-change', {
         player,
         wordIndex: typedWords.length - 1,
         charIndex: typedWords[typedWords.length - 1].length,
@@ -114,11 +114,11 @@ io.on('connection', (socket) => {
     if (roomState[roomCode].players[opponentPlayer]?.result) {
       io.sockets
         .to(roomCode)
-        .emit(SocketEvent.PlayersState, roomState[roomCode].players);
+        .emit('players-state', roomState[roomCode].players);
     }
   });
 
-  socket.on(SocketEvent.PlayAgain, () => {
+  socket.on('play-again', () => {
     const roomCode = clientRooms[socket.id];
 
     if (!roomCode || !roomState.hasOwnProperty(roomCode)) {
@@ -142,12 +142,12 @@ io.on('connection', (socket) => {
         },
       };
 
-      io.sockets.to(roomCode).emit(SocketEvent.RoomState, roomState[roomCode]);
+      io.sockets.to(roomCode).emit('room-state', roomState[roomCode]);
 
       fetchQuote(state.quoteLength)
         .then((quote: string) => {
           roomState[roomCode].testText = quote;
-          io.sockets.to(roomCode).emit(SocketEvent.TestText, quote);
+          io.sockets.to(roomCode).emit('test-text', quote);
         })
         .then(() => {
           startCountdown(roomCode, io);
@@ -155,7 +155,7 @@ io.on('connection', (socket) => {
     } else {
       roomState[roomCode].players[player]!.playAgain = true;
 
-      io.to(state.players[opponentPlayer]!.id).emit(SocketEvent.OpponentPlayAgain);
+      io.to(state.players[opponentPlayer]!.id).emit('opponent-play-again');
     }
   });
 
@@ -178,11 +178,11 @@ io.on('connection', (socket) => {
       delete roomState[roomCode];
     } else {
       roomState[roomCode].players[player]!.disconnected = true;
-      io.to(opponentPlayerState.id).emit(SocketEvent.OpponentDisconnected);
+      io.to(opponentPlayerState.id).emit('opponent-disconnected');
     }
   };
 
-  socket.on(SocketEvent.LeaveRoom, handleRoomDisconnect);
+  socket.on('leave-room', handleRoomDisconnect);
   socket.on('disconnect', handleRoomDisconnect);
 });
 

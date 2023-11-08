@@ -14,7 +14,7 @@ import {
 import { IconKeyboardArrowLeft, IconLoop } from '@/assets/image';
 import { addColorOpacity, getTimeSince } from '@/helpers';
 import { ButtonRounded, PercentCircleChart, Tooltip } from '@/components/UI';
-import { TypingResult } from 'shared/types';
+import { TypingResult } from '@/types';
 import ResultCustomTooltip from './ResultCustomTooltip';
 import styles from '@/styles/Typing/Result.module.scss';
 

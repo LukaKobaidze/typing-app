@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { QuoteLengthType, SocketEvent } from 'shared/types';
+import { QuoteLengthType } from '@/types';
 import socket from '@/socket-connection';
 import { data } from '@/data';
 import { IconAlertCircle } from '@/assets/image';
@@ -20,24 +20,24 @@ export default function RaceModal(props: Props) {
   const [quoteLength, setQuoteLength] = useState<QuoteLengthType>('medium');
 
   const onCreateRoom = () => {
-    socket.emit(SocketEvent.CreateRoom, quoteLength);
+    socket.emit('create-room', quoteLength);
   };
 
   const onJoinRoom = () => {
     if (inputCode.length !== 6) return;
 
     setCodeLoading(true);
-    socket.emit(SocketEvent.JoinRoom, inputCode);
+    socket.emit('join-room', inputCode);
   };
 
   useEffect(() => {
-    socket.on(SocketEvent.JoinRoomError, () => {
+    socket.on('join-room-error', () => {
       setCodeLoading(false);
       setCodeError(true);
     });
 
     return () => {
-      socket.off(SocketEvent.JoinRoomError);
+      socket.off('join-room-error');
     };
   }, []);
 

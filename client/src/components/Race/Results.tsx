@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { RaceStateType } from 'shared/types';
+import { RaceStateType } from '@/types';
 import Result from '@/components/Typing/Result';
 import { ButtonRounded } from '@/components/UI';
 import { IconRefresh, IconTrophy } from '@/assets/image';
