@@ -29,8 +29,6 @@ export default function Race(props: Props) {
     [currentPlayer]
   );
 
-  console.log({ currentPlayer, opponentPlayer });
-
   useEffect(() => {
     return () => {
       socket.emit('leave-room');
@@ -184,8 +182,6 @@ export default function Race(props: Props) {
       setStartsInSeconds(null);
     }
   }, [showResults]);
-
-  console.log(roomState);
 
   return (
     <>

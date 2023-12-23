@@ -36,7 +36,6 @@ export default function App() {
 
     socket.on('disconnect', () => {
       setIsSocketConnected(false);
-      setRoomCode(null);
     });
 
     if (isRaceModalOpen) {

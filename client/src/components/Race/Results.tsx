@@ -17,8 +17,6 @@ export default function Results(props: Props) {
 
   const opponentDisconnected = playersState[opponentPlayer]?.disconnected;
 
-  console.log(playersState);
-
   const wpmYou =
     playersState[currentPlayer]!.result!.timeline[
       playersState[currentPlayer]!.result!.timeline.length - 1

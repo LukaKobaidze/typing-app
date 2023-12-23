@@ -91,7 +91,7 @@ io.on('connection', (socket) => {
     const roomCode = clientRooms[socket.id];
 
     if (!roomCode || !roomState.hasOwnProperty(roomCode)) {
-      console.error("room doesn't exist`");
+      console.error("room doesn't exist");
       return;
     }
 
@@ -112,9 +112,7 @@ io.on('connection', (socket) => {
     }
 
     if (roomState[roomCode].players[opponentPlayer]?.result) {
-      io.sockets
-        .to(roomCode)
-        .emit('players-state', roomState[roomCode].players);
+      io.sockets.to(roomCode).emit('players-state', roomState[roomCode].players);
     }
   });
 
@@ -183,7 +181,10 @@ io.on('connection', (socket) => {
   };
 
   socket.on('leave-room', handleRoomDisconnect);
-  socket.on('disconnect', handleRoomDisconnect);
+  socket.on('disconnect', () => {
+    console.log('Disconnected: ', socket.id);
+    handleRoomDisconnect();
+  });
 });
 
 httpServer.listen(PORT);
