@@ -50,7 +50,6 @@ export default function Typing(props: Props) {
     useContext(CustomizeContext);
   const [isCapsLock, setIsCapsLock] = useState(false);
   const [timeCountdown, setTimeCountdown] = useState<number>(time);
-  const [wordCount, setWordCount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [cursorHidden, setCursorHidden] = useState(false);
   const [isLoadingError, setIsLoadingError] = useState(false);
@@ -171,10 +170,8 @@ export default function Typing(props: Props) {
         setTimeCountdown(time);
       } else if (mode === 'words') {
         dispatch({ type: 'RESTART', payload: getRandomWords(wordsAmount) });
-        setWordCount(0);
       } else {
         dispatch({ type: 'RESTART', payload: [] });
-        setWordCount(0);
 
         setIsLoading(true);
 
@@ -211,7 +208,6 @@ export default function Typing(props: Props) {
     if (mode === 'time') {
       setTimeCountdown(time);
     } else if (mode === 'words') {
-      setWordCount(0);
     }
   };
 
@@ -226,7 +222,6 @@ export default function Typing(props: Props) {
       dispatch({ type: 'RESULT' });
       setCursorHidden(false);
     } else {
-      setWordCount(state.wordIndex);
     }
   }, [mode, state.words, state.charIndex, state.wordIndex, raceMode]);
 
@@ -331,7 +326,9 @@ export default function Typing(props: Props) {
             ) : (
               <Counter
                 mode={raceMode ? 'quote' : mode}
-                counter={mode === 'time' && !raceMode ? timeCountdown : wordCount}
+                counter={
+                  mode === 'time' && !raceMode ? timeCountdown : state.wordIndex
+                }
                 wordsLength={state.words.length}
               />
             )}
