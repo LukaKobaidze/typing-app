@@ -207,7 +207,6 @@ export default function Typing(props: Props) {
 
     if (mode === 'time') {
       setTimeCountdown(time);
-    } else if (mode === 'words') {
     }
   };
 
@@ -221,7 +220,6 @@ export default function Typing(props: Props) {
     if (state.wordIndex === state.words.length || lastWordCorrect) {
       dispatch({ type: 'RESULT' });
       setCursorHidden(false);
-    } else {
     }
   }, [mode, state.words, state.charIndex, state.wordIndex, raceMode]);
 
