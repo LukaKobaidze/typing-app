@@ -5,6 +5,7 @@ import { data } from '@/data';
 import { IconAlertCircle } from '@/assets/image';
 import { ButtonRounded, Modal } from '@/components/UI';
 import styles from '@/styles/RaceButtonAndModal/RaceModal.module.scss';
+import { useLocalStorageState } from '@/hooks';
 
 interface Props {
   isSocketConnected: boolean;
@@ -17,7 +18,10 @@ export default function RaceModal(props: Props) {
   const [inputCode, setInputCode] = useState('');
   const [codeError, setCodeError] = useState(false);
   const [codeLoading, setCodeLoading] = useState(false);
-  const [quoteLength, setQuoteLength] = useState<QuoteLengthType>('medium');
+  const [quoteLength, setQuoteLength] = useLocalStorageState<QuoteLengthType>(
+    'race-quote-length',
+    'medium'
+  );
 
   const onCreateRoom = () => {
     socket.emit('create-room', quoteLength);
