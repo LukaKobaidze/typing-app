@@ -8,7 +8,7 @@ interface Props {
   hidden: boolean;
 }
 
-const SettingsItem = ({ settings, active, onChange, hidden }: Props) => {
+export default function Setting({ settings, active, onChange, hidden }: Props) {
   return (
     <div className={styles.item}>
       <div className={styles['item__buttons']}>
@@ -27,6 +27,4 @@ const SettingsItem = ({ settings, active, onChange, hidden }: Props) => {
       </div>
     </div>
   );
-};
-
-export default SettingsItem;
+}

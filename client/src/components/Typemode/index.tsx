@@ -10,7 +10,7 @@ interface Props {
   className?: string;
 }
 
-const Typemode = ({ hidden, className }: Props) => {
+export default function Typemode({ hidden, className }: Props) {
   const {
     mode,
     time,
@@ -58,6 +58,4 @@ const Typemode = ({ hidden, className }: Props) => {
       )}
     </div>
   );
-};
-
-export default Typemode;
+}
