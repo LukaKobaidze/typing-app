@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { RaceStateType } from '@/types';
 import Result from '@/components/Typing/Result';
-import { ButtonRounded } from '@/components/UI';
+import { ButtonRounded, Tooltip } from '@/components/UI';
 import { IconRefresh, IconTrophy } from '@/assets/image';
 import styles from '@/styles/Race/Results.module.scss';
 
@@ -55,8 +55,8 @@ export default function Results(props: Props) {
         <div className={styles.playerResultButtons}>
           <ButtonRounded
             className={`${styles.playerResultButtonsBtn} ${
-              currentPlayer === showPlayerResult ? styles.active : ''
-            }`}
+              styles.playerResultButtonsBtnFirst
+            } ${currentPlayer === showPlayerResult ? styles.active : ''}`}
             onClick={() => setShowPlayerResult(currentPlayer)}
           >
             {winner === currentPlayer && (
@@ -64,24 +64,49 @@ export default function Results(props: Props) {
             )}
             <span>You</span>
           </ButtonRounded>
-          <ButtonRounded
-            className={`${styles.playerResultButtonsBtn} ${
-              opponentPlayer === showPlayerResult ? styles.active : ''
-            }`}
-            onClick={() => setShowPlayerResult(opponentPlayer)}
-          >
-            {winner === opponentPlayer && (
-              <IconTrophy className={styles.iconTrophy} />
-            )}
-            <span>Opponent</span>
-          </ButtonRounded>
+
+          {playersState[opponentPlayer]?.disconnected ? (
+            <Tooltip
+              className={styles.playerResultButtonsBtnTooltip}
+              text={
+                <div>
+                  <p>Opponent hasn't finished the test</p>
+                  <p>(disconnected).</p>
+                </div>
+              }
+              showOnHover
+            >
+              <ButtonRounded
+                className={`${styles.playerResultButtonsBtn} ${
+                  styles.playerResultButtonsBtnSecond
+                } ${opponentPlayer === showPlayerResult ? styles.active : ''}`}
+                onClick={() => setShowPlayerResult(opponentPlayer)}
+                disabled={playersState[opponentPlayer]?.disconnected}
+              >
+                {winner === opponentPlayer && (
+                  <IconTrophy className={styles.iconTrophy} />
+                )}
+                <span>Opponent</span>
+              </ButtonRounded>
+            </Tooltip>
+          ) : (
+            <ButtonRounded
+              className={`${styles.playerResultButtonsBtn} ${
+                styles.playerResultButtonsBtnSecond
+              } ${opponentPlayer === showPlayerResult ? styles.active : ''}`}
+              onClick={() => setShowPlayerResult(opponentPlayer)}
+              disabled={playersState[opponentPlayer]?.disconnected}
+            >
+              {winner === opponentPlayer && (
+                <IconTrophy className={styles.iconTrophy} />
+              )}
+              <span>Opponent</span>
+            </ButtonRounded>
+          )}
         </div>
       </div>
 
-      {!playersState[showPlayerResult]!.result &&
-      playersState[showPlayerResult]!.disconnected ? (
-        <p>Opponent disconnected before finish typing :(</p>
-      ) : (
+      {playersState[showPlayerResult]?.result && (
         <Result result={playersState[showPlayerResult]!.result!} />
       )}
 

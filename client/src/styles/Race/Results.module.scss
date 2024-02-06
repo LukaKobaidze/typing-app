@@ -29,21 +29,27 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    cursor: pointer;
     font-size: 15px;
     border: 1px solid var(--clr-char);
     padding-top: 5px;
     padding-bottom: 5px;
+    height: 100%;
 
-    &:first-child {
-      border-top-right-radius: 0;
-      border-bottom-right-radius: 0;
+    &First {
+      border-top-right-radius: 0 !important;
+      border-bottom-right-radius: 0 !important;
     }
 
-    &:last-child {
+    &Second {
       border-top-left-radius: 0;
       border-bottom-left-radius: 0;
     }
+
+
+    &Tooltip {
+      width: 100%;
+    }
+
 
     &:active {
       background-color: rgba(255, 255, 255, 0.05);
