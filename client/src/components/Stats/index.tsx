@@ -4,19 +4,23 @@ import StatsModal from './StatsModal';
 
 interface Props {
   isOpen: boolean;
-  onStatsOpen: () => void;
-  onStatsClose: () => void;
+  onOpen: () => void;
+  onClose: () => void;
   windowWidth: number;
   classNameButton?: string;
 }
 
 export default function Stats(props: Props) {
-  const { isOpen, onStatsOpen, onStatsClose, windowWidth, classNameButton } = props;
+  const { isOpen, onOpen, onClose, windowWidth, classNameButton } = props;
 
   return (
     <>
       {windowWidth > 770 || (windowWidth < 551 && windowWidth > 370) ? (
-        <ButtonRounded className={classNameButton || ''} onClick={onStatsOpen} active={isOpen}>
+        <ButtonRounded
+          className={classNameButton || ''}
+          onClick={onOpen}
+          active={isOpen}
+        >
           <IconStats />
           <span>Stats</span>
         </ButtonRounded>
@@ -24,7 +28,7 @@ export default function Stats(props: Props) {
         <Tooltip text="Stats" showOnHover>
           <ButtonRounded
             className={classNameButton || ''}
-            onClick={onStatsOpen}
+            onClick={onOpen}
             aria-label="stats"
           >
             <IconStats />
@@ -32,7 +36,7 @@ export default function Stats(props: Props) {
         </Tooltip>
       )}
 
-      {isOpen && <StatsModal onCloseModal={onStatsClose} />}
+      {isOpen && <StatsModal onCloseModal={onClose} />}
     </>
   );
 }

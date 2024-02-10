@@ -1,0 +1,34 @@
+
+.footer {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 2rem;
+  transition: opacity 200ms;
+}
+
+.links {
+  display: flex;
+  align-items: center;
+  margin-right: 30px;
+
+  & > *:not(:last-child) {
+    margin-right: 10px;
+  }
+
+  &ItemAnchor {
+    color: inherit;
+  }
+}
+
+.github-hover-wrapper {
+  display: flex;
+  align-items: center;
+
+  &__icon {
+    width: 15px;
+    height: 15px;
+    margin-left: 10px;
+  }
+}

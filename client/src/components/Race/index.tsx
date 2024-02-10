@@ -2,7 +2,7 @@ import { useEffect, useState, useCallback, useContext, useMemo } from 'react';
 import { RacePlayerState, RaceStateType, TypingResult } from '@/types';
 import Typing from '@/components/Typing';
 import socket from '@/socket-connection';
-import { GlobalContext } from '@/context/global.context';
+import { TypingContext } from '@/context/typing.context';
 import Results from './Results';
 import { IconUser } from '@/assets/image';
 import { CopyButton, Loading } from '@/components/UI';
@@ -17,7 +17,7 @@ let countdownInterval: NodeJS.Timer;
 export default function Race(props: Props) {
   const { roomCode } = props;
 
-  const { onTypingStart } = useContext(GlobalContext);
+  const { onTypingStarted } = useContext(TypingContext);
   const [roomState, setRoomState] = useState<RaceStateType | null>(null);
   const [startsInSeconds, setStartsInSeconds] = useState<number | null>(null);
 
@@ -82,7 +82,7 @@ export default function Race(props: Props) {
     socket.on('typing-started', () => {
       clearInterval(countdownInterval);
       setStartsInSeconds(0);
-      onTypingStart();
+      onTypingStarted();
     });
 
     socket.on('opponent-play-again', () => {
@@ -126,7 +126,7 @@ export default function Race(props: Props) {
       socket.off('opponent-play-again');
       socket.off('opponent-disconnected');
     };
-  }, [onTypingStart, opponentPlayer, currentPlayer]);
+  }, [onTypingStarted, opponentPlayer, currentPlayer]);
 
   const handleCaretPositionChange = useCallback(
     (wordIndex: number, charIndex: number) => {
@@ -208,7 +208,6 @@ export default function Race(props: Props) {
               </span>
             )}
             <Typing
-              disabled={false}
               testText={roomState!.testText || ''}
               typeModeCustom={`quote ${roomState.quoteLength}`}
               onCaretPositionChange={handleCaretPositionChange}

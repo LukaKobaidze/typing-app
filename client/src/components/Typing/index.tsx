@@ -1,5 +1,5 @@
 import { useCallback, useContext, useEffect, useReducer, useState } from 'react';
-import { GlobalContext } from '@/context/global.context';
+import { TypingContext } from '@/context/typing.context';
 import { TypemodeContext } from '@/context/typemode.context';
 import { CustomizeContext } from '@/context/customize.context';
 import { StatsContext } from '@/context/stats.context';
@@ -19,7 +19,6 @@ import counterStyles from '@/styles/Typing/Counter.module.scss';
 import { TypingResult } from '@/types';
 
 interface Props {
-  disabled: boolean;
   testText?: string;
   secondCaret?: { wordIndex: number; charIndex: number };
   raceMode?: boolean;
@@ -33,7 +32,6 @@ let quoteAbortController: AbortController | null = null;
 
 export default function Typing(props: Props) {
   const {
-    disabled,
     testText,
     secondCaret,
     raceMode,
@@ -42,7 +40,8 @@ export default function Typing(props: Props) {
     onResult,
   } = props;
 
-  const { typingStarted, onTypingStart, onTypingEnd } = useContext(GlobalContext);
+  const { typingDisabled, typingStarted, onTypingStarted, onTypingEnded } =
+    useContext(TypingContext);
   const [state, dispatch] = useReducer(typingReducer, initialState);
   const { onTestStart, onTestComplete } = useContext(StatsContext);
   const { mode, wordsAmount, time, quoteLength } = useContext(TypemodeContext);
@@ -56,7 +55,7 @@ export default function Typing(props: Props) {
   const playTypingSound = useSound(typewriterSound, 0.3);
 
   const isTypingDisabled =
-    disabled || isLoading || isLoadingError || (raceMode && !typingStarted);
+    typingDisabled || isLoading || isLoadingError || (raceMode && !typingStarted);
 
   useEffect(() => {
     const handleMouseMove = () => {
@@ -107,7 +106,7 @@ export default function Typing(props: Props) {
       }
       if (key.length === 1) {
         if (!typingStarted && !raceMode) {
-          onTypingStart();
+          onTypingStarted();
         }
         setCursorHidden(true);
         if (soundOnClick) playTypingSound();
@@ -121,7 +120,7 @@ export default function Typing(props: Props) {
     return () => document.removeEventListener('keydown', typeHandler);
   }, [
     typingStarted,
-    onTypingStart,
+    onTypingStarted,
     state.result.showResults,
     mode,
     quoteLength,
@@ -149,7 +148,7 @@ export default function Typing(props: Props) {
   }, [typingStarted]);
 
   const onRestart = useCallback(() => {
-    onTypingEnd();
+    onTypingEnded();
 
     quoteAbortController?.abort();
     quoteAbortController = new AbortController();
@@ -203,7 +202,7 @@ export default function Typing(props: Props) {
   }, [time, mode, wordsAmount, quoteLength, testText, raceMode]);
 
   const onRepeat = () => {
-    onTypingEnd();
+    onTypingEnded();
     dispatch({ type: 'RESTART' });
 
     if (mode === 'time') {
@@ -280,7 +279,7 @@ export default function Typing(props: Props) {
 
       if (onResult) {
         onResult(state.result);
-        onTypingEnd();
+        onTypingEnded();
       }
     }
 

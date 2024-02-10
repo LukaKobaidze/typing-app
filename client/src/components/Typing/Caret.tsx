@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { GlobalContext } from '@/context/global.context';
+import { TypingContext } from '@/context/typing.context';
 import { CustomizeContext } from '@/context/customize.context';
 import styles from '@/styles/Typing/Caret.module.scss';
 
@@ -24,7 +24,7 @@ export default function Caret(props: Props) {
     className,
   } = props;
 
-  const { typingStarted } = useContext(GlobalContext);
+  const { typingStarted } = useContext(TypingContext);
   const { caretStyle, smoothCaret } = useContext(CustomizeContext);
 
   const [caretPos, setCaretPos] = useState({ x: 0, y: 0 });

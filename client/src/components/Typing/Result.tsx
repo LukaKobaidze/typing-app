@@ -1,5 +1,5 @@
 import { useContext, useEffect } from 'react';
-import { GlobalContext } from '@/context/global.context';
+import { TypingContext } from '@/context/typing.context';
 import {
   ResponsiveContainer,
   LineChart,
@@ -29,11 +29,11 @@ interface Props {
 export default function Result(props: Props) {
   const { result, includeDate, onRestart, onRepeat, onGoBack } = props;
 
-  const { onTypingEnd } = useContext(GlobalContext);
+  const { onTypingEnded } = useContext(TypingContext);
 
   useEffect(() => {
-    onTypingEnd();
-  }, [onTypingEnd]);
+    onTypingEnded();
+  }, [onTypingEnded]);
 
   const textColorFromCSS = window
     .getComputedStyle(document.body)

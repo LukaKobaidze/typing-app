@@ -1,5 +1,5 @@
 import { useContext, useEffect, useRef, useState } from 'react';
-import { GlobalContext } from '@/context/global.context';
+import { TypingContext } from '@/context/typing.context';
 import { CustomizeContext } from '@/context/customize.context';
 import { TypingWords } from './types';
 import Caret from './Caret';
@@ -18,7 +18,7 @@ interface Props {
 export default function Input(props: Props) {
   const { words, wordIndex, charIndex, cursorHidden, secondCaret } = props;
 
-  const { typingStarted } = useContext(GlobalContext);
+  const { typingStarted } = useContext(TypingContext);
   const { caretStyle } = useContext(CustomizeContext);
   const [wordsOffset, setWordsOffset] = useState(0);
 
