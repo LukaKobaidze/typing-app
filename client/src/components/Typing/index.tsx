@@ -55,7 +55,8 @@ export default function Typing(props: Props) {
   const [isLoadingError, setIsLoadingError] = useState(false);
   const playTypingSound = useSound(typewriterSound, 0.3);
 
-  const isDisabled = disabled || (raceMode && !typingStarted);
+  const isTypingDisabled =
+    disabled || isLoading || isLoadingError || (raceMode && !typingStarted);
 
   useEffect(() => {
     const handleMouseMove = () => {
@@ -113,7 +114,7 @@ export default function Typing(props: Props) {
         return dispatch({ type: 'TYPE', payload: key });
       }
     };
-    if (state.result.showResults || isDisabled) {
+    if (state.result.showResults || isTypingDisabled) {
       document.removeEventListener('keydown', typeHandler);
     } else document.addEventListener('keydown', typeHandler);
 
@@ -126,7 +127,7 @@ export default function Typing(props: Props) {
     quoteLength,
     time,
     wordsAmount,
-    isDisabled,
+    isTypingDisabled,
     playTypingSound,
     soundOnClick,
     raceMode,
