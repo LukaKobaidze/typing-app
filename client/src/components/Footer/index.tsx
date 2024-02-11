@@ -14,12 +14,12 @@ interface Props {
 export default function Footer(props: Props) {
   const { roomCode, onPreviewResult } = props;
 
-  const { typingStarted } = useContext(TypingContext);
+  const { typingFocused } = useContext(TypingContext);
 
   return (
     <footer
       className={`${styles.footer} opacity-transition ${
-        typingStarted ? 'hide' : ''
+        typingFocused ? 'hide' : ''
       }`}
     >
       <div className={styles.links}>
@@ -38,7 +38,7 @@ export default function Footer(props: Props) {
             rel="noreferrer"
             target="_blank"
             className={styles.linksItemAnchor}
-            tabIndex={typingStarted ? -1 : undefined}
+            tabIndex={typingFocused ? -1 : undefined}
           >
             <IconGithub />
           </a>
@@ -47,7 +47,7 @@ export default function Footer(props: Props) {
 
       {!roomCode && (
         <RecentResults
-          className={`opacity-transition ${typingStarted ? 'hide' : ''}`}
+          className={`opacity-transition ${typingFocused ? 'hide' : ''}`}
           onPreviewResult={onPreviewResult}
         />
       )}

@@ -22,12 +22,12 @@ export default function Header(props: Props) {
   const { windowWidth, isSocketConnected, roomCode, onLogoClick, onUpdateRoomCode } =
     props;
 
-  const { typingStarted, onTypingDisable, onTypingAllow } =
+  const { typingFocused, onTypingDisable, onTypingAllow } =
     useContext(TypingContext);
   const [modalOpen, setModalOpen] = useState<ModalOpenType>(null);
 
   const updateModalOpen = (newState: ModalOpenType) => {
-    if (typingStarted) return;
+    if (typingFocused) return;
 
     setModalOpen(newState);
   };
@@ -52,19 +52,19 @@ export default function Header(props: Props) {
   }, [modalOpen]);
 
   useEffect(() => {
-    if (typingStarted) {
+    if (typingFocused) {
       setModalOpen(null);
     }
-  }, [typingStarted]);
+  }, [typingFocused]);
 
   return (
     <header className={styles.header}>
       <div className={styles.headerLogoButtonsWrapper}>
         <div onClick={() => onLogoClick()}>
-          <Logo colored={!typingStarted} />
+          <Logo colored={!typingFocused} />
         </div>
         <div
-          className={`opacity-transition ${typingStarted ? 'hide' : ''} ${
+          className={`opacity-transition ${typingFocused ? 'hide' : ''} ${
             styles.headerButtons
           }`}
         >
@@ -101,8 +101,8 @@ export default function Header(props: Props) {
         </ButtonRounded>
       ) : (
         <Typemode
-          className={`opacity-transition ${typingStarted ? 'hide' : ''}`}
-          hidden={typingStarted}
+          className={`opacity-transition ${typingFocused ? 'hide' : ''}`}
+          hidden={typingFocused}
         />
       )}
     </header>

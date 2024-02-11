@@ -40,8 +40,14 @@ export default function Typing(props: Props) {
     onResult,
   } = props;
 
-  const { typingDisabled, typingStarted, onTypingStarted, onTypingEnded } =
-    useContext(TypingContext);
+  const {
+    typingDisabled,
+    typingStarted,
+    typingFocused,
+    onUpdateTypingFocus,
+    onTypingStarted,
+    onTypingEnded,
+  } = useContext(TypingContext);
   const [state, dispatch] = useReducer(typingReducer, initialState);
   const { onTestStart, onTestComplete } = useContext(StatsContext);
   const { mode, wordsAmount, time, quoteLength } = useContext(TypemodeContext);
@@ -50,7 +56,6 @@ export default function Typing(props: Props) {
   const [isCapsLock, setIsCapsLock] = useState(false);
   const [timeCountdown, setTimeCountdown] = useState<number>(time);
   const [isLoading, setIsLoading] = useState(false);
-  const [cursorHidden, setCursorHidden] = useState(false);
   const [isLoadingError, setIsLoadingError] = useState(false);
   const playTypingSound = useSound(typewriterSound, 0.3);
 
@@ -59,28 +64,24 @@ export default function Typing(props: Props) {
 
   useEffect(() => {
     const handleMouseMove = () => {
-      setCursorHidden(false);
+      onUpdateTypingFocus(false);
     };
 
-    if (cursorHidden) {
-      document.documentElement.style.cursor = 'none';
+    if (typingFocused) {
       document.addEventListener('mousemove', handleMouseMove);
-    } else {
-      document.documentElement.style.cursor = 'auto';
-      document.removeEventListener('mousemove', handleMouseMove);
     }
 
     return () => {
       document.removeEventListener('mousemove', handleMouseMove);
     };
-  }, [cursorHidden]);
+  }, [typingFocused]);
 
   useEffect(() => {
     const typeHandler = (event: KeyboardEvent) => {
       const { key } = event;
 
       if (key === 'Escape') {
-        setCursorHidden(false);
+        onUpdateTypingFocus(false);
       }
 
       if (event.getModifierState && event.getModifierState('CapsLock')) {
@@ -89,18 +90,18 @@ export default function Typing(props: Props) {
         setIsCapsLock(false);
       }
       if (event.ctrlKey && key === 'Backspace') {
-        setCursorHidden(true);
+        onUpdateTypingFocus(true);
         if (soundOnClick) playTypingSound();
         return dispatch({ type: 'DELETE_WORD' });
       }
       if (key === 'Backspace') {
-        setCursorHidden(true);
+        onUpdateTypingFocus(true);
         if (soundOnClick) playTypingSound();
         return dispatch({ type: 'DELETE_KEY' });
       }
       if (key === ' ') {
         event.preventDefault();
-        setCursorHidden(true);
+        onUpdateTypingFocus(true);
         if (soundOnClick) playTypingSound();
         return dispatch({ type: 'NEXT_WORD' });
       }
@@ -108,7 +109,7 @@ export default function Typing(props: Props) {
         if (!typingStarted && !raceMode) {
           onTypingStarted();
         }
-        setCursorHidden(true);
+        onUpdateTypingFocus(true);
         if (soundOnClick) playTypingSound();
         return dispatch({ type: 'TYPE', payload: key });
       }
@@ -149,6 +150,7 @@ export default function Typing(props: Props) {
 
   const onRestart = useCallback(() => {
     onTypingEnded();
+    onUpdateTypingFocus(false);
 
     quoteAbortController?.abort();
     quoteAbortController = new AbortController();
@@ -203,6 +205,7 @@ export default function Typing(props: Props) {
 
   const onRepeat = () => {
     onTypingEnded();
+    onUpdateTypingFocus(false);
     dispatch({ type: 'RESTART' });
 
     if (mode === 'time') {
@@ -219,7 +222,7 @@ export default function Typing(props: Props) {
 
     if (state.wordIndex === state.words.length || lastWordCorrect) {
       dispatch({ type: 'RESULT' });
-      setCursorHidden(false);
+      onUpdateTypingFocus(false);
     }
   }, [mode, state.words, state.charIndex, state.wordIndex, raceMode]);
 
@@ -269,7 +272,7 @@ export default function Typing(props: Props) {
   useEffect(() => {
     if (timeCountdown === 0) {
       dispatch({ type: 'RESULT', payload: time });
-      setCursorHidden(false);
+      onUpdateTypingFocus(false);
     }
   }, [timeCountdown, time]);
 
@@ -344,7 +347,6 @@ export default function Typing(props: Props) {
                 words={state.words}
                 wordIndex={state.wordIndex}
                 charIndex={state.charIndex}
-                cursorHidden={cursorHidden}
                 secondCaret={secondCaret}
               />
             )}

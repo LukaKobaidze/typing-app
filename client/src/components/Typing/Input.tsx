@@ -9,16 +9,15 @@ interface Props {
   words: TypingWords;
   wordIndex: number;
   charIndex: number;
-  cursorHidden: boolean;
 
   /* Used for the Race (1v1) mode */
   secondCaret?: { wordIndex: number; charIndex: number };
 }
 
 export default function Input(props: Props) {
-  const { words, wordIndex, charIndex, cursorHidden, secondCaret } = props;
+  const { words, wordIndex, charIndex, secondCaret } = props;
 
-  const { typingStarted } = useContext(TypingContext);
+  const { typingStarted, typingFocused } = useContext(TypingContext);
   const { caretStyle } = useContext(CustomizeContext);
   const [wordsOffset, setWordsOffset] = useState(0);
 
@@ -70,7 +69,7 @@ export default function Input(props: Props) {
       <input
         type="text"
         className={`${styles['hidden-input']} ${
-          cursorHidden ? styles['hidden-input--nocursor'] : ''
+          typingFocused ? styles['hidden-input--nocursor'] : ''
         }`}
         autoCapitalize="off"
         ref={hiddenInputRef}
