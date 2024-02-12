@@ -16,7 +16,7 @@ export default function LoadingError(props: Props) {
         Failed to load{' '}
         {mode === 'quote' ? (
           <>
-            quotes from an{' '}
+            quotes from a{' '}
             <div className={styles.apiTooltipContainer}>
               <Tooltip
                 text={
@@ -34,7 +34,7 @@ export default function LoadingError(props: Props) {
                   href="https://github.com/lukePeavey/quotable"
                   className={styles.apiLink}
                 >
-                  API
+                  third-party API
                 </a>
               </Tooltip>
             </div>
