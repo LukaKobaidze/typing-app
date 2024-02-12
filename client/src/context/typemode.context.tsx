@@ -14,7 +14,7 @@ interface Context {
   onQuoteLength: (length: QuoteLengthType) => void;
 }
 const initial: Context = {
-  mode: 'quote',
+  mode: 'time',
   time: 15,
   wordsAmount: 10,
   quoteLength: 'short',

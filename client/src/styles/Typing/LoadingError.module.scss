@@ -24,3 +24,22 @@
 .typemodeButton {
   font-size: 18px;
 }
+
+.apiTooltipContainer {
+  display: inline-block;
+}
+
+.apiLink {
+  color: currentColor;
+}
+
+.apiTooltipText {
+  display: flex;
+  align-items: center;
+
+  &Icon {
+    width: 15px;
+    height: 15px;
+    margin-left: 10px;
+  }
+}
