@@ -1,6 +1,9 @@
 .main {
-  margin-bottom: auto;
   padding-bottom: 40px;
+
+  &MarginBottom {
+    margin-bottom: auto;
+  }
 }
 
 .typemode {

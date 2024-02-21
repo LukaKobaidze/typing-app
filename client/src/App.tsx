@@ -43,13 +43,20 @@ export default function App() {
         onLogoClick={() => setPreviewResult(null)}
         onUpdateRoomCode={(roomCode) => setRoomCode(roomCode)}
       />
-      <Typemode
-        className={`opacity-transition ${typingStarted ? 'hide' : ''} ${
-          styles.typemode
-        }`}
-      />
 
-      <main className={styles.main}>
+      {!roomCode && (
+        <Typemode
+          className={`opacity-transition ${typingStarted ? 'hide' : ''} ${
+            styles.typemode
+          }`}
+        />
+      )}
+
+      <main
+        className={`${styles.main} ${
+          !roomCode && !previewResult ? styles.mainMarginBottom : ''
+        }`}
+      >
         <div className={styles.mainContent}>
           {roomCode ? (
             <Race roomCode={roomCode} />
