@@ -10,10 +10,15 @@ export { default as IconKeyboardArrowLeft } from './keyboard_arrow_left.svg?reac
 export { default as IconKeyboard } from './keyboard.svg?react';
 export { default as IconLock } from './lock.svg?react';
 export { default as IconLoop } from './loop.svg?react';
+export { default as IconNumbers } from './numbers.svg?react';
 export { default as IconPercent } from './percent.svg?react';
+export { default as IconPunctuation } from './punctuation.svg?react';
+export { default as IconQuote } from './quote.svg?react';
 export { default as IconRedirect } from './redirect.svg?react';
 export { default as IconRefresh } from './refresh.svg?react';
 export { default as IconSpeed } from './speed.svg?react';
 export { default as IconStats } from './stats.svg?react';
+export { default as IconTime } from './time.svg?react';
 export { default as IconTrophy } from './trophy.svg?react';
 export { default as IconUser } from './user.svg?react';
+export { default as IconWords } from './words.svg?react';

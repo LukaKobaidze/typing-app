@@ -65,14 +65,11 @@
   }
 
   &Button {
-    background-color: rgba(0, 0, 0, 0.3);
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.4);
 
     &:active {
-      background-color: rgba(0, 0, 0, 0.3) !important;
-    }
-
-    &.active {
-      
+      background-color: rgba(0, 0, 0, 0.5) !important;
     }
   }
 }

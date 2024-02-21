@@ -21,6 +21,7 @@ export default function CustomizeModal(props: Props) {
     smoothCaret,
     soundOnClick,
     theme,
+    quoteTags,
     onToggleLiveWpm,
     onToggleLiveAccuracy,
     onUpdateInputWidth,
@@ -29,9 +30,16 @@ export default function CustomizeModal(props: Props) {
     onToggleSoundOnClick,
     onResetToDefault,
     onUpdateTheme,
+    onToggleQuoteTag,
   } = useContext(CustomizeContext);
 
   const [showInputWidthTooltip, setShowInputWidthTooltip] = useState(false);
+
+  const onQuoteSelectionChange = (e: React.ChangeEvent<HTMLFormElement>) => {
+    const checkbox = e.target as unknown as HTMLInputElement;
+
+    onToggleQuoteTag(Number(checkbox.value));
+  };
 
   return (
     <Modal
@@ -194,6 +202,27 @@ export default function CustomizeModal(props: Props) {
           </div>
         </div>
       </div>
+      <form className={styles.setting} onChange={onQuoteSelectionChange}>
+        <label className={`${styles.label} ${styles.active}`}>Quote</label>
+
+        <div className={styles.quoteTagsContainer}>
+          {quoteTags.map((tag, index) => (
+            <label
+              className={`${styles.quoteTag} ${
+                tag.isSelected ? styles.checked : ''
+              }`}
+            >
+              <input
+                type="checkbox"
+                checked={tag.isSelected}
+                value={index}
+                className={styles.quoteTagCheckbox}
+              />
+              {tag.name}
+            </label>
+          ))}
+        </div>
+      </form>
 
       <ButtonRounded
         onClick={onResetToDefault}

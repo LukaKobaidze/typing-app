@@ -6,7 +6,7 @@ import { StatsContext } from '@/context/stats.context';
 import { IconLock } from '@/assets/image';
 import typewriterSound from '@/assets/audio/typewriter.wav';
 import typingReducer, { initialState } from './reducer/typing.reducer';
-import { getRandomQuote, getRandomWords, getTypingWords } from '@/helpers';
+import { getRandomWords, getTypingWords } from '@/helpers';
 import { useSound } from '@/hooks';
 import { Loading } from '@/components/UI';
 import Input from './Input';
@@ -17,6 +17,7 @@ import LoadingError from './LoadingError';
 import styles from '@/styles/Typing/Typing.module.scss';
 import counterStyles from '@/styles/Typing/Counter.module.scss';
 import { TypingResult } from '@/types';
+import { getRandomQuoteByLength } from '@/services/quotable';
 
 interface Props {
   testText?: string;
@@ -50,7 +51,8 @@ export default function Typing(props: Props) {
   } = useContext(TypingContext);
   const [state, dispatch] = useReducer(typingReducer, initialState);
   const { onTestStart, onTestComplete } = useContext(StatsContext);
-  const { mode, wordsAmount, time, quoteLength } = useContext(TypemodeContext);
+  const { mode, words, time, quote, numbers, punctuation } =
+    useContext(TypemodeContext);
   const { liveWpm, liveAccuracy, inputWidth, soundOnClick } =
     useContext(CustomizeContext);
   const [isCapsLock, setIsCapsLock] = useState(false);
@@ -124,9 +126,9 @@ export default function Typing(props: Props) {
     onTypingStarted,
     state.result.showResults,
     mode,
-    quoteLength,
+    quote,
     time,
-    wordsAmount,
+    words,
     isTypingDisabled,
     playTypingSound,
     soundOnClick,
@@ -139,9 +141,7 @@ export default function Typing(props: Props) {
         type: 'START',
         payload:
           typeModeCustom ||
-          `${mode} ${
-            mode === 'time' ? time : mode === 'words' ? wordsAmount : quoteLength
-          }`,
+          `${mode} ${mode === 'time' ? time : mode === 'words' ? words : quote}`,
       });
     }
 
@@ -168,16 +168,22 @@ export default function Typing(props: Props) {
 
     if (!raceMode) {
       if (mode === 'time') {
-        dispatch({ type: 'RESTART', payload: getRandomWords() });
+        dispatch({
+          type: 'RESTART',
+          payload: getRandomWords(50, punctuation, numbers),
+        });
         setTimeCountdown(time);
       } else if (mode === 'words') {
-        dispatch({ type: 'RESTART', payload: getRandomWords(wordsAmount) });
+        dispatch({
+          type: 'RESTART',
+          payload: getRandomWords(words, punctuation, numbers),
+        });
       } else {
         dispatch({ type: 'RESTART', payload: [] });
 
         setIsLoading(true);
 
-        getRandomQuote(quoteLength, quoteAbortController)
+        getRandomQuoteByLength(quote, quoteAbortController)
           .then((data) => {
             dispatch({
               type: 'NEW_WORDS',
@@ -201,7 +207,7 @@ export default function Typing(props: Props) {
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [time, mode, wordsAmount, quoteLength, testText, raceMode]);
+  }, [time, mode, words, quote, testText, raceMode, numbers, punctuation]);
 
   const onRepeat = () => {
     onTypingEnded();
@@ -231,7 +237,10 @@ export default function Typing(props: Props) {
 
     if (mode === 'time') {
       if ((state.wordIndex + 1) % 10 === 0) {
-        dispatch({ type: 'ADD_WORDS', payload: 10 });
+        dispatch({
+          type: 'ADD_WORDS',
+          payload: getRandomWords(10, punctuation, numbers),
+        });
       }
     }
   }, [mode, state.wordIndex, raceMode]);

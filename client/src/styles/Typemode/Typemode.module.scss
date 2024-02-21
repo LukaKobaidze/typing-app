@@ -1,7 +1,19 @@
-.settings {
-  flex-shrink: 0;
-  
-  @media (max-width: 550px) {
-    margin-top: 20px;
-  }
+.container {
+  background-color: var(--typemode-bg);
+  width: max-content;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.splitBar {
+  align-self: stretch;
+  width: 3px;
+  background-color: var(--clr-char);
+  margin-top: 9px;
+  margin-bottom: 9px;
+  opacity: 0.2;
 }

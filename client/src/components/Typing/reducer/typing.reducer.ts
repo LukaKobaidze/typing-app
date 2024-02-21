@@ -46,7 +46,7 @@ export type TypingActions =
   | { type: 'NEXT_WORD' }
   | { type: 'DELETE_KEY' }
   | { type: 'DELETE_WORD' }
-  | { type: 'ADD_WORDS'; payload: number }
+  | { type: 'ADD_WORDS'; payload: TypingWords }
   | { type: 'RESTART'; payload?: TypingWords }
   | { type: 'TIMELINE' }
   | { type: 'RESULT'; payload?: number }

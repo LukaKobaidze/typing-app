@@ -1,61 +1,104 @@
-import { useContext } from 'react';
-import { TypemodeContext } from '@/context/typemode.context';
-import { data } from '@/data';
-import Setting from './Setting';
 import styles from '@/styles/Typemode/Typemode.module.scss';
-import { QuoteLengthType } from '@/types';
+import { data } from '@/data';
+import { useContext, useMemo } from 'react';
+import { TypemodeContext } from '@/context/typemode.context';
+import { TypemodeType } from '@/data/types';
+import Column, { ColumnProps } from './Column';
+import {
+  IconNumbers,
+  IconPunctuation,
+  IconQuote,
+  IconTime,
+  IconWords,
+} from '@/assets/image';
 
 interface Props {
-  hidden: boolean;
   className?: string;
 }
 
-export default function Typemode({ hidden, className }: Props) {
+export default function Typemode({ className }: Props) {
   const {
     mode,
     time,
-    wordsAmount,
-    quoteLength,
+    quote,
+    words,
+    punctuation,
+    numbers,
     onMode,
     onTime,
-    onWordsAmount,
-    onQuoteLength,
+    onQuote,
+    onWords,
+    onPunctuationToggle,
+    onNumbersToggle,
   } = useContext(TypemodeContext);
 
+  const typemodeKeys = Object.keys(data.typemode) as TypemodeType[];
+
+  const colFirstButtons = useMemo<ColumnProps['buttons']>(() => {
+    const active = [];
+
+    if (punctuation) active.push('punctuation');
+
+    if (numbers) active.push('numbers');
+
+    return mode === 'words' || mode === 'time'
+      ? [
+          {
+            Icon: IconPunctuation,
+            text: 'punctuation',
+            action: () => onPunctuationToggle(),
+            active: punctuation,
+          },
+          {
+            Icon: IconNumbers,
+            text: 'numbers',
+            action: () => onNumbersToggle(),
+            active: numbers,
+          },
+        ]
+      : [];
+  }, [mode, punctuation, numbers]);
+
+  const modeIcons = { time: IconTime, words: IconWords, quote: IconQuote };
+
+  const colSecondButtons = useMemo<ColumnProps['buttons']>(() => {
+    return typemodeKeys.map((modeLocal) => ({
+      Icon: modeIcons[modeLocal],
+      text: modeLocal,
+      action: () => onMode(modeLocal),
+      active: modeLocal === mode,
+    }));
+  }, [mode]);
+
+  const colThirdButtons = useMemo<ColumnProps['buttons']>(() => {
+    return mode === 'time'
+      ? data.typemode.time.map((timeLocal) => ({
+          text: timeLocal,
+          action: () => onTime(timeLocal),
+          active: timeLocal === time,
+        }))
+      : mode === 'words'
+      ? data.typemode.words.map((wordsLocal) => ({
+          text: wordsLocal,
+          action: () => onWords(wordsLocal),
+          active: wordsLocal === words,
+        }))
+      : data.typemode.quote.map((quoteLocal) => ({
+          text: quoteLocal,
+          action: () => onQuote(quoteLocal),
+          active: quote === 'all' ? quoteLocal !== 'all' : quoteLocal === quote,
+        }));
+  }, [mode, time, words, quote]);
+
   return (
-    <div className={`${styles.settings} ${className}`}>
-      <Setting
-        settings={Object.keys(data.typemode)}
-        active={mode}
-        onChange={onMode}
-        hidden={hidden}
-      />
-      {mode === 'time' ? (
-        <Setting
-          settings={data.typemode.time}
-          active={time}
-          onChange={onTime}
-          hidden={hidden}
-        />
-      ) : mode === 'words' ? (
-        <Setting
-          settings={data.typemode.words}
-          active={wordsAmount}
-          onChange={onWordsAmount}
-          hidden={hidden}
-        />
-      ) : (
-        <Setting
-          settings={data.typemode.quote}
-          active={
-            quoteLength === 'all'
-              ? (['short', 'medium', 'long'] as QuoteLengthType[])
-              : quoteLength
-          }
-          onChange={onQuoteLength}
-          hidden={hidden}
-        />
-      )}
+    <div className={`${styles.container} ${className}`}>
+      <Column buttons={colFirstButtons} />
+
+      {!!colFirstButtons.length && <div className={styles.splitBar} />}
+      <Column buttons={colSecondButtons} />
+      {!!colThirdButtons.length && <div className={styles.splitBar} />}
+
+      <Column buttons={colThirdButtons} />
     </div>
   );
 }

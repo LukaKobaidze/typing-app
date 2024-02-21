@@ -100,10 +100,11 @@ export default function Header(props: Props) {
           Leave Room
         </ButtonRounded>
       ) : (
-        <Typemode
-          className={`opacity-transition ${typingFocused ? 'hide' : ''}`}
-          hidden={typingFocused}
-        />
+        <></>
+        // <Typemode
+        //   className={`opacity-transition ${typingFocused ? 'hide' : ''}`}
+        //   hidden={typingFocused}
+        // />
       )}
     </header>
   );

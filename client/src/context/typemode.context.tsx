@@ -6,22 +6,30 @@ import { QuoteLengthType } from '@/types';
 interface Context {
   mode: TypemodeType;
   time: TypemodeTime;
-  wordsAmount: TypemodeWords;
-  quoteLength: QuoteLengthType;
+  words: TypemodeWords;
+  quote: QuoteLengthType;
+  punctuation: boolean;
+  numbers: boolean;
   onMode: (mode: TypemodeType) => void;
   onTime: (time: TypemodeTime) => void;
-  onWordsAmount: (amount: TypemodeWords) => void;
-  onQuoteLength: (length: QuoteLengthType) => void;
+  onWords: (amount: TypemodeWords) => void;
+  onQuote: (length: QuoteLengthType) => void;
+  onPunctuationToggle: () => void;
+  onNumbersToggle: () => void;
 }
 const initial: Context = {
   mode: 'quote',
   time: 15,
-  wordsAmount: 10,
-  quoteLength: 'short',
+  words: 10,
+  quote: 'short',
+  punctuation: false,
+  numbers: false,
   onMode: () => {},
   onTime: () => {},
-  onWordsAmount: () => {},
-  onQuoteLength: () => {},
+  onWords: () => {},
+  onQuote: () => {},
+  onPunctuationToggle: () => {},
+  onNumbersToggle: () => {},
 };
 
 export const TypemodeContext = createContext(initial);
@@ -32,15 +40,14 @@ interface Props {
 
 export const TypemodeContextProvider = ({ children }: Props) => {
   const [mode, setMode] = useLocalStorageState('typing-mode', initial.mode);
-  const [quoteLength, setQuoteLength] = useLocalStorageState(
-    'typing-quote',
-    initial.quoteLength
-  );
+  const [quote, setquote] = useLocalStorageState('typing-quote', initial.quote);
   const [time, setTime] = useLocalStorageState('typing-time', initial.time);
-  const [wordsAmount, setWordsAmount] = useLocalStorageState(
-    'typing-wordsAmount',
-    initial.wordsAmount
+  const [words, setwords] = useLocalStorageState('typing-words', initial.words);
+  const [punctuation, setPunctuation] = useLocalStorageState(
+    'punctuation',
+    initial.punctuation
   );
+  const [numbers, setNumbers] = useLocalStorageState('numbers', initial.numbers);
 
   const onMode: Context['onMode'] = (mode) => {
     setMode(mode);
@@ -48,11 +55,19 @@ export const TypemodeContextProvider = ({ children }: Props) => {
   const onTime: Context['onTime'] = (time) => {
     setTime(time);
   };
-  const onWordsAmount: Context['onWordsAmount'] = (amount) => {
-    setWordsAmount(amount);
+  const onWords: Context['onWords'] = (amount) => {
+    setwords(amount);
   };
-  const onQuoteLength: Context['onQuoteLength'] = (length) => {
-    setQuoteLength(length);
+  const onQuote: Context['onQuote'] = (length) => {
+    setquote(length);
+  };
+
+  const onPunctuationToggle: Context['onPunctuationToggle'] = () => {
+    setPunctuation((state) => !state);
+  };
+
+  const onNumbersToggle: Context['onNumbersToggle'] = () => {
+    setNumbers((state) => !state);
   };
 
   return (
@@ -60,12 +75,16 @@ export const TypemodeContextProvider = ({ children }: Props) => {
       value={{
         mode,
         time,
-        wordsAmount,
-        quoteLength,
+        words,
+        quote,
+        punctuation,
+        numbers,
         onMode,
         onTime,
-        onWordsAmount,
-        onQuoteLength,
+        onWords,
+        onQuote,
+        onPunctuationToggle,
+        onNumbersToggle,
       }}
     >
       {children}
