@@ -1,7 +1,6 @@
 import { useCallback, useContext, useEffect, useReducer, useState } from 'react';
 import { TypingContext } from '@/context/typing.context';
 import { TypemodeContext } from '@/context/typemode.context';
-import { CustomizeContext } from '@/context/customize.context';
 import { StatsContext } from '@/context/stats.context';
 import { IconLock } from '@/assets/image';
 import typewriterSound from '@/assets/audio/typewriter.wav';
@@ -18,6 +17,7 @@ import styles from '@/styles/Typing/Typing.module.scss';
 import counterStyles from '@/styles/Typing/Counter.module.scss';
 import { TypingResult } from '@/types';
 import { getRandomQuoteByLength } from '@/services/quotable';
+import { ProfileContext } from '@/context/profile.context';
 
 interface Props {
   testText?: string;
@@ -51,18 +51,25 @@ export default function Typing(props: Props) {
   } = useContext(TypingContext);
   const [state, dispatch] = useReducer(typingReducer, initialState);
   const { onTestStart, onTestComplete } = useContext(StatsContext);
-  const { mode, words, time, quote, numbers, punctuation } =
-    useContext(TypemodeContext);
-  const { liveWpm, liveAccuracy, inputWidth, soundOnClick } =
-    useContext(CustomizeContext);
+  const {
+    mode,
+    words,
+    time,
+    quote,
+    numbers,
+    punctuation,
+    quoteTags,
+    quoteTagsMode,
+  } = useContext(TypemodeContext);
+  const { profile } = useContext(ProfileContext);
   const [isCapsLock, setIsCapsLock] = useState(false);
   const [timeCountdown, setTimeCountdown] = useState<number>(time);
   const [isLoading, setIsLoading] = useState(false);
-  const [isLoadingError, setIsLoadingError] = useState(false);
+  const [loadingError, setLoadingError] = useState<404 | 500 | null>(null);
   const playTypingSound = useSound(typewriterSound, 0.3);
 
   const isTypingDisabled =
-    typingDisabled || isLoading || isLoadingError || (raceMode && !typingStarted);
+    typingDisabled || isLoading || loadingError || (raceMode && !typingStarted);
 
   useEffect(() => {
     const handleMouseMove = () => {
@@ -93,18 +100,18 @@ export default function Typing(props: Props) {
       }
       if (event.ctrlKey && key === 'Backspace') {
         onUpdateTypingFocus(true);
-        if (soundOnClick) playTypingSound();
+        if (profile.customize.soundOnClick) playTypingSound();
         return dispatch({ type: 'DELETE_WORD' });
       }
       if (key === 'Backspace') {
         onUpdateTypingFocus(true);
-        if (soundOnClick) playTypingSound();
+        if (profile.customize.soundOnClick) playTypingSound();
         return dispatch({ type: 'DELETE_KEY' });
       }
       if (key === ' ') {
         event.preventDefault();
         onUpdateTypingFocus(true);
-        if (soundOnClick) playTypingSound();
+        if (profile.customize.soundOnClick) playTypingSound();
         return dispatch({ type: 'NEXT_WORD' });
       }
       if (key.length === 1) {
@@ -112,7 +119,7 @@ export default function Typing(props: Props) {
           onTypingStarted();
         }
         onUpdateTypingFocus(true);
-        if (soundOnClick) playTypingSound();
+        if (profile.customize.soundOnClick) playTypingSound();
         return dispatch({ type: 'TYPE', payload: key });
       }
     };
@@ -131,7 +138,7 @@ export default function Typing(props: Props) {
     words,
     isTypingDisabled,
     playTypingSound,
-    soundOnClick,
+    profile.customize.soundOnClick,
     raceMode,
   ]);
 
@@ -155,7 +162,7 @@ export default function Typing(props: Props) {
     quoteAbortController?.abort();
     quoteAbortController = new AbortController();
     setIsLoading(false);
-    setIsLoadingError(false);
+    setLoadingError(null);
 
     if (testText !== undefined) {
       if (!testText.trim().length) {
@@ -183,31 +190,48 @@ export default function Typing(props: Props) {
 
         setIsLoading(true);
 
-        getRandomQuoteByLength(quote, quoteAbortController)
-          .then((data) => {
-            dispatch({
-              type: 'NEW_WORDS',
-              payload: {
-                words: getTypingWords(
-                  data.content.replace(/—/g, '-').replace(/…/g, '...').split(' ')
-                ),
-                author: data.author,
-              },
-            });
+        const tags =
+          quoteTagsMode === 'only selected' && quoteTags.length
+            ? quoteTags.filter((tag) => tag.isSelected).map((tag) => tag.name)
+            : undefined;
 
+        getRandomQuoteByLength(quote, tags, quoteAbortController).then((data) => {
+          if (
+            (data.statusCode && data.statusCode === 404) ||
+            data.statusCode === 500
+          ) {
+            setLoadingError(data.statusCode);
             setIsLoading(false);
-            setIsLoadingError(false);
-          })
-          .catch((err) => {
-            if (String(err).startsWith('AbortError')) return;
+            return;
+          }
 
-            setIsLoading(false);
-            setIsLoadingError(true);
+          dispatch({
+            type: 'NEW_WORDS',
+            payload: {
+              words: getTypingWords(
+                data.content.replace(/—/g, '-').replace(/…/g, '...').split(' ')
+              ),
+              author: data.author,
+            },
           });
+
+          setIsLoading(false);
+          setLoadingError(null);
+        });
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [time, mode, words, quote, testText, raceMode, numbers, punctuation]);
+  }, [
+    time,
+    mode,
+    words,
+    quote,
+    testText,
+    raceMode,
+    numbers,
+    punctuation,
+    quoteTagsMode,
+  ]);
 
   const onRepeat = () => {
     onTypingEnded();
@@ -311,13 +335,13 @@ export default function Typing(props: Props) {
       {raceMode || !state.result.showResults ? (
         <>
           <div className={styles.liveResult}>
-            {liveWpm && (
+            {profile.customize.liveWpm && (
               <div className={styles.liveResultItem}>
                 <span>wpm</span>
                 <span>{timelineLatest?.wpm || '-'}</span>
               </div>
             )}
-            {liveAccuracy && (
+            {profile.customize.liveAccuracy && (
               <div className={styles.liveResultItem}>
                 <span>accuracy</span>
                 <span>{timelineLatest?.accuracy || '-'}</span>
@@ -327,7 +351,7 @@ export default function Typing(props: Props) {
 
           <div
             className={styles['typing__container']}
-            style={{ width: inputWidth * 0.8 + '%' }}
+            style={{ width: profile.customize.inputWidth * 0.95 + '%' }}
           >
             {raceMode && state.result.showResults ? (
               <div className={counterStyles.counter}>
@@ -349,8 +373,8 @@ export default function Typing(props: Props) {
                 <p>CAPS LOCK</p>
               </div>
             )}
-            {isLoadingError && state.words.length === 0 ? (
-              <LoadingError />
+            {loadingError && state.words.length === 0 ? (
+              <LoadingError status={loadingError} />
             ) : (
               <Input
                 words={state.words}

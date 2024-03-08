@@ -1,0 +1,180 @@
+@use '../../../../styles/theme/themes-preview' as theme;
+
+.modal {
+  max-width: 460px;
+}
+
+.customizationsWrapper {
+  width: 100%;
+}
+
+.setting {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+
+  &Theme {
+    flex-wrap: nowrap;
+    align-items: flex-start;
+
+    & > label {
+      margin-top: 12px;
+    }
+  }
+}
+
+.caretStylesButtons {
+  display: flex;
+  align-items: center;
+
+  & > *:not(:last-child) {
+    margin-right: 5px;
+  }
+}
+
+.caretStylesBtn {
+  background: none;
+  border: 2px solid var(--clr-char);
+  border-radius: 5px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  height: 40px;
+  width: 40px;
+  padding: 7px;
+  cursor: pointer;
+
+  &.active {
+    border-color: var(--clr-main);
+    background-color: rgba(255, 255, 255, 0.05);
+    filter: brightness(120%);
+  }
+
+  &Caret {
+    position: static !important;
+    max-height: 100%;
+  }
+}
+
+.label {
+  margin-right: 15px;
+  opacity: 0.75;
+  transition: opacity 200ms;
+  user-select: none;
+
+  &.active {
+    opacity: 1;
+  }
+}
+
+.range {
+  position: relative;
+
+  &Input {
+    position: relative;
+    z-index: 2;
+    margin-top: 3px;
+    accent-color: var(--clr-main);
+  }
+
+  &TooltipContainer {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 88%;
+    height: 100%;
+    pointer-events: none;
+  }
+
+  &TooltipRelative {
+    position: relative;
+  }
+  &Tooltip {
+    position: absolute;
+    left: 0;
+  }
+}
+
+.input-width-percentage {
+  position: absolute;
+  right: 0;
+  transform: translateX(100%);
+  font-weight: bold;
+}
+
+.themeButtons {
+  display: flex;
+  flex-wrap: wrap;
+
+  & > button:not(:last-child) {
+    margin-right: 7px;
+  }
+}
+
+.themeBtn {
+  font-size: inherit;
+  font-family: inherit;
+  border-radius: 12px;
+  padding: 0.4em 1em;
+  border: none;
+  cursor: pointer;
+  border: 2px solid transparent;
+  margin-top: 5px;
+
+  &--default {
+    color: theme.$default-text;
+    background-color: theme.$default-bg;
+
+    &:hover,
+    &.active {
+      border-color: theme.$default-text;
+    }
+  }
+
+  &--midnight {
+    color: theme.$midnight-text;
+    background-color: theme.$midnight-bg;
+
+    &:hover,
+    &.active {
+      border-color: theme.$midnight-text;
+    }
+  }
+
+  &--retro {
+    color: theme.$retro-text;
+    background-color: theme.$retro-bg;
+
+    &:hover,
+    &.active {
+      border-color: theme.$retro-text;
+    }
+  }
+
+  &--superuser {
+    color: theme.$superuser-text;
+    background-color: theme.$superuser-bg;
+
+    &:hover,
+    &.active {
+      border-color: theme.$superuser-text;
+    }
+  }
+
+  &--vscode {
+    color: theme.$vscode-text;
+    background-color: theme.$vscode-bg;
+
+    &:hover,
+    &.active {
+      border-color: theme.$vscode-text;
+    }
+  }
+}
+
+.buttonResetToDefault {
+  margin-top: 40px;
+}

@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { TypingContext } from '@/context/typing.context';
-import { CustomizeContext } from '@/context/customize.context';
 import styles from '@/styles/Typing/Caret.module.scss';
+import { ProfileContext } from '@/context/profile.context';
 
 interface Props {
   wordIndex: number;
@@ -25,7 +25,7 @@ export default function Caret(props: Props) {
   } = props;
 
   const { typingStarted } = useContext(TypingContext);
-  const { caretStyle, smoothCaret } = useContext(CustomizeContext);
+  const { profile } = useContext(ProfileContext);
 
   const [caretPos, setCaretPos] = useState({ x: 0, y: 0 });
 
@@ -53,11 +53,11 @@ export default function Caret(props: Props) {
 
   return (
     <div
-      className={`${styles.caret} ${styles[`caret--${caretStyle}`]} ${
-        smoothCaret ? styles.smooth : ''
-      } ${
+      className={`${styles.caret} ${
+        styles[`caret--${profile.customize.caretStyle}`]
+      } ${profile.customize.smoothCaret ? styles.smooth : ''} ${
         !typingStarted
-          ? smoothCaret
+          ? profile.customize.smoothCaret
             ? styles['blink-smooth']
             : styles['blink']
           : ''

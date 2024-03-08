@@ -1,0 +1,36 @@
+.wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.input {
+  width: 100%;
+  font-family: inherit;
+  padding: 0.5em;
+  border: none;
+  border-radius: 10px;
+  background-color: var(--clr-bg);
+  color: inherit;
+  font-size: 16px;
+  border: 1px solid transparent;
+  outline: none;
+  padding-left: 35px;
+
+  &.error {
+    border-color: var(--clr-char-incorrect);
+  }
+
+  &:focus {
+    border-color: var(--clr-main);
+  }
+}
+
+.icon {
+  width: 20px;
+  position: absolute;
+  top: 50%;
+  left: 7px;
+  transform: translateY(-50%);
+  opacity: 0.6;
+  pointer-events: none;
+}

@@ -19,6 +19,14 @@ img {
   display: block;
 }
 
+button {
+  font-family: inherit;
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+}
+
 *,
 *::before,
 *::after {
@@ -62,7 +70,7 @@ body {
 
 ::-webkit-scrollbar {
   width: 0.5em;
-  
+
   &-track {
     background: var(--clr-modal);
   }

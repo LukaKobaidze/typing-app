@@ -11,13 +11,15 @@ type QuoteType = {
   length: number;
   tags: string[];
   _id: string;
+  statusCode?: number;
 };
 export async function getRandomQuoteByLength(
   length: QuoteLengthType,
+  tags?: string[],
   abortController?: AbortController | null
 ) {
   const response = await fetch(
-    `${API_URL}/random${
+    `${API_URL}/random${tags?.length ? '?tags=' + tags.join('|') : ''}${
       length === 'short'
         ? '?maxLength=100'
         : length === 'medium'

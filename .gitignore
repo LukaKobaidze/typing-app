@@ -3,6 +3,7 @@ TODO.md
 node_modules
 client/node_modules
 server/node_modules
+server/.env
 
 client/build
 server/build

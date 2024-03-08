@@ -25,6 +25,12 @@ export default function Column(props: ColumnProps) {
   const [hasUpdatedSize, setHasUpdatedSize] = useState(false);
 
   useEffect(() => {
+    setTimeout(() => {
+      setHasUpdatedSize(false);
+    }, 200);
+  }, []);
+
+  useEffect(() => {
     setHasUpdatedSize(false);
   }, [buttons]);
 
@@ -47,6 +53,7 @@ export default function Column(props: ColumnProps) {
       >
         {buttons.map(({ text, active, action, Icon }) => (
           <TextButton
+            key={text}
             className={styles.button}
             isActive={active}
             onClick={() => action()}

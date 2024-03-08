@@ -13,10 +13,11 @@
   &LogoButtonsWrapper {
     display: flex;
     align-items: center;
-    margin-right: auto;
+    width: 100%;
   }
 
   &Buttons {
+    width: 100%;
     display: flex;
     position: relative;
     margin-right: auto;
@@ -73,4 +74,8 @@
   & > span {
     margin-left: 7px;
   }
+}
+
+.accountBtn {
+  margin-left: auto;
 }

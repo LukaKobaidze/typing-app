@@ -8,9 +8,11 @@ import {
   IconNumbers,
   IconPunctuation,
   IconQuote,
+  IconTags,
   IconTime,
   IconWords,
 } from '@/assets/image';
+import { ModalContext } from '@/context/modal.context';
 
 interface Props {
   className?: string;
@@ -32,13 +34,14 @@ export default function Typemode({ className }: Props) {
     onNumbersToggle,
   } = useContext(TypemodeContext);
 
+  const { onOpenModal } = useContext(ModalContext);
+
   const typemodeKeys = Object.keys(data.typemode) as TypemodeType[];
 
   const colFirstButtons = useMemo<ColumnProps['buttons']>(() => {
     const active = [];
 
     if (punctuation) active.push('punctuation');
-
     if (numbers) active.push('numbers');
 
     return mode === 'words' || mode === 'time'
@@ -56,7 +59,14 @@ export default function Typemode({ className }: Props) {
             active: numbers,
           },
         ]
-      : [];
+      : [
+          {
+            Icon: IconTags,
+            text: 'tags',
+            action: () => onOpenModal('quoteTags'),
+            active: false,
+          },
+        ];
   }, [mode, punctuation, numbers]);
 
   const modeIcons = { time: IconTime, words: IconWords, quote: IconQuote };

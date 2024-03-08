@@ -1,0 +1,179 @@
+.modal {
+  @media (max-width: 660px) {
+  }
+}
+
+.serverErrorMessage {
+  color: var(--clr-char-incorrect);
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 10px;
+
+  &Icon {
+    margin-right: 5px;
+  }
+}
+
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+
+  @media (max-width: 660px) {
+    flex-direction: column;
+  }
+}
+
+.heading {
+  margin-bottom: 30px;
+  font-weight: 500;
+}
+
+.box {
+  display: flex;
+  flex-direction: column;
+
+  &Create {
+    flex-shrink: 0;
+  }
+
+  &Join {
+  }
+}
+
+.setting {
+  margin-bottom: 20px;
+
+  &Heading {
+    color: var(--clr-raw);
+    font-weight: 400;
+    font-size: 15px;
+    margin-bottom: 5px;
+    margin-left: 7px;
+  }
+
+  &ButtonOptions {
+    display: flex;
+    flex-wrap: wrap;
+
+    & > button {
+      margin-top: 5px;
+
+      &:not(:last-child) {
+        margin-right: 5px;
+      }
+    }
+  }
+
+  &Button {
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.4);
+
+    &:active {
+      background-color: rgba(0, 0, 0, 0.5) !important;
+    }
+  }
+}
+
+.or {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 20px;
+
+  @media (max-width: 660px) {
+    flex-direction: row;
+    margin: 20px 0;
+  }
+
+  &::before,
+  &::after {
+    content: '';
+    background-color: var(--clr-char);
+    height: 100%;
+    width: 1px;
+    margin: 5px 0;
+
+    @media (max-width: 660px) {
+      width: 100%;
+      height: 1px;
+      margin: 0 5px;
+    }
+  }
+}
+
+.joinForm {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 37px;
+}
+
+.inputWrapper {
+  position: relative;
+  height: 100%;
+}
+
+.input {
+  font-family: inherit;
+  font-size: 19px;
+  font-weight: 500;
+  width: 8em;
+  border: none;
+  background-color: var(--clr-bg);
+  height: 100%;
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+  outline: none;
+  color: var(--clr-text);
+  padding: 0 37px 0 0.5em;
+  border: 1px solid transparent;
+
+  @media (max-width: 660px) {
+    width: 100%;
+  }
+
+  &::placeholder {
+    font-size: 13px;
+    transition: opacity 100ms;
+  }
+
+  &:focus {
+    &::placeholder {
+      opacity: 0;
+    }
+
+    & + .inputCounter {
+      opacity: 0.7;
+    }
+  }
+
+  &.error {
+    border-color: var(--clr-char-incorrect);
+  }
+}
+
+.inputCounter {
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  transform: translateY(calc(-50% - 1px));
+  font-size: 15px;
+  opacity: 0.75;
+  user-select: none;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 100ms;
+}
+
+.joinButton {
+  height: 100%;
+  border-radius: 0 8px 8px 0 !important;
+}
+
+.errorMessage {
+  color: var(--clr-char-incorrect);
+  position: absolute;
+  top: -2px;
+  transform: translateY(-100%);
+  font-size: 14px;
+}

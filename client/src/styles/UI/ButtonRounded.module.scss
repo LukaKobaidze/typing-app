@@ -1,7 +1,4 @@
 .button {
-  font-family: inherit;
-  background: none;
-  border: none;
   border-radius: 10px;
   padding: 0.5rem 1rem;
   color: var(--clr-char-correct);
@@ -34,12 +31,14 @@
   &--loading {
     position: relative;
     color: rgba(0, 0, 0, 0);
+    opacity: 1;
   }
 }
 
 .loadingSpinner {
   position: absolute;
+  font-size: 9px;
   top: calc(50% + 2px);
   left: 50%;
-  transform: translate(-50%, -50%) scale(0.6);
+  transform: translate(-50%, -50%);
 }

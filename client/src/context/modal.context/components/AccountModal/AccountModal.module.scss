@@ -1,0 +1,29 @@
+.modal {
+  width: 500px;
+}
+
+.topContainer {
+  display: flex;
+  margin-bottom: 24px;
+
+  &Buttons {
+    width: 100%;
+    white-space: nowrap;
+    font-size: 16px;
+    border-bottom: 3px solid var(--clr-char);
+    color: var(--clr-char-correct);
+    opacity: 0.5;
+    padding: 0.5em;
+    transition: opacity 150ms, border-color 150ms;
+
+    &:hover,
+    &:focus-visible {
+      opacity: 0.8;
+    }
+
+    &.active {
+      opacity: 1;
+      border-color: var(--clr-main);
+    }
+  }
+}

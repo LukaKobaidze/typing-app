@@ -1,11 +1,11 @@
 import { useEffect, useState, useCallback, useContext, useMemo } from 'react';
 import { RacePlayerState, RaceStateType, TypingResult } from '@/types';
 import Typing from '@/components/Typing';
-import socket from '@/socket-connection';
+import socket from '@/api/socket';
 import { TypingContext } from '@/context/typing.context';
 import Results from './Results';
 import { IconUser } from '@/assets/image';
-import { CopyButton, Loading } from '@/components/UI';
+import { ButtonRounded, CopyButton, Loading } from '@/components/UI';
 import styles from '@/styles/Race/Race.module.scss';
 
 interface Props {

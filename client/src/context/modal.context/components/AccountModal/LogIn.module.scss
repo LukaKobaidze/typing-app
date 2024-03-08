@@ -1,0 +1,40 @@
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.input {
+  margin-bottom: 10px;
+}
+
+.forgot {
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  margin-top: 15px;
+
+  &Text {
+    opacity: 0.75;
+  }
+
+  &Button {
+    display: inline-flex;
+    align-items: center;
+    margin-left: 8px;
+    text-decoration: underline;
+
+    &:hover {
+      color: var(--clr-main);
+    }
+
+    &Icon {
+      width: 17px;
+      margin-right: 2px;
+    }
+  }
+}
+
+.errorContainer {
+  color: var(--clr-char-incorrect);
+  min-height: 32px;
+}

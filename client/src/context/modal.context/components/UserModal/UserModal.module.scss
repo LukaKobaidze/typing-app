@@ -1,0 +1,43 @@
+.modal {
+  min-width: 500px;
+}
+
+.tabs {
+  display: flex;
+  justify-content: space-around;
+
+  &Button {
+    position: relative;
+    padding: 10px;
+    font-size: 17px;
+    opacity: 0.75;
+    transition: color 125ms, opacity 175ms;
+
+    &:hover,
+    &:focus-visible {
+      opacity: 1;
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 50%;
+      height: 2px;
+      background-color: var(--clr-main);
+      opacity: 0;
+      transition: opacity 200ms;
+    }
+
+    &.active {
+      color: var(--clr-main);
+      opacity: 1;
+
+      &::before {
+        opacity: 1;
+      }
+    }
+  }
+}
