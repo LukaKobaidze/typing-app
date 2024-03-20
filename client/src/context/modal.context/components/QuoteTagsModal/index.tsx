@@ -1,5 +1,5 @@
 import { IconTags } from '@/assets/image';
-import Modal from '../Modal';
+import Modal from '@/components/Modal';
 import styles from './QuoteTagsModal.module.scss';
 import { useContext } from 'react';
 import { TypemodeContext } from '@/context/typemode.context';

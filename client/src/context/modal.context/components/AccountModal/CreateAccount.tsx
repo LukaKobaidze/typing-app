@@ -1,13 +1,15 @@
-import Cookies from 'js-cookie';
 import { ButtonRounded, Tooltip } from '@/components/UI';
 import styles from './CreateAccount.module.scss';
 import Input from './Input';
 import {
+  IconCustomize,
   IconEmail,
+  IconHistory,
   IconPassword,
+  IconStats,
   IconUsername,
-  IconVisibilityOff,
-  IconVisibilityOn,
+  IconEyeOff,
+  IconEyeOn,
 } from '@/assets/image';
 import { useContext, useEffect, useState } from 'react';
 import { createAccount } from '@/api/auth';
@@ -26,13 +28,6 @@ export default function CreateAccount() {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [submitLoading, setSubmitLoading] = useState(false);
   const { onLoadProfileData } = useContext(ProfileContext);
-
-  useEffect(() => {
-    return () => {
-      console.log('asd');
-      createAccountAbortController.abort();
-    };
-  }, []);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -66,7 +61,7 @@ export default function CreateAccount() {
           }
         }
 
-        onLoadProfileData(['username']);
+        onLoadProfileData();
       })
       .catch((err) => {
         console.log(err);
@@ -116,9 +111,9 @@ export default function CreateAccount() {
               onClick={() => setIsPasswordVisible((state) => !state)}
             >
               {isPasswordVisible ? (
-                <IconVisibilityOn className={styles.passwordVisibilityIcon} />
+                <IconEyeOn className={styles.passwordVisibilityIcon} />
               ) : (
-                <IconVisibilityOff className={styles.passwordVisibilityIcon} />
+                <IconEyeOff className={styles.passwordVisibilityIcon} />
               )}
             </button>
           </Tooltip>
@@ -138,6 +133,24 @@ export default function CreateAccount() {
       <ButtonRounded type="submit" variant="2" loading={submitLoading}>
         Create Account
       </ButtonRounded>
+      <ul className={styles.benefits}>
+        <li className={styles.benefitsItem}>
+          <IconStats className={styles.benefitsItemIcon} />
+          <span>Personal Stats.</span>
+        </li>
+        <li className={styles.benefitsItem}>
+          <IconHistory className={styles.benefitsItemIcon} />
+          <span>Previous results (History).</span>
+        </li>
+        <li className={styles.benefitsItem}>
+          <IconCustomize className={styles.benefitsItemIcon} />
+          <span>Customizations saved to the account.</span>
+        </li>
+        <li className={styles.benefitsItem}>
+          <IconUsername className={styles.benefitsItemIcon} />
+          <span>Username displayed in 1v1 Race Mode.</span>
+        </li>
+      </ul>
     </form>
   );
 }

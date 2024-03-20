@@ -18,6 +18,7 @@ import counterStyles from '@/styles/Typing/Counter.module.scss';
 import { TypingResult } from '@/types';
 import { getRandomQuoteByLength } from '@/services/quotable';
 import { ProfileContext } from '@/context/profile.context';
+import { httpTypingCompleted, httpTypingStarted } from '@/api/typing';
 
 interface Props {
   testText?: string;
@@ -50,7 +51,6 @@ export default function Typing(props: Props) {
     onTypingEnded,
   } = useContext(TypingContext);
   const [state, dispatch] = useReducer(typingReducer, initialState);
-  const { onTestStart, onTestComplete } = useContext(StatsContext);
   const {
     mode,
     words,
@@ -61,7 +61,8 @@ export default function Typing(props: Props) {
     quoteTags,
     quoteTagsMode,
   } = useContext(TypemodeContext);
-  const { profile } = useContext(ProfileContext);
+  const { profile, onTestsStartedUpdate, onTestsCompletedUpdate } =
+    useContext(ProfileContext);
   const [isCapsLock, setIsCapsLock] = useState(false);
   const [timeCountdown, setTimeCountdown] = useState<number>(time);
   const [isLoading, setIsLoading] = useState(false);
@@ -144,6 +145,10 @@ export default function Typing(props: Props) {
 
   useEffect(() => {
     if (typingStarted) {
+      if (profile.username) {
+        onTestsStartedUpdate();
+      }
+
       dispatch({
         type: 'START',
         payload:
@@ -278,14 +283,6 @@ export default function Typing(props: Props) {
   }, [onRestart]);
 
   useEffect(() => {
-    if (typingStarted) {
-      onTestStart();
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [typingStarted]);
-
-  useEffect(() => {
     let interval: NodeJS.Timer;
 
     if (typingStarted) {
@@ -311,7 +308,7 @@ export default function Typing(props: Props) {
 
   useEffect(() => {
     if (state.result.showResults) {
-      onTestComplete(state.result);
+      onTestsCompletedUpdate(state.result);
 
       if (onResult) {
         onResult(state.result);

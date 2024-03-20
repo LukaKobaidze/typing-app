@@ -8,10 +8,10 @@ export default function result(state: TypingState, time?: number): TypingState {
   }
 
   const timeline = [...state.result.timeline];
-  const currentDate = new Date().getTime();
+  const currentDate = new Date();
 
   if (!time) {
-    const timeTook = currentDate - state.dateTypingStarted;
+    const timeTook = currentDate.getTime() - state.dateTypingStarted;
     timeline.push({
       second: twoDecimals(timeTook / 1000),
       ...getTypingResults(

@@ -7,6 +7,7 @@ import { TypingContext } from '../typing.context';
 import AccountModal from './components/AccountModal';
 import QuoteTagsModal from './components/QuoteTagsModal';
 import UserModal from './components/UserModal';
+import { ProfileContext } from '../profile.context';
 
 type ModalType =
   | 'customize'

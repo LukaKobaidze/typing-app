@@ -10,6 +10,8 @@ export default async function auth(
 ) {
   const token = req.cookies.token;
 
+  console.log('MIDDLEWARE: ', token);
+
   if (!token) {
     return res.status(401).json({ message: 'Authentication required!' });
   }

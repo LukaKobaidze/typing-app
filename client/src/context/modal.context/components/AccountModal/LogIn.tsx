@@ -19,12 +19,6 @@ export default function LogIn() {
   const [logInWith, setLogInWith] = useState<'username' | 'email'>('username');
   const [submitLoading, setSubmitLoading] = useState(false);
 
-  useEffect(() => {
-    return () => {
-      logInAbortController.abort();
-    };
-  }, []);
-
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSubmitLoading(true);

@@ -55,14 +55,12 @@ export default function Result(props: Props) {
     second: timeTook,
   } = result.timeline[result.timeline.length - 1];
 
+  console.log(result.date)
+
   return (
     <div className={styles['result__wrapper']}>
       {includeDate && result.date && (
-        <Tooltip
-          text={new Date(result.date).toLocaleString()}
-          position="top"
-          showOnHover
-        >
+        <Tooltip text={result.date.toLocaleString()} position="top" showOnHover>
           <div className={styles.date}>{getTimeSince(result.date)}</div>
         </Tooltip>
       )}

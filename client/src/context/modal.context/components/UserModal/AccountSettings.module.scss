@@ -1,0 +1,31 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  padding: 1em;
+  margin-left: -1em;
+
+  &Icon {
+    margin-right: 7px;
+  }
+}
+
+.logOut {
+  margin-top: 20px;
+  border: 2px solid var(--clr-char-incorrect);
+  color: var(--clr-char-correct);
+  opacity: 1;
+  font-weight: bold;
+  font-size: 16px;
+  transition: background-color 125ms;
+  
+  &:hover {
+    background-color: var(--clr-char-incorrect);
+  }
+}

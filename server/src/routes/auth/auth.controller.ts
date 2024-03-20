@@ -68,3 +68,12 @@ export async function httpLogin(
     next(err);
   }
 }
+
+export async function httpLogout(req: Request, res: Response, next: NextFunction) {
+  try {
+    res.clearCookie('token', { secure: true, httpOnly: true, sameSite: 'strict' });
+    res.json({ message: 'Logged out successfully!' });
+  } catch (err) {
+    next(err);
+  }
+}

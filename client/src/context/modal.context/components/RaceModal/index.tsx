@@ -6,7 +6,7 @@ import { IconAlertCircle } from '@/assets/image';
 import { ButtonRounded } from '@/components/UI';
 import { useLocalStorageState } from '@/hooks';
 import styles from './RaceModal.module.scss';
-import Modal from '../Modal';
+import Modal from '@/components/Modal';
 
 interface Props {
   onClose: () => void;

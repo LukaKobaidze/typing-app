@@ -3,8 +3,12 @@ import authRouter from './routes/auth/auth.router';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import profileRouter from './routes/profile/profile.router';
+import { typingRouter } from './routes/typing/typing.router';
+import morgan from 'morgan';
 
 const app = express();
+
+app.use(morgan('dev'));
 
 app.use(cookieParser());
 app.use(
@@ -17,6 +21,7 @@ app.use(express.json());
 
 app.use('/auth', authRouter);
 app.use('/profile', profileRouter);
+app.use('/typing', typingRouter);
 
 const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
   if (res.headersSent) {

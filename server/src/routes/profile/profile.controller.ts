@@ -1,35 +1,44 @@
 import { NextFunction, Response } from 'express';
 import { CustomRequest } from '../../types';
-import Profile, { ProfileInterface } from '../../models/Profile.model';
-import { UpdateQuery } from 'mongoose';
+import Profile from '../../models/Profile.model';
 
-export async function httpGetProfile(req: CustomRequest, res: Response) {
+export async function httpGetProfile(
+  req: CustomRequest,
+  res: Response,
+  next: NextFunction
+) {
   const filter = req.query.filter as string;
   const username = req.user?.username;
 
-  const profile = await Profile.findOne({ username });
+  try {
+    const profile = await Profile.findOne({ username });
 
-  const filterAccepted = ['username', 'customize', 'stats', 'history'];
+    const filterAccepted = ['username', 'customize', 'stats', 'history'];
 
-  if (!profile) {
-    return res.status(404).json({ message: 'Profile not found!' });
-  }
+    if (!profile) {
+      return res.status(404).json({ message: 'Profile not found!' });
+    }
 
-  if (filter) {
+    if (filter) {
+      const obj: any = {};
+
+      filter.split(',').forEach((key) => {
+        if (filterAccepted.includes(key)) {
+          obj[key] = profile[key as keyof typeof profile];
+        }
+      });
+
+      return res.json(obj);
+    }
+
     const obj: any = {};
-
-    filter.split(',').forEach((key) => {
-      if (filterAccepted.includes(key)) {
-        obj[key] = profile[key as keyof typeof profile];
-      }
-    });
-
-    return res.json(obj);
+    filterAccepted.forEach(
+      (key) => (obj[key] = profile[key as keyof typeof profile])
+    );
+    res.json(obj);
+  } catch (err) {
+    next(err);
   }
-
-  const obj: any = {};
-  filterAccepted.forEach((key) => (obj[key] = profile[key as keyof typeof profile]));
-  res.json(obj);
 }
 
 export async function httpPostCustomize(
@@ -52,7 +61,7 @@ export async function httpPostCustomize(
       updateSet[`customize.${key}`] = update[key];
     });
 
-    await Profile.findOneAndUpdate({ username }, { $set: updateSet });
+    await Profile.updateOne({ username }, { $set: updateSet });
   } catch (err) {
     next(err);
   }

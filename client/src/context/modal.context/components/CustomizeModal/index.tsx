@@ -4,12 +4,17 @@ import { data } from '@/data';
 import { Switch, Tooltip, ButtonRounded } from '@/components/UI';
 import caretCSS from '@/styles/Typing/Caret.module.scss';
 import styles from './CustomizeModal.module.scss';
-import Modal from '../Modal';
+import Modal from '@/components/Modal';
 import { ProfileContext } from '@/context/profile.context';
 
 interface Props {
   onClose: () => void;
 }
+
+const FONT_SIZE_MIN = 16;
+const FONT_SIZE_MAX = 50;
+const INPUT_WIDTH_MIN = 50;
+const INPUT_WIDTH_MAX = 100;
 
 export default function CustomizeModal(props: Props) {
   const { onClose } = props;
@@ -22,12 +27,15 @@ export default function CustomizeModal(props: Props) {
     onCustomizeUpdateServer,
   } = useContext(ProfileContext);
 
-  const [showInputWidthTooltip, setShowInputWidthTooltip] = useState(false);
+  const [activeTooltip, setActiveTooltip] = useState<
+    'fontSize' | 'inputWidth' | null
+  >(null);
 
   const {
     liveWpm,
     liveAccuracy,
     inputWidth,
+    fontSize,
     caretStyle,
     smoothCaret,
     soundOnClick,
@@ -81,8 +89,52 @@ export default function CustomizeModal(props: Props) {
         </div>
         <div
           className={styles.setting}
-          onMouseEnter={() => setShowInputWidthTooltip(true)}
-          onMouseLeave={() => setShowInputWidthTooltip(false)}
+          onMouseEnter={() => setActiveTooltip('fontSize')}
+          onMouseLeave={() => setActiveTooltip(null)}
+        >
+          <label htmlFor="font-size" className={`${styles.label} ${styles.active}`}>
+            Font Size
+          </label>
+
+          <div className={styles.range}>
+            <input
+              type="range"
+              id="font-size"
+              min={FONT_SIZE_MIN}
+              value={fontSize}
+              max={FONT_SIZE_MAX}
+              onChange={(e) =>
+                onCustomizeUpdateState({ fontSize: Number(e.target.value) })
+              }
+              onFocus={() => setActiveTooltip('fontSize')}
+              onBlur={() => setActiveTooltip(null)}
+              onTouchStart={() => setActiveTooltip('fontSize')}
+              onTouchEnd={() => setActiveTooltip(null)}
+              className={styles.rangeInput}
+            />
+            <div className={styles.rangeTooltipContainer}>
+              <div className={styles.rangeTooltipRelative}>
+                <Tooltip
+                  text={fontSize + 'px'}
+                  className={styles.rangeTooltip}
+                  style={{
+                    left:
+                      ((fontSize - FONT_SIZE_MIN) /
+                        (FONT_SIZE_MAX - FONT_SIZE_MIN)) *
+                        100 +
+                      '%',
+                  }}
+                  position="top"
+                  show={activeTooltip === 'fontSize'}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className={styles.setting}
+          onMouseEnter={() => setActiveTooltip('inputWidth')}
+          onMouseLeave={() => setActiveTooltip(null)}
         >
           <label
             htmlFor="input-width"
@@ -95,16 +147,16 @@ export default function CustomizeModal(props: Props) {
             <input
               type="range"
               id="input-width"
-              min="50"
+              min={INPUT_WIDTH_MIN}
               value={inputWidth}
-              max="100"
+              max={INPUT_WIDTH_MAX}
               onChange={(e) =>
                 onCustomizeUpdateState({ inputWidth: Number(e.target.value) })
               }
-              onFocus={() => setShowInputWidthTooltip(true)}
-              onBlur={() => setShowInputWidthTooltip(false)}
-              onTouchStart={() => setShowInputWidthTooltip(true)}
-              onTouchEnd={() => setShowInputWidthTooltip(false)}
+              onFocus={() => setActiveTooltip('inputWidth')}
+              onBlur={() => setActiveTooltip(null)}
+              onTouchStart={() => setActiveTooltip('inputWidth')}
+              onTouchEnd={() => setActiveTooltip(null)}
               className={styles.rangeInput}
             />
             <div className={styles.rangeTooltipContainer}>
@@ -112,9 +164,15 @@ export default function CustomizeModal(props: Props) {
                 <Tooltip
                   text={inputWidth + '%'}
                   className={styles.rangeTooltip}
-                  style={{ left: (inputWidth - 50) * 2 + '%' }}
+                  style={{
+                    left:
+                      ((inputWidth - INPUT_WIDTH_MIN) /
+                        (INPUT_WIDTH_MAX - INPUT_WIDTH_MIN)) *
+                        100 +
+                      '%',
+                  }}
                   position="top"
-                  show={showInputWidthTooltip}
+                  show={activeTooltip === 'inputWidth'}
                 />
               </div>
             </div>

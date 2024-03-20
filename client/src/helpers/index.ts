@@ -137,14 +137,14 @@ export function twoDecimals(n: number) {
   return Math.round(n * div) / div;
 }
 
-export function getTimeSince(date: number, strShort?: boolean) {
+export function getTimeSince(date: Date, strShort?: boolean) {
   var msPerMinute = 60 * 1000;
   var msPerHour = msPerMinute * 60;
   var msPerDay = msPerHour * 24;
   var msPerMonth = msPerDay * 30;
   var msPerYear = msPerDay * 365;
 
-  var elapsed = new Date().getTime() - date;
+  var elapsed = new Date().getTime() - date.getTime();
 
   const timeAgo = strShort
     ? {
@@ -183,4 +183,9 @@ export function addColorOpacity(color: string, opacity: number) {
   // coerce values so ti is between 0 and 1.
   let _opacity = Math.round(Math.min(Math.max(opacity || 1, 0), 1) * 255);
   return color + _opacity.toString(16).toUpperCase();
+}
+
+export function ISOToDate(s: string) {
+  const b: any = s.split(/\D+/);
+  return new Date(Date.UTC(b[0], --b[1], b[2], b[3], b[4], b[5], b[6]));
 }

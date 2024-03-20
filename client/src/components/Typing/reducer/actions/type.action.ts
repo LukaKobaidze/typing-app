@@ -4,8 +4,11 @@ export default function type(state: TypingState, key: string): TypingState {
   const words = state.words.slice(0);
 
   if (words.length === 0) return state;
-  
+
   const word = words[state.wordIndex];
+
+  if (!word) return state;
+
   word.isIncorrect = false;
   const char = words[state.wordIndex].chars[state.charIndex];
   let mistype = state.mistype;

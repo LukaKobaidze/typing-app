@@ -31,6 +31,7 @@
   padding: var(--modal-padding);
   padding-top: 0;
   overflow-y: auto;
+  overflow-x: hidden;
 
   &::-webkit-scrollbar-track {
     background: var(--clr-bg);
@@ -56,7 +57,7 @@
   z-index: 4;
   padding-top: var(--modal-padding);
   padding-bottom: 7px;
-  width: 97%;
+  width: 100%;
 }
 
 .buttonClose {

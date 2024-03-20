@@ -1,11 +1,16 @@
 import { ICustomize } from '@/context/profile.context';
 import { data } from '@/data';
 
-export async function httpGetProfile(filter?: string[]) {
+export type GetProfileFilterType = 'username' | 'customize' | 'stats' | 'history';
+export async function httpGetProfile(filter?: GetProfileFilterType[]) {
   const res = await fetch(
     data.apiUrl + '/profile' + (filter ? `?filter=${filter.join(',')}` : ''),
     { credentials: 'include' }
   );
+
+  if (!res.ok) {
+    throw new Error();
+  }
 
   return res.json();
 }

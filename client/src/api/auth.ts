@@ -45,3 +45,18 @@ export async function logIn(
 
   return res.json();
 }
+
+export async function logOut() {
+  const res = await fetch(data.apiUrl + '/auth/logout', {
+    method: 'POST',
+    credentials: 'include',
+  });
+
+  if (!res.ok) {
+    const message = await res.json();
+
+    throw new Error(message);
+  }
+
+  return res.json();
+}

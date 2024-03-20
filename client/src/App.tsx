@@ -13,10 +13,10 @@ import Typemode from '@/components/Typemode';
 import styles from '@/styles/App.module.scss';
 
 export default function App() {
-  const { typingFocused } = useContext(TypingContext);
+  const { typingFocused, resultPreview, onPreviewResult } =
+    useContext(TypingContext);
   const { activeModal, onOpenModal } = useContext(ModalContext);
   const [roomCode, setRoomCode] = useState<string | null>(null);
-  const [previewResult, setPreviewResult] = useState<TypingResult | null>(null);
   const [windowWidth] = useWindowDimensions();
 
   useEffect(() => {
@@ -37,7 +37,7 @@ export default function App() {
       <Header
         windowWidth={windowWidth}
         roomCode={roomCode}
-        onLogoClick={() => setPreviewResult(null)}
+        onLogoClick={() => onPreviewResult(null)}
         onLeaveRoom={() => setRoomCode(null)}
       />
 
@@ -51,17 +51,17 @@ export default function App() {
 
       <main
         className={`${styles.main} ${
-          !roomCode && !previewResult ? styles.mainMarginBottom : ''
+          !roomCode && !resultPreview ? styles.mainMarginBottom : ''
         }`}
       >
         {roomCode ? (
           <Race roomCode={roomCode} />
         ) : (
           <>
-            {previewResult ? (
+            {resultPreview ? (
               <Result
-                result={previewResult}
-                onGoBack={() => setPreviewResult(null)}
+                result={resultPreview}
+                onGoBack={() => onPreviewResult(null)}
                 includeDate
               />
             ) : (
@@ -73,7 +73,7 @@ export default function App() {
 
       <Footer
         roomCode={roomCode}
-        onPreviewResult={(result) => setPreviewResult(result)}
+        onPreviewResult={(result) => onPreviewResult(result)}
       />
     </>
   );

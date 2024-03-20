@@ -1,8 +1,10 @@
 import { IconAccount } from '@/assets/image';
-import Modal from '../Modal';
+import Modal from '@/components/Modal';
 import styles from './UserModal.module.scss';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { ProfileContext } from '@/context/profile.context';
+import Profile from './Profile';
+import AccountSettings from './AccountSettings';
 
 interface Props {
   onClose: () => void;
@@ -12,6 +14,12 @@ export default function UserModal({ onClose }: Props) {
   const { profile } = useContext(ProfileContext);
 
   const [activeTab, setActiveTab] = useState(0);
+
+  useEffect(() => {
+    if (!profile.username) {
+      onClose();
+    }
+  }, [profile.username]);
 
   return (
     <Modal
@@ -34,6 +42,7 @@ export default function UserModal({ onClose }: Props) {
           Account Settings
         </button>
       </div>
+      {activeTab === 0 ? <Profile onCloseModal={onClose} /> : <AccountSettings />}
     </Modal>
   );
 }

@@ -1,6 +1,13 @@
-import { createContext, useCallback, useEffect, useState } from 'react';
-import { httpGetProfile, httpPostCustomize } from '@/api/profile';
+import { createContext, useEffect, useState } from 'react';
+import {
+  GetProfileFilterType,
+  httpGetProfile,
+  httpPostCustomize,
+} from '@/api/profile';
 import { CaretStyleType, ThemeType } from '@/data/types';
+import { TypingResult } from '@/types';
+import { httpTypingCompleted, httpTypingStarted } from '@/api/typing';
+import { ISOToDate } from '@/helpers';
 
 interface CustomizeBooleans {
   liveWpm: boolean;
@@ -11,6 +18,7 @@ interface CustomizeBooleans {
 
 export interface ICustomize extends CustomizeBooleans {
   inputWidth: number;
+  fontSize: number;
   caretStyle: CaretStyleType;
   theme: ThemeType;
 }
@@ -19,33 +27,55 @@ const customizeInitial: ICustomize = {
   liveWpm: false,
   liveAccuracy: false,
   inputWidth: 85,
+  fontSize: 24,
   caretStyle: 'line',
   smoothCaret: true,
   soundOnClick: false,
   theme: 'default',
 };
 
+type StatsAverageType = { wpm: number; accuracy: number; raw: number };
 interface IProfile {
   username: string;
   customize: ICustomize;
+  stats: {
+    testsStarted?: number;
+    testsCompleted?: number;
+    average?: StatsAverageType;
+    highest?: StatsAverageType;
+  };
+  history: TypingResult[];
 }
 
 interface Context {
   profile: IProfile;
-  onLoadProfileData: (filter?: string[]) => void;
+  loading: GetProfileFilterType[] | null;
+  onLoadProfileData: (filter?: (keyof IProfile)[]) => void;
   onCustomizeUpdateState: (updatedProperties: Partial<ICustomize>) => void;
   onCustomizeToggleState: (property: keyof CustomizeBooleans) => void;
   onCustomizeResetState: () => void;
   onCustomizeUpdateServer: () => void;
+  onTestsStartedUpdate: () => void;
+  onTestsCompletedUpdate: (result: TypingResult) => void;
+  onClearProfile: () => void;
 }
 
 const initial: Context = {
-  profile: { username: '', customize: customizeInitial },
+  profile: {
+    username: '',
+    customize: customizeInitial,
+    stats: { testsStarted: 0, testsCompleted: 0 },
+    history: [],
+  },
+  loading: null,
   onLoadProfileData: () => {},
   onCustomizeUpdateState: () => {},
   onCustomizeToggleState: () => {},
   onCustomizeResetState: () => {},
   onCustomizeUpdateServer: () => {},
+  onTestsStartedUpdate: () => {},
+  onTestsCompletedUpdate: () => {},
+  onClearProfile: () => {},
 };
 
 export const ProfileContext = createContext(initial);
@@ -53,18 +83,38 @@ export const ProfileContext = createContext(initial);
 let customizeServerLatest: ICustomize;
 export function ProfileContextProvider({ children }: { children: React.ReactNode }) {
   const [profile, setProfile] = useState(initial.profile);
+  const [loading, setLoading] = useState(initial.loading);
+
+  useEffect(() => {
+    onLoadProfileData();
+  }, []);
 
   const onLoadProfileData: Context['onLoadProfileData'] = (filter) => {
-    httpGetProfile(filter).then((data) => {
-      console.log(data);
+    httpGetProfile(filter).then((data: any) => {
+      const filteredData: any = {};
+
+      Object.keys(data).forEach((key) => {
+        if (Object.keys(data[key]).length !== 0) {
+          filteredData[key] = data[key];
+        }
+      });
+
+      if (filteredData.history) {
+        filteredData.history = filteredData.history.map((result: any) => ({
+          ...result,
+          date: ISOToDate(result.date),
+        }));
+      }
+
       setProfile((state) => ({
         ...state,
-        ...data,
+        ...filteredData,
       }));
-
-      if (data.customize) {
-        customizeServerLatest = data.customize;
+      if (filteredData.customize) {
+        customizeServerLatest = filteredData.customize;
       }
+
+      setLoading(null);
     });
   };
 
@@ -85,16 +135,11 @@ export function ProfileContextProvider({ children }: { children: React.ReactNode
         }
       });
     }
-    console.log(update);
     if (Object.keys(update).length !== 0) {
       httpPostCustomize(update);
       customizeServerLatest = { ...profile.customize, ...update };
     }
   };
-
-  useEffect(() => {
-    onLoadProfileData(['username', 'customize']);
-  }, []);
 
   const onCustomizeUpdateState: Context['onCustomizeUpdateState'] = (
     updatedProperties
@@ -122,6 +167,66 @@ export function ProfileContextProvider({ children }: { children: React.ReactNode
     }));
   };
 
+  const onTestsStartedUpdate: Context['onTestsStartedUpdate'] = () => {
+    httpTypingStarted();
+    setProfile((state) => ({
+      ...state,
+      stats: { ...state.stats, testsStarted: (state.stats.testsStarted || 0) + 1 },
+    }));
+  };
+
+  const onTestsCompletedUpdate: Context['onTestsCompletedUpdate'] = (result) => {
+    httpTypingCompleted(result);
+
+    const resultLatest = result.timeline[result.timeline.length - 1];
+
+    setProfile((state) => {
+      const statsAverageKeys = [
+        'wpm',
+        'accuracy',
+        'raw',
+      ] as (keyof StatsAverageType)[];
+
+      const average = { ...state.stats.average } as StatsAverageType;
+      const highest = { ...state.stats.highest } as StatsAverageType;
+
+      statsAverageKeys.forEach((key) => {
+        // Average
+        const keyAverage = (state.stats.average && state.stats.average[key]) || 0;
+        const testsCompleted = state.stats.testsCompleted || 0;
+
+        average[key] = Number(
+          (
+            (keyAverage * testsCompleted + resultLatest[key]) /
+            (testsCompleted + 1)
+          ).toFixed(2)
+        );
+
+        // Highest
+        const keyHighest = (state.stats.highest && state.stats.highest[key]) || 0;
+
+        if (keyHighest < resultLatest[key]) {
+          highest[key] = resultLatest[key];
+        }
+      });
+
+      return {
+        ...state,
+        stats: {
+          ...state.stats,
+          testsCompleted: (state.stats.testsCompleted || 0) + 1,
+          average,
+          highest,
+        },
+        history: [result, ...state.history],
+      };
+    });
+  };
+
+  const onClearProfile: Context['onClearProfile'] = () => {
+    setProfile(initial.profile);
+  };
+
   useEffect(() => {
     const classList = document.body.classList;
 
@@ -139,11 +244,15 @@ export function ProfileContextProvider({ children }: { children: React.ReactNode
     <ProfileContext.Provider
       value={{
         profile,
+        loading,
         onLoadProfileData,
         onCustomizeUpdateState,
         onCustomizeToggleState,
         onCustomizeResetState,
         onCustomizeUpdateServer,
+        onClearProfile,
+        onTestsStartedUpdate,
+        onTestsCompletedUpdate,
       }}
     >
       {children}

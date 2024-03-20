@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import { StatsContext } from '@/context/stats.context';
 import { IconStats } from '@/assets/image';
 import StatItem from './StatsItem';
-import Modal from '../Modal';
+import Modal from '@/components/Modal';
 import styles from '@/styles/Stats/StatsModal.module.scss';
 
 interface Props {
