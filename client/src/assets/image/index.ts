@@ -2,6 +2,8 @@
 
 export { default as IconAccount } from './account.svg?react';
 export { default as IconAlertCircle } from './alert-circle.svg?react';
+export { default as IconAngleDoubleLeft } from './angle-double-left.svg?react';
+export { default as IconAngleDoubleRight } from './angle-double-right.svg?react';
 export { default as IconClose } from './close.svg?react';
 export { default as IconContentCopy } from './content_copy.svg?react';
 export { default as IconCustomize } from './customize.svg?react';

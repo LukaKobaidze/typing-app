@@ -51,7 +51,7 @@ export default function App() {
 
       <main
         className={`${styles.main} ${
-          !roomCode && !resultPreview ? styles.mainMarginBottom : ''
+          !roomCode ? styles.mainMarginBottom : ''
         }`}
       >
         {roomCode ? (

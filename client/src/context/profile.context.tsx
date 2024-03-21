@@ -1,6 +1,7 @@
 import { createContext, useEffect, useState } from 'react';
 import {
   GetProfileFilterType,
+  httpGetHistory,
   httpGetProfile,
   httpPostCustomize,
 } from '@/api/profile';
@@ -35,7 +36,8 @@ const customizeInitial: ICustomize = {
 };
 
 type StatsAverageType = { wpm: number; accuracy: number; raw: number };
-interface IProfile {
+
+export interface IProfile {
   username: string;
   customize: ICustomize;
   stats: {
@@ -44,13 +46,14 @@ interface IProfile {
     average?: StatsAverageType;
     highest?: StatsAverageType;
   };
-  history: TypingResult[];
+  history: { items: Record<number, TypingResult[]>; totalPages: number };
 }
 
 interface Context {
   profile: IProfile;
   loading: GetProfileFilterType[] | null;
-  onLoadProfileData: (filter?: (keyof IProfile)[]) => void;
+  onLoadProfileData: (filter?: GetProfileFilterType[]) => void;
+  onLoadHistory: (...args: Parameters<typeof httpGetHistory>) => void;
   onCustomizeUpdateState: (updatedProperties: Partial<ICustomize>) => void;
   onCustomizeToggleState: (property: keyof CustomizeBooleans) => void;
   onCustomizeResetState: () => void;
@@ -65,10 +68,11 @@ const initial: Context = {
     username: '',
     customize: customizeInitial,
     stats: { testsStarted: 0, testsCompleted: 0 },
-    history: [],
+    history: { items: {}, totalPages: 1 },
   },
   loading: null,
   onLoadProfileData: () => {},
+  onLoadHistory: () => {},
   onCustomizeUpdateState: () => {},
   onCustomizeToggleState: () => {},
   onCustomizeResetState: () => {},
@@ -80,7 +84,9 @@ const initial: Context = {
 
 export const ProfileContext = createContext(initial);
 
+let historyAbortController: AbortController;
 let customizeServerLatest: ICustomize;
+
 export function ProfileContextProvider({ children }: { children: React.ReactNode }) {
   const [profile, setProfile] = useState(initial.profile);
   const [loading, setLoading] = useState(initial.loading);
@@ -115,6 +121,29 @@ export function ProfileContextProvider({ children }: { children: React.ReactNode
       }
 
       setLoading(null);
+    });
+  };
+
+  const onLoadHistory: Context['onLoadHistory'] = (page, limit) => {
+    historyAbortController?.abort();
+    historyAbortController = new AbortController();
+
+    httpGetHistory(page, limit, historyAbortController).then((data) => {
+      console.log(data);
+
+      setProfile((state) => ({
+        ...state,
+        history: {
+          items: {
+            ...state.history.items,
+            [data.currentPage]: data.items.map((result: any) => ({
+              ...result,
+              date: ISOToDate(result.date),
+            })),
+          },
+          totalPages: data.totalPages,
+        },
+      }));
     });
   };
 
@@ -218,7 +247,7 @@ export function ProfileContextProvider({ children }: { children: React.ReactNode
           average,
           highest,
         },
-        history: [result, ...state.history],
+        history: initial.profile.history,
       };
     });
   };
@@ -246,6 +275,7 @@ export function ProfileContextProvider({ children }: { children: React.ReactNode
         profile,
         loading,
         onLoadProfileData,
+        onLoadHistory,
         onCustomizeUpdateState,
         onCustomizeToggleState,
         onCustomizeResetState,

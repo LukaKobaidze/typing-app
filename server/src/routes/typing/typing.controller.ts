@@ -15,6 +15,7 @@ export async function httpTypingStarted(
 
   try {
     await Profile.updateOne({ username }, { $inc: { 'stats.testsStarted': 1 } });
+    return res.json({ message: 'Success!' });
   } catch (err) {
     next(err);
   }
@@ -28,7 +29,7 @@ export async function httpTypingCompleted(
   const result = req.body;
 
   if (
-    result?.timeline?.length === 0 ||
+    !result?.timeline?.length ||
     result?.errors === undefined ||
     result?.testType === undefined
   ) {
@@ -49,9 +50,6 @@ export async function httpTypingCompleted(
       return res.status(404).json({ message: 'User not found!' });
     }
 
-    profile.history.unshift({ ...result, date: new Date().toISOString() });
-    profile.$inc('stats.testsCompleted', 1);
-
     const resultLatest = result.timeline[result.timeline.length - 1];
 
     const statsAverageKeys = [
@@ -68,9 +66,10 @@ export async function httpTypingCompleted(
       profile.$set(
         `stats.average.${key}`,
         Number(
-          ((average * testsCompleted + resultLatest[key]) / testsCompleted).toFixed(
-            2
-          )
+          (
+            (average * testsCompleted + resultLatest[key]) /
+            (testsCompleted + 1)
+          ).toFixed(2)
         )
       );
 
@@ -82,7 +81,10 @@ export async function httpTypingCompleted(
       }
     });
 
+    profile.history.unshift({ ...result, date: new Date().toISOString() });
+    profile.$inc('stats.testsCompleted', 1);
     await profile.save();
+    res.json({ message: 'Success!' });
   } catch (err) {
     next(err);
   }
