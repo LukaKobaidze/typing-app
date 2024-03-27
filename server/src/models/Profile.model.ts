@@ -1,4 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
+import NotFoundError from '../errors/NotFoundError';
 
 type StatsAverageType = {
   wpm: number;
@@ -7,7 +8,6 @@ type StatsAverageType = {
 };
 
 export interface ProfileProperties {
-  username: string;
   customize: {
     liveWpm: boolean;
     liveAccuracy: boolean;
@@ -40,7 +40,6 @@ const statsAverageSchemaType = {
   raw: Number,
 };
 const profileSchema = new Schema({
-  username: { type: String, required: true, unique: true },
   customize: {
     caretStyle: String,
     inputWidth: Number,
@@ -69,6 +68,13 @@ const profileSchema = new Schema({
       quoteAuthor: { type: String },
     },
   ],
+});
+
+profileSchema.post('findOne', (res, next) => {
+  if (!res) {
+    next(new NotFoundError('Profile not found!'));
+  }
+  next();
 });
 
 const Profile = mongoose.model<ProfileInterface>('Profile', profileSchema);

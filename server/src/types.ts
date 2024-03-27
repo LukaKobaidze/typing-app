@@ -1,11 +1,7 @@
 import { Request } from 'express';
 import { UserProperties } from './models/User.model';
 
-export interface ResponseError extends Error {
-  status?: number;
-}
-
-export interface CustomRequest<
+export interface AuthenticatedRequest<
   P = any,
   ResBody = any,
   ReqBody = any,
@@ -14,4 +10,3 @@ export interface CustomRequest<
 > extends Request<P, ResBody, ReqBody, ReqQuery, Locals> {
   user?: UserProperties;
 }
-

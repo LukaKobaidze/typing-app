@@ -1,6 +1,8 @@
 import { TypingState } from '../typing.reducer';
 
 export default function deleteWord(state: TypingState): TypingState {
+  if (state.result.showResult) return state;
+
   const words = state.words.slice(0);
   const currentWord = words[state.wordIndex];
 

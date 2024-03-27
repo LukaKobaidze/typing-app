@@ -3,6 +3,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 2rem;
+  overflow: hidden;
 
   @media (max-width: 550px) {
     flex-direction: column;
@@ -69,6 +70,8 @@
 
   & > svg {
     width: 25px;
+    height: 25px;
+    flex-shrink: 0;
   }
 
   & > span {
@@ -76,6 +79,24 @@
   }
 }
 
+.oneVersusOneIcon {
+  width: 20px !important;
+  height: 20px !important;
+}
+
 .accountBtn {
   margin-left: auto;
+  overflow: hidden;
+  min-width: 0;
+
+  &Icon {
+    flex-shrink: 0;
+  }
+
+  &Text {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    display: block;
+  }
 }

@@ -1,5 +1,4 @@
 export type TypingResult = {
-  showResults: boolean;
   timeline: { wpm: number; accuracy: number; raw: number; second: number }[];
   errors: number;
   testType: string | null;
@@ -7,7 +6,7 @@ export type TypingResult = {
   date?: Date;
 };
 
-export type RacePlayerState = {
+export type OneVersusOnePlayerState = {
   id: string;
   wordIndex: number;
   charIndex: number;
@@ -16,8 +15,8 @@ export type RacePlayerState = {
   disconnected?: boolean;
 };
 
-export type RaceStateType = {
-  players: { player1: RacePlayerState; player2?: RacePlayerState };
+export type OneVersusOneStateType = {
+  players: { player1: OneVersusOnePlayerState; player2?: OneVersusOnePlayerState };
   quoteLength: QuoteLengthType;
   testText?: string;
 };

@@ -1,9 +1,8 @@
-import styles from '@/styles/Typemode/Typemode.module.scss';
-import { data } from '@/data';
 import { useContext, useMemo } from 'react';
 import { TypemodeContext } from '@/context/typemode.context';
+import { ModalContext } from '@/context/modal.context';
+import { data } from '@/data';
 import { TypemodeType } from '@/data/types';
-import Column, { ColumnProps } from './Column';
 import {
   IconNumbers,
   IconPunctuation,
@@ -12,7 +11,8 @@ import {
   IconTime,
   IconWords,
 } from '@/assets/image';
-import { ModalContext } from '@/context/modal.context';
+import Column, { ColumnProps } from './Column';
+import styles from '@/styles/Typemode/Typemode.module.scss';
 
 interface Props {
   className?: string;
@@ -24,6 +24,7 @@ export default function Typemode({ className }: Props) {
     time,
     quote,
     words,
+    quoteTagsMode,
     punctuation,
     numbers,
     onMode,
@@ -64,10 +65,10 @@ export default function Typemode({ className }: Props) {
             Icon: IconTags,
             text: 'tags',
             action: () => onOpenModal('quoteTags'),
-            active: false,
+            active: quoteTagsMode === 'only selected',
           },
         ];
-  }, [mode, punctuation, numbers]);
+  }, [mode, punctuation, numbers, quoteTagsMode]);
 
   const modeIcons = { time: IconTime, words: IconWords, quote: IconQuote };
 

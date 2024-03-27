@@ -2,7 +2,7 @@ import { getTypingResults } from '@/helpers';
 import { TypingState } from '../typing.reducer';
 
 export default function timeline(state: TypingState): TypingState {
-  if (!state.dateTypingStarted) return state;
+  if (!state.dateTypingStarted || state.result.showResult) return state;
 
   return {
     ...state,

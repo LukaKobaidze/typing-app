@@ -1,7 +1,7 @@
 import { TypingState } from '../typing.reducer';
 
 export default function nextWord(state: TypingState): TypingState {
-  if (state.charIndex === 0) {
+  if (state.charIndex === 0 || state.result.showResult) {
     return state;
   }
   const words = state.words.slice(0);

@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { RaceStateType } from '@/types';
-import Result from '@/components/Typing/Result';
-import { ButtonRounded, Tooltip } from '@/components/UI';
+import { OneVersusOneStateType } from '@/types';
 import { IconRefresh, IconTrophy } from '@/assets/image';
-import styles from '@/styles/Race/Results.module.scss';
+import { ButtonRounded, Tooltip } from '@/components/UI';
+import Result from '@/components/Typing/Result';
+import styles from '@/styles/OneVersusOne/Results.module.scss';
 
 interface Props {
-  playersState: RaceStateType['players'];
+  playersState: OneVersusOneStateType['players'];
   currentPlayer: 'player1' | 'player2';
   opponentPlayer: 'player1' | 'player2';
   onPlayAgain: () => void;

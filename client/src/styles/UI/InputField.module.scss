@@ -34,3 +34,19 @@
   opacity: 0.6;
   pointer-events: none;
 }
+
+.passwordVisibility {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+
+  &Icon {
+    opacity: 0.5;
+    width: 20px;
+  }
+}
+
+.inputPassword {
+  padding-right: 35px !important;
+}

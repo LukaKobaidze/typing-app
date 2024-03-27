@@ -1,20 +1,24 @@
 import { NextFunction, Response } from 'express';
-import { CustomRequest } from '../../types';
+import { AuthenticatedRequest } from '../../types';
 import Profile, { ProfileProperties } from '../../models/Profile.model';
+import User from '../../models/User.model';
+import NotFoundError from '../../errors/NotFoundError';
+import PropertyMissingError from '../../errors/PropertyMissingError';
 
 export async function httpTypingStarted(
-  req: CustomRequest,
+  req: AuthenticatedRequest,
   res: Response,
   next: NextFunction
 ) {
-  const username = req.user?.username;
-
-  if (!username) {
-    return res.status(404).json({ message: 'User not found!' });
-  }
+  const username = req.user!.username;
 
   try {
-    await Profile.updateOne({ username }, { $inc: { 'stats.testsStarted': 1 } });
+    const user = (await User.findOne({ username }))!;
+
+    await Profile.updateOne(
+      { _id: user._id },
+      { $inc: { 'stats.testsStarted': 1 } }
+    );
     return res.json({ message: 'Success!' });
   } catch (err) {
     next(err);
@@ -22,33 +26,29 @@ export async function httpTypingStarted(
 }
 
 export async function httpTypingCompleted(
-  req: CustomRequest<any, any, Omit<ProfileProperties['history'][number], 'date'>>,
+  req: AuthenticatedRequest<
+    any,
+    any,
+    Omit<ProfileProperties['history'][number], 'date'>
+  >,
   res: Response,
   next: NextFunction
 ) {
   const result = req.body;
 
-  if (
-    !result?.timeline?.length ||
-    result?.errors === undefined ||
-    result?.testType === undefined
-  ) {
-    console.log('error in typing completed!');
-    return res.status(422).json({ message: 'Required property missing!' });
-  }
-
-  const username = req.user?.username;
-
-  if (!username) {
-    return res.status(404).json({ message: 'User not found!' });
-  }
+  const username = req.user!.username;
 
   try {
-    const profile = await Profile.findOne({ username });
-
-    if (!profile) {
-      return res.status(404).json({ message: 'User not found!' });
+    if (
+      !result?.timeline?.length ||
+      result?.errors === undefined ||
+      result?.testType === undefined
+    ) {
+      throw new PropertyMissingError('Required property missing!');
     }
+
+    const user = (await User.findOne({ username }))!;
+    const profile = (await Profile.findOne({ _id: user._id }))!;
 
     const resultLatest = result.timeline[result.timeline.length - 1];
 

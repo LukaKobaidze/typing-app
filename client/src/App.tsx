@@ -3,24 +3,23 @@ import socket from '@/api/socket';
 import { TypingContext } from '@/context/typing.context';
 import { ModalContext } from '@/context/modal.context';
 import { useWindowDimensions } from '@/hooks';
-import { TypingResult } from '@/types';
 import Header from '@/components/Header';
 import Result from '@/components/Typing/Result';
 import Typing from '@/components/Typing';
-import Race from '@/components/Race';
+import OneVersusOne from '@/components/OneVersusOne';
 import Footer from '@/components/Footer';
 import Typemode from '@/components/Typemode';
 import styles from '@/styles/App.module.scss';
 
 export default function App() {
-  const { typingFocused, resultPreview, onPreviewResult } =
+  const { typingFocused, resultPreview, typemodeVisible, onPreviewResult } =
     useContext(TypingContext);
   const { activeModal, onOpenModal } = useContext(ModalContext);
   const [roomCode, setRoomCode] = useState<string | null>(null);
   const [windowWidth] = useWindowDimensions();
 
   useEffect(() => {
-    if (activeModal === 'race') {
+    if (activeModal === 'oneVersusOne') {
       socket.on('has-joined-room', (roomCode: string) => {
         setRoomCode(roomCode);
         onOpenModal(null);
@@ -41,7 +40,7 @@ export default function App() {
         onLeaveRoom={() => setRoomCode(null)}
       />
 
-      {!roomCode && (
+      {typemodeVisible && (
         <Typemode
           className={`opacity-transition ${typingFocused ? 'hide' : ''} ${
             styles.typemode
@@ -51,18 +50,18 @@ export default function App() {
 
       <main
         className={`${styles.main} ${
-          !roomCode ? styles.mainMarginBottom : ''
+          typemodeVisible ? styles.mainMarginBottom : ''
         }`}
       >
         {roomCode ? (
-          <Race roomCode={roomCode} />
+          <OneVersusOne roomCode={roomCode} />
         ) : (
           <>
             {resultPreview ? (
               <Result
-                result={resultPreview}
+                result={resultPreview.state}
                 onGoBack={() => onPreviewResult(null)}
-                includeDate
+                {...resultPreview.options}
               />
             ) : (
               <Typing />

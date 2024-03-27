@@ -1,6 +1,4 @@
-import { ButtonRounded, Tooltip } from '@/components/UI';
-import styles from './CreateAccount.module.scss';
-import Input from './Input';
+import { useContext, useState } from 'react';
 import {
   IconCustomize,
   IconEmail,
@@ -8,14 +6,13 @@ import {
   IconPassword,
   IconStats,
   IconUsername,
-  IconEyeOff,
-  IconEyeOn,
 } from '@/assets/image';
-import { useContext, useEffect, useState } from 'react';
-import { createAccount } from '@/api/auth';
-import useForm from './useForm';
 import { ProfileContext } from '@/context/profile.context';
-import { httpPostCustomize } from '@/api/profile';
+import { httpCreateAccount } from '@/api/auth';
+import useForm from '@/hooks/useForm';
+import InputField from '@/components/UI/InputField';
+import { ButtonRounded } from '@/components/UI';
+import styles from './CreateAccount.module.scss';
 
 const fieldsArr = ['username', 'email', 'password', 'repeatPassword'];
 
@@ -27,7 +24,7 @@ export default function CreateAccount() {
 
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [submitLoading, setSubmitLoading] = useState(false);
-  const { onLoadProfileData } = useContext(ProfileContext);
+  const { onUpdateUsername } = useContext(ProfileContext);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -47,24 +44,21 @@ export default function CreateAccount() {
       return setSubmitLoading(false);
     }
 
-    createAccount(
+    httpCreateAccount(
       fields.username,
       fields.email,
       fields.password,
       createAccountAbortController
     )
       .then((data) => {
-        if (data.error) {
-          if (data.message && data.field) {
-            setError({ message: data.message, field: data.field });
-            return;
-          }
-        }
-
-        onLoadProfileData();
+        onUpdateUsername(data.username);
       })
       .catch((err) => {
-        console.log(err);
+        const parsedError = JSON.parse(err.message);
+
+        if (parsedError && parsedError.message) {
+          setError({ message: parsedError.message, field: parsedError.field });
+        }
       })
       .finally(() => {
         setSubmitLoading(false);
@@ -73,7 +67,7 @@ export default function CreateAccount() {
 
   return (
     <form className={styles.container} onSubmit={handleSubmit}>
-      <Input
+      <InputField
         classNameContainer={styles.inputContainer}
         Icon={IconUsername}
         placeholder="username"
@@ -81,7 +75,7 @@ export default function CreateAccount() {
         value={fields.username}
         onChange={(e) => onFieldChange(e, 'username')}
       />
-      <Input
+      <InputField
         classNameContainer={styles.inputContainer}
         Icon={IconEmail}
         type="email"
@@ -90,36 +84,21 @@ export default function CreateAccount() {
         onChange={(e) => onFieldChange(e, 'email')}
         error={error?.field === 'email'}
       />
-      <Input
+      <InputField
         classNameContainer={styles.inputContainer}
         className={styles.inputPassword}
         Icon={IconPassword}
-        type={isPasswordVisible ? 'text' : 'password'}
+        type="password"
         placeholder="password"
         value={fields.password}
         onChange={(e) => onFieldChange(e, 'password')}
         error={error?.field === 'password'}
-        wrapperChildren={
-          <Tooltip
-            position="left"
-            text={isPasswordVisible ? 'hide password' : 'show password'}
-            showOnHover
-            className={styles.passwordVisibility}
-          >
-            <button
-              type="button"
-              onClick={() => setIsPasswordVisible((state) => !state)}
-            >
-              {isPasswordVisible ? (
-                <IconEyeOn className={styles.passwordVisibilityIcon} />
-              ) : (
-                <IconEyeOff className={styles.passwordVisibilityIcon} />
-              )}
-            </button>
-          </Tooltip>
-        }
+        showPassword={{
+          bool: isPasswordVisible,
+          onToggle: () => setIsPasswordVisible((state) => !state),
+        }}
       />
-      <Input
+      <InputField
         classNameContainer={styles.inputContainer}
         Icon={IconPassword}
         type={isPasswordVisible ? 'text' : 'password'}
@@ -145,10 +124,6 @@ export default function CreateAccount() {
         <li className={styles.benefitsItem}>
           <IconCustomize className={styles.benefitsItemIcon} />
           <span>Customizations saved to the account.</span>
-        </li>
-        <li className={styles.benefitsItem}>
-          <IconUsername className={styles.benefitsItemIcon} />
-          <span>Username displayed in 1v1 Race Mode.</span>
         </li>
       </ul>
     </form>

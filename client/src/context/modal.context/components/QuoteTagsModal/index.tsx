@@ -1,9 +1,9 @@
-import { IconTags } from '@/assets/image';
-import Modal from '@/components/Modal';
-import styles from './QuoteTagsModal.module.scss';
 import { useContext } from 'react';
 import { TypemodeContext } from '@/context/typemode.context';
+import { IconTags } from '@/assets/image';
 import { ButtonRounded } from '@/components/UI';
+import Modal from '@/components/UI/Modal';
+import styles from './QuoteTagsModal.module.scss';
 
 interface Props {
   onClose: () => void;

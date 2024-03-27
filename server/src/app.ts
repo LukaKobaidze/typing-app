@@ -1,46 +1,33 @@
-import express, { ErrorRequestHandler } from 'express';
-import authRouter from './routes/auth/auth.router';
-import cors from 'cors';
-import cookieParser from 'cookie-parser';
-import profileRouter from './routes/profile/profile.router';
-import { typingRouter } from './routes/typing/typing.router';
+import express from 'express';
 import morgan from 'morgan';
+import cookieParser from 'cookie-parser';
+import cors from 'cors';
+import authRouter from './routes/auth/auth.router';
+import profileRouter from './routes/profile/profile.router';
+import typingRouter from './routes/typing/typing.router';
+import error from './middlewares/error.middleware';
+import NotFoundError from './errors/NotFoundError';
 
 const app = express();
 
-app.use(morgan('dev'));
-
-app.use(cookieParser());
 app.use(
   cors({
     origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
     credentials: true,
   })
 );
+app.use(morgan('dev'));
+app.use(cookieParser());
 app.use(express.json());
 
 app.use('/auth', authRouter);
 app.use('/profile', profileRouter);
 app.use('/typing', typingRouter);
 
-const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
-  if (res.headersSent) {
-    return next(err);
-  }
+app.all('*', (req, res, next) => {
+  next(new NotFoundError(`Invalid path: ${req.originalUrl}`));
+});
 
-  if (err.code === 11000) {
-    const field = Object.keys(err.keyValue)[0];
-    res.status(403).json({
-      error: true,
-      message: `${field || ''} already exists!`,
-      field: field,
-    });
-  } else {
-    console.log(err);
-    res.status(err.status).send('Something broke!');
-  }
-};
-
-app.use(errorHandler);
+app.use(error);
 
 export default app;

@@ -1,16 +1,10 @@
-import { useContext, useEffect, useState } from 'react';
-import socket from '@/api/socket';
-import { TypingContext } from '@/context/typing.context';
-import { ButtonRounded, Logo, Tooltip } from '../UI';
-import { ModalContext } from '@/context/modal.context';
-import {
-  IconAccount,
-  IconCustomize,
-  IconLeaveRoom,
-  IconSpeed,
-} from '@/assets/image';
-import styles from '@/styles/Header/Header.module.scss';
+import { useContext } from 'react';
 import { ProfileContext } from '@/context/profile.context';
+import { TypingContext } from '@/context/typing.context';
+import { ModalContext } from '@/context/modal.context';
+import { Icon1v1, IconAccount, IconCustomize, IconLeave } from '@/assets/image';
+import { ButtonRounded, Logo } from '../UI';
+import styles from '@/styles/Header/Header.module.scss';
 
 interface Props {
   windowWidth: number;
@@ -37,43 +31,31 @@ export default function Header(props: Props) {
             styles.headerButtons
           }`}
         >
-          {windowWidth > 770 ? (
-            <ButtonRounded
-              className={styles.headerBtn}
-              onClick={() => onOpenModal('customize')}
-              active={activeModal === 'customize'}
-            >
-              <IconCustomize />
-              <span>Customize</span>
-            </ButtonRounded>
-          ) : (
-            <Tooltip text="Customize" showOnHover>
-              <ButtonRounded
-                className={styles.headerBtn}
-                onClick={() => onOpenModal('customize')}
-                aria-label="customize"
-              >
-                <IconCustomize />
-              </ButtonRounded>
-            </Tooltip>
-          )}
+          <ButtonRounded
+            className={styles.headerBtn}
+            onClick={() => onOpenModal('customize')}
+            active={activeModal === 'customize'}
+          >
+            <IconCustomize />
+            {windowWidth > 600 && <span>Customize</span>}
+          </ButtonRounded>
 
           {!roomCode ? (
             <ButtonRounded
               className={styles.headerBtn}
-              onClick={() => onOpenModal('race')}
-              active={activeModal === 'race'}
+              onClick={() => onOpenModal('oneVersusOne')}
+              active={activeModal === 'oneVersusOne'}
             >
-              <IconSpeed />
-              <span>Race{windowWidth > 585 ? ' (1v1)' : ''}</span>
+              <Icon1v1 className={styles.oneVersusOneIcon} />
+              {windowWidth > 510 && <span>1v1 (Multiplayer)</span>}
             </ButtonRounded>
           ) : (
             <ButtonRounded
               className={styles.headerBtn}
               onClick={() => onLeaveRoom()}
             >
-              <IconLeaveRoom />
-              <span>Leave Room</span>
+              <IconLeave />
+              {windowWidth > 510 && <span>Leave Room</span>}
             </ButtonRounded>
           )}
 
@@ -82,8 +64,8 @@ export default function Header(props: Props) {
               className={`${styles.headerBtn} ${styles.accountBtn}`}
               onClick={() => onOpenModal('user')}
             >
-              <IconAccount />
-              <span>{profile.username}</span>
+              <IconAccount className={styles.accountBtnIcon} />
+              <span className={styles.accountBtnText}>{profile.username}</span>
             </ButtonRounded>
           ) : (
             <ButtonRounded
@@ -91,8 +73,9 @@ export default function Header(props: Props) {
               onClick={() => onOpenModal('account')}
               active={activeModal === 'account'}
             >
-              <IconAccount />
-              <span>Account</span>
+              <IconAccount className={styles.accountBtnIcon} />
+
+              {windowWidth > 575 && <span>Account</span>}
             </ButtonRounded>
           )}
         </div>

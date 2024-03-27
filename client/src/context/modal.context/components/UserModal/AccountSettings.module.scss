@@ -5,27 +5,80 @@
 }
 
 .button {
+  width: 100%;
   display: flex;
   align-items: center;
   font-size: 16px;
   padding: 1em;
   margin-left: -1em;
+  border-left: 3px solid var(--clr-char);
+  border-radius: 0;
+
+  &:hover,
+  &:focus-visible {
+    border-color: var(--clr-main);
+  }
 
   &Icon {
+    width: 30px;
+    height: 30px;
     margin-right: 7px;
   }
 }
 
 .logOut {
-  margin-top: 20px;
-  border: 2px solid var(--clr-char-incorrect);
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  margin-top: 40px;
+  border: 1px solid var(--clr-char-incorrect);
   color: var(--clr-char-correct);
   opacity: 1;
-  font-weight: bold;
   font-size: 16px;
   transition: background-color 125ms;
-  
+
+  &Icon {
+    width: 20px;
+    margin-right: 10px;
+  }
+
   &:hover {
     background-color: var(--clr-char-incorrect);
+    color: var(--clr-bg);
   }
 }
+
+.headingContainer {
+  position: relative;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.heading {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.goBackButtonContainer {
+  --padding-btn: 10px;
+  position: absolute;
+  left: calc(var(--padding-btn) * -1);
+}
+
+.goBackButton {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  padding-left: var(--padding-btn);
+  padding-right: var(--padding-btn);
+
+  &Icon {
+    width: 35px;
+    height: 35px;
+  }
+}
+

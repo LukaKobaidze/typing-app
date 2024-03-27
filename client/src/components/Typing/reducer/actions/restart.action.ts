@@ -21,7 +21,7 @@ export default function restart(
     typedCorrectly: 0,
     mistype: 0,
     result: {
-      showResults: false,
+      showResult: false,
       timeline: [],
       errors: 0,
       quoteAuthor: undefined,

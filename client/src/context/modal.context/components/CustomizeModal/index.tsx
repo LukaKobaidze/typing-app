@@ -1,11 +1,11 @@
-import { useContext, useEffect, useState } from 'react';
-import { IconCustomize } from '@/assets/image';
+import { useContext, useState } from 'react';
+import { ProfileContext } from '@/context/profile.context';
 import { data } from '@/data';
+import { IconCustomize } from '@/assets/image';
 import { Switch, Tooltip, ButtonRounded } from '@/components/UI';
+import Modal from '@/components/UI/Modal';
 import caretCSS from '@/styles/Typing/Caret.module.scss';
 import styles from './CustomizeModal.module.scss';
-import Modal from '@/components/Modal';
-import { ProfileContext } from '@/context/profile.context';
 
 interface Props {
   onClose: () => void;

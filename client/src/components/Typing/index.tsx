@@ -1,29 +1,27 @@
 import { useCallback, useContext, useEffect, useReducer, useState } from 'react';
+import { ProfileContext } from '@/context/profile.context';
 import { TypingContext } from '@/context/typing.context';
 import { TypemodeContext } from '@/context/typemode.context';
-import { StatsContext } from '@/context/stats.context';
+import { getRandomQuoteByLength } from '@/services/quotable';
+import { TypingResult } from '@/types';
+import { getRandomWords, getTypingWords } from '@/helpers';
+import { useSound } from '@/hooks';
 import { IconLock } from '@/assets/image';
 import typewriterSound from '@/assets/audio/typewriter.wav';
 import typingReducer, { initialState } from './reducer/typing.reducer';
-import { getRandomWords, getTypingWords } from '@/helpers';
-import { useSound } from '@/hooks';
 import { Loading } from '@/components/UI';
 import Input from './Input';
 import Restart from './Restart';
-import Result from './Result';
 import Counter from './Counter';
 import LoadingError from './LoadingError';
-import styles from '@/styles/Typing/Typing.module.scss';
 import counterStyles from '@/styles/Typing/Counter.module.scss';
-import { TypingResult } from '@/types';
-import { getRandomQuoteByLength } from '@/services/quotable';
-import { ProfileContext } from '@/context/profile.context';
-import { httpTypingCompleted, httpTypingStarted } from '@/api/typing';
+import styles from '@/styles/Typing/Typing.module.scss';
+import Result from './Result';
 
 interface Props {
   testText?: string;
   secondCaret?: { wordIndex: number; charIndex: number };
-  raceMode?: boolean;
+  oneVersusOne?: boolean;
   typeModeCustom?: string;
   onCaretPositionChange?: (wordIndex: number, charIndex: number) => void;
   onResult?: (result: TypingResult) => void;
@@ -36,7 +34,7 @@ export default function Typing(props: Props) {
   const {
     testText,
     secondCaret,
-    raceMode,
+    oneVersusOne,
     typeModeCustom,
     onCaretPositionChange,
     onResult,
@@ -49,6 +47,7 @@ export default function Typing(props: Props) {
     onUpdateTypingFocus,
     onTypingStarted,
     onTypingEnded,
+    setTypemodeVisible,
   } = useContext(TypingContext);
   const [state, dispatch] = useReducer(typingReducer, initialState);
   const {
@@ -70,7 +69,7 @@ export default function Typing(props: Props) {
   const playTypingSound = useSound(typewriterSound, 0.3);
 
   const isTypingDisabled =
-    typingDisabled || isLoading || loadingError || (raceMode && !typingStarted);
+    typingDisabled || isLoading || loadingError || (oneVersusOne && !typingStarted);
 
   useEffect(() => {
     const handleMouseMove = () => {
@@ -116,7 +115,7 @@ export default function Typing(props: Props) {
         return dispatch({ type: 'NEXT_WORD' });
       }
       if (key.length === 1) {
-        if (!typingStarted && !raceMode) {
+        if (!typingStarted && !oneVersusOne) {
           onTypingStarted();
         }
         onUpdateTypingFocus(true);
@@ -124,7 +123,7 @@ export default function Typing(props: Props) {
         return dispatch({ type: 'TYPE', payload: key });
       }
     };
-    if (state.result.showResults || isTypingDisabled) {
+    if (state.result.showResult || isTypingDisabled) {
       document.removeEventListener('keydown', typeHandler);
     } else document.addEventListener('keydown', typeHandler);
 
@@ -132,7 +131,7 @@ export default function Typing(props: Props) {
   }, [
     typingStarted,
     onTypingStarted,
-    state.result.showResults,
+    state.result.showResult,
     mode,
     quote,
     time,
@@ -140,7 +139,7 @@ export default function Typing(props: Props) {
     isTypingDisabled,
     playTypingSound,
     profile.customize.soundOnClick,
-    raceMode,
+    oneVersusOne,
   ]);
 
   useEffect(() => {
@@ -178,7 +177,7 @@ export default function Typing(props: Props) {
       }
     }
 
-    if (!raceMode) {
+    if (!oneVersusOne) {
       if (mode === 'time') {
         dispatch({
           type: 'RESTART',
@@ -232,7 +231,7 @@ export default function Typing(props: Props) {
     words,
     quote,
     testText,
-    raceMode,
+    oneVersusOne,
     numbers,
     punctuation,
     quoteTagsMode,
@@ -249,7 +248,7 @@ export default function Typing(props: Props) {
   };
 
   useEffect(() => {
-    if (!state.words.length || (mode === 'time' && !raceMode)) return;
+    if (!state.words.length || (mode === 'time' && !oneVersusOne)) return;
 
     const lastWordCorrect =
       state.wordIndex === state.words.length - 1 &&
@@ -259,10 +258,10 @@ export default function Typing(props: Props) {
       dispatch({ type: 'RESULT' });
       onUpdateTypingFocus(false);
     }
-  }, [mode, state.words, state.charIndex, state.wordIndex, raceMode]);
+  }, [mode, state.words, state.charIndex, state.wordIndex, oneVersusOne]);
 
   useEffect(() => {
-    if (raceMode) return;
+    if (oneVersusOne) return;
 
     if (mode === 'time') {
       if ((state.wordIndex + 1) % 10 === 0) {
@@ -272,7 +271,7 @@ export default function Typing(props: Props) {
         });
       }
     }
-  }, [mode, state.wordIndex, raceMode]);
+  }, [mode, state.wordIndex, oneVersusOne]);
 
   useEffect(() => {
     onRestart();
@@ -289,7 +288,7 @@ export default function Typing(props: Props) {
       interval = setInterval(() => {
         dispatch({ type: 'TIMELINE' });
 
-        if (mode === 'time' && !raceMode)
+        if (mode === 'time' && !oneVersusOne)
           setTimeCountdown((prevState) => prevState - 1);
       }, 1000);
     } else {
@@ -297,7 +296,7 @@ export default function Typing(props: Props) {
     }
 
     return () => clearInterval(interval);
-  }, [typingStarted, mode, raceMode]);
+  }, [typingStarted, mode, oneVersusOne]);
 
   useEffect(() => {
     if (timeCountdown === 0) {
@@ -307,17 +306,21 @@ export default function Typing(props: Props) {
   }, [timeCountdown, time]);
 
   useEffect(() => {
-    if (state.result.showResults) {
+    if (state.result.showResult) {
       onTestsCompletedUpdate(state.result);
 
       if (onResult) {
         onResult(state.result);
         onTypingEnded();
       }
+
+      setTypemodeVisible(false);
+    } else {
+      setTypemodeVisible(true);
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.result.showResults]);
+  }, [state.result.showResult]);
 
   useEffect(() => {
     if (onCaretPositionChange) {
@@ -329,7 +332,7 @@ export default function Typing(props: Props) {
 
   return (
     <div className={styles.typing}>
-      {raceMode || !state.result.showResults ? (
+      {!state.result.showResult ? (
         <>
           <div className={styles.liveResult}>
             {profile.customize.liveWpm && (
@@ -350,15 +353,15 @@ export default function Typing(props: Props) {
             className={styles['typing__container']}
             style={{ width: profile.customize.inputWidth * 0.95 + '%' }}
           >
-            {raceMode && state.result.showResults ? (
+            {oneVersusOne && state.result.showResult ? (
               <div className={counterStyles.counter}>
                 Waiting for your opponent to finish...
               </div>
             ) : (
               <Counter
-                mode={raceMode ? 'quote' : mode}
+                mode={oneVersusOne ? 'quote' : mode}
                 counter={
-                  mode === 'time' && !raceMode ? timeCountdown : state.wordIndex
+                  mode === 'time' && !oneVersusOne ? timeCountdown : state.wordIndex
                 }
                 wordsLength={state.words.length}
               />
@@ -380,7 +383,7 @@ export default function Typing(props: Props) {
                 secondCaret={secondCaret}
               />
             )}
-            {!raceMode && (
+            {!oneVersusOne && (
               <Restart onRestart={onRestart} className={styles.restart} />
             )}
           </div>

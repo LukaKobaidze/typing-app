@@ -1,16 +1,16 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 import { TypingContext } from '@/context/typing.context';
+import { ProfileContext } from '@/context/profile.context';
 import { TypingWords } from './types';
 import Caret from './Caret';
 import styles from '@/styles/Typing/Input.module.scss';
-import { ProfileContext } from '@/context/profile.context';
 
 interface Props {
   words: TypingWords;
   wordIndex: number;
   charIndex: number;
 
-  /* Used for the Race (1v1) mode */
+  /* Used for the 1v1 mode */
   secondCaret?: { wordIndex: number; charIndex: number };
 }
 

@@ -3,7 +3,7 @@ import app from './app';
 import { createServer } from 'http';
 import { databaseConnect } from './database/functions';
 import { databaseListeners } from './database/listeners';
-import { startSocket1v1 } from './sockets/1v1.socket';
+import { startSocketOneVersusOne } from './sockets/oneVersusOne.socket';
 
 const PORT = process.env.PORT || 8080;
 
@@ -12,7 +12,7 @@ const httpServer = createServer(app);
 function startServer() {
   databaseConnect();
   databaseListeners();
-  startSocket1v1(httpServer);
+  startSocketOneVersusOne(httpServer);
 
   httpServer.listen(PORT);
 

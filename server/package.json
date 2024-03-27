@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node build/server.js",
     "build": "tsc",
-    "dev": "nodemon src/server.ts"
+    "dev": "cross-env NODE_ENV=development nodemon src/server.ts"
   },
   "keywords": [],
   "author": "",
@@ -32,6 +32,7 @@
     "@types/jsonwebtoken": "^9.0.6",
     "@types/mongoose": "^5.11.97",
     "@types/morgan": "^1.9.9",
+    "cross-env": "^7.0.3",
     "nodemon": "^3.1.0",
     "typescript": "^5.2.2"
   },

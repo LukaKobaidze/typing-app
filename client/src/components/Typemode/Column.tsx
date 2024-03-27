@@ -1,6 +1,6 @@
-import styles from '@/styles/Typemode/Column.module.scss';
-import { TextButton } from '../UI';
 import { useEffect, useState } from 'react';
+import { TextButton } from '../UI';
+import styles from '@/styles/Typemode/Column.module.scss';
 
 export interface ColumnProps {
   buttons: {

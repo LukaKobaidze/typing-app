@@ -106,6 +106,14 @@
     top: 75px;
     transform: translateX(-50%);
   }
+
+  &Empty {
+    position: absolute;
+    left: 50%;
+    top: 100px;
+    transform: translateX(-50%);
+    font-size: 20px;
+  }
 }
 
 .td {

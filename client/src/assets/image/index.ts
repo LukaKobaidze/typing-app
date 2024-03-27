@@ -1,5 +1,6 @@
 /// <reference types="vite-plugin-svgr/client" />
 
+export { default as Icon1v1 } from './1v1.svg?react';
 export { default as IconAccount } from './account.svg?react';
 export { default as IconAlertCircle } from './alert-circle.svg?react';
 export { default as IconAngleDoubleLeft } from './angle-double-left.svg?react';
@@ -15,7 +16,7 @@ export { default as IconHistory } from './history.svg?react';
 export { default as IconKeyboardArrowDown } from './keyboard_arrow_down.svg?react';
 export { default as IconKeyboardArrowLeft } from './keyboard_arrow_left.svg?react';
 export { default as IconKeyboard } from './keyboard.svg?react';
-export { default as IconLeaveRoom } from './leave_room.svg?react';
+export { default as IconLeave } from './leave.svg?react';
 export { default as IconLock } from './lock.svg?react';
 export { default as IconLoop } from './loop.svg?react';
 export { default as IconNumbers } from './numbers.svg?react';

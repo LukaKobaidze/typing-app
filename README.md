@@ -29,7 +29,7 @@
 
 - Custom made input with random words.
 - Different typing modes, such as 'time', 'words', 'quote'.
-- Multiplayer 1v1 Race mode to play against your friends.
+- Multiplayer 1v1 mode to play against your friends.
 - Fetches Random quotes using 'quotable' API.
 - Displays live errors while typing.
 - Results after typing is done, including WPM, Accuracy, Errors, Interactive Dashboard.

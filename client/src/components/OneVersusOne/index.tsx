@@ -1,12 +1,16 @@
 import { useEffect, useState, useCallback, useContext, useMemo } from 'react';
-import { RacePlayerState, RaceStateType, TypingResult } from '@/types';
-import Typing from '@/components/Typing';
-import socket from '@/api/socket';
 import { TypingContext } from '@/context/typing.context';
-import Results from './Results';
+import socket from '@/api/socket';
+import {
+  OneVersusOnePlayerState,
+  OneVersusOneStateType,
+  TypingResult,
+} from '@/types';
 import { IconUser } from '@/assets/image';
-import { ButtonRounded, CopyButton, Loading } from '@/components/UI';
-import styles from '@/styles/Race/Race.module.scss';
+import Typing from '@/components/Typing';
+import { CopyButton, Loading } from '@/components/UI';
+import Results from './Results';
+import styles from '@/styles/OneVersusOne/OneVersusOne.module.scss';
 
 interface Props {
   roomCode: string;
@@ -14,11 +18,11 @@ interface Props {
 
 let countdownInterval: NodeJS.Timer;
 
-export default function Race(props: Props) {
+export default function OneVersusOne(props: Props) {
   const { roomCode } = props;
 
   const { onTypingStarted } = useContext(TypingContext);
-  const [roomState, setRoomState] = useState<RaceStateType | null>(null);
+  const [roomState, setRoomState] = useState<OneVersusOneStateType | null>(null);
   const [startsInSeconds, setStartsInSeconds] = useState<number | null>(null);
 
   const currentPlayer = useMemo(() => {
@@ -36,7 +40,7 @@ export default function Race(props: Props) {
   }, []);
 
   useEffect(() => {
-    socket.on('room-state', (argRoomState: RaceStateType) => {
+    socket.on('room-state', (argRoomState: OneVersusOneStateType) => {
       setRoomState(argRoomState);
     });
 
@@ -44,7 +48,7 @@ export default function Race(props: Props) {
       setRoomState((state) => (!state ? null : { ...state, testText: text }));
     });
 
-    socket.on('players-state', (playersState: RaceStateType['players']) => {
+    socket.on('players-state', (playersState: OneVersusOneStateType['players']) => {
       setRoomState((state) =>
         state === null ? null : { ...state, players: playersState }
       );
@@ -110,7 +114,7 @@ export default function Race(props: Props) {
             [opponentPlayer]: {
               ...state.players[opponentPlayer],
               disconnected: true,
-            } as RacePlayerState,
+            } as OneVersusOnePlayerState,
           },
         };
       });
@@ -149,7 +153,7 @@ export default function Race(props: Props) {
             [currentPlayer]: {
               ...state.players[currentPlayer],
               result,
-            } as RacePlayerState,
+            } as OneVersusOnePlayerState,
           },
         };
       });
@@ -174,14 +178,14 @@ export default function Race(props: Props) {
   }, [currentPlayer]);
 
   const opponentPlayerState = roomState?.players[opponentPlayer];
-  const showResults =
+  const showResult =
     roomState?.players.player1?.result && roomState?.players.player2?.result;
 
   useEffect(() => {
-    if (showResults) {
+    if (showResult) {
       setStartsInSeconds(null);
     }
-  }, [showResults]);
+  }, [showResult]);
 
   return (
     <>
@@ -215,7 +219,7 @@ export default function Race(props: Props) {
                 wordIndex: opponentPlayerState?.wordIndex || 0,
                 charIndex: opponentPlayerState?.charIndex || 0,
               }}
-              raceMode
+              oneVersusOne
               onResult={handleResult}
             />
           </div>
@@ -228,12 +232,12 @@ export default function Race(props: Props) {
             <CopyButton className={styles.roomCodeCopyButton} value={roomCode} />
           </div>
           <div className={styles.players}>
-            <div className={`${styles.player} ${styles.playerOne}`}>
+            <div className={styles.player}>
               <span className={styles.playerText}>You</span>
               <IconUser className={styles.iconUser} />
             </div>
             <span className={styles.textVs}>vs</span>
-            <div className={`${styles.player} ${styles.playerTwo}`}>
+            <div className={styles.player}>
               <span className={styles.playerText}>Opponent</span>
               <Loading type="dot-flashing" />
             </div>

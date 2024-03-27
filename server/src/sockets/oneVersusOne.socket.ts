@@ -1,8 +1,8 @@
 import { Server } from 'socket.io';
 import { fetchQuote, generateCode, startCountdown } from './helpers';
-import { QuoteLengthType, RaceStateType } from './types';
+import { QuoteLengthType, OneVersusOneStateType } from './types';
 
-export function startSocket1v1(server: any) {
+export function startSocketOneVersusOne(server: any) {
   const io = new Server(server, {
     cors: {
       origin: process.env.CORS_ORIGIN || '*',
@@ -11,9 +11,9 @@ export function startSocket1v1(server: any) {
   });
 
   const clientRooms: { [key: string]: string } = {};
-  const roomState: { [key: string]: RaceStateType } = {};
+  const roomState: { [key: string]: OneVersusOneStateType } = {};
 
-  io.of('/1v1').on('connection', (socket) => {
+  io.on('connection', (socket) => {
     console.log('New Connection: ', socket.id);
 
     socket.on('create-room', (quoteLength: QuoteLengthType) => {

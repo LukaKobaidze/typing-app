@@ -3,11 +3,8 @@ import { data } from '@/data';
 
 export type GetProfileFilterType = 'username' | 'customize' | 'stats';
 
-export async function httpGetProfile(filter?: GetProfileFilterType[]) {
-  const res = await fetch(
-    data.apiUrl + '/profile' + (filter ? `?filter=${filter.join(',')}` : ''),
-    { credentials: 'include' }
-  );
+export async function httpGetProfile() {
+  const res = await fetch(data.apiUrl + '/profile', { credentials: 'include' });
 
   if (!res.ok) {
     throw new Error();
@@ -29,8 +26,6 @@ export async function httpGetHistory(
     }
   );
 
-  console.log(res);
-
   if (!res.ok) {
     throw new Error();
   }
@@ -45,6 +40,40 @@ export async function httpPostCustomize(customize: Partial<ICustomize>) {
     body: JSON.stringify(customize),
     credentials: 'include',
   });
+
+  return res.json();
+}
+
+export async function httpClearHistory(password: string) {
+  const res = await fetch(data.apiUrl + '/profile/clear-history', {
+    method: 'POST',
+    headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
+    body: JSON.stringify({ password }),
+    credentials: 'include',
+  });
+
+  if (!res.ok) {
+    return res.text().then((text) => {
+      throw new Error(text);
+    });
+  }
+
+  return res.json();
+}
+
+export async function httpResetStats(password: string) {
+  const res = await fetch(data.apiUrl + '/profile/reset-stats', {
+    method: 'POST',
+    headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
+    body: JSON.stringify({ password }),
+    credentials: 'include',
+  });
+
+  if (!res.ok) {
+    return res.text().then((text) => {
+      throw new Error(text);
+    });
+  }
 
   return res.json();
 }

@@ -1,16 +1,16 @@
-import styles from './History.module.scss';
 import { useContext, useEffect, useState } from 'react';
 import { ProfileContext } from '@/context/profile.context';
 import { TypingContext } from '@/context/typing.context';
 import { TypingResult } from '@/types';
-import { ButtonRounded, Loading, Tooltip } from '@/components/UI';
+import { getTimeSince } from '@/helpers';
 import {
   IconAngleDoubleLeft,
   IconAngleDoubleRight,
   IconEyeOn,
   IconKeyboardArrowLeft,
 } from '@/assets/image';
-import { getTimeSince } from '@/helpers';
+import { ButtonRounded, Loading, Tooltip } from '@/components/UI';
+import styles from './History.module.scss';
 
 interface Props {
   onCloseModal: () => void;
@@ -22,7 +22,7 @@ export default function History({ onCloseModal }: Props) {
   const [currentPage, setCurrentPage] = useState(1);
 
   const handlePreviewResult = (result: TypingResult) => {
-    onPreviewResult(result);
+    onPreviewResult(result, { includeDate: true });
     onCloseModal();
   };
 
@@ -35,11 +35,7 @@ export default function History({ onCloseModal }: Props) {
   }, [currentPage]);
 
   return (
-    <div
-      className={`${styles.container} ${
-        !items || profile.history.totalPages > 1 ? styles.pagination : ''
-      }`}
-    >
+    <div className={`${styles.container} ${styles.pagination}`}>
       <table className={styles.history}>
         <thead>
           <tr className={styles.historyHeader}>
@@ -52,6 +48,8 @@ export default function History({ onCloseModal }: Props) {
 
         {!items ? (
           <Loading type="spinner" className={styles.historyLoading} />
+        ) : items.length === 0 ? (
+          <p className={styles.historyEmpty}>History is empty</p>
         ) : (
           <tbody>
             {items.map((result, i) => {
@@ -102,48 +100,51 @@ export default function History({ onCloseModal }: Props) {
           </tbody>
         )}
       </table>
-      <div className={styles.pages}>
-        <ButtonRounded
-          variant="2"
-          onClick={() => setCurrentPage(1)}
-          disabled={currentPage === 1}
-        >
-          <IconAngleDoubleLeft />
-        </ButtonRounded>
 
-        <ButtonRounded
-          variant="2"
-          className={styles.pagesPrev}
-          onClick={() => setCurrentPage((state) => Math.max(state - 1, 1))}
-          disabled={currentPage === 1}
-        >
-          <IconKeyboardArrowLeft className={styles.pagesPrevIcon} />
-          <span>Prev</span>
-        </ButtonRounded>
-        <div className={styles.pagesCurrentNum}>
-          {currentPage + ' of ' + profile.history.totalPages}
+      {profile.history.totalPages > 1 && (
+        <div className={styles.pages}>
+          <ButtonRounded
+            variant="2"
+            onClick={() => setCurrentPage(1)}
+            disabled={currentPage === 1}
+          >
+            <IconAngleDoubleLeft />
+          </ButtonRounded>
+
+          <ButtonRounded
+            variant="2"
+            className={styles.pagesPrev}
+            onClick={() => setCurrentPage((state) => Math.max(state - 1, 1))}
+            disabled={currentPage === 1}
+          >
+            <IconKeyboardArrowLeft className={styles.pagesPrevIcon} />
+            <span>Prev</span>
+          </ButtonRounded>
+          <div className={styles.pagesCurrentNum}>
+            {currentPage + ' of ' + profile.history.totalPages}
+          </div>
+          <ButtonRounded
+            variant="2"
+            className={styles.pagesNext}
+            onClick={() =>
+              setCurrentPage((state) =>
+                Math.min(state + 1, profile.history.totalPages)
+              )
+            }
+            disabled={currentPage === profile.history.totalPages}
+          >
+            <span>Next</span>
+            <IconKeyboardArrowLeft className={styles.pagesNextIcon} />
+          </ButtonRounded>
+          <ButtonRounded
+            variant="2"
+            onClick={() => setCurrentPage(profile.history.totalPages)}
+            disabled={currentPage === profile.history.totalPages}
+          >
+            <IconAngleDoubleRight />
+          </ButtonRounded>
         </div>
-        <ButtonRounded
-          variant="2"
-          className={styles.pagesNext}
-          onClick={() =>
-            setCurrentPage((state) =>
-              Math.min(state + 1, profile.history.totalPages)
-            )
-          }
-          disabled={currentPage === profile.history.totalPages}
-        >
-          <span>Next</span>
-          <IconKeyboardArrowLeft className={styles.pagesNextIcon} />
-        </ButtonRounded>
-        <ButtonRounded
-          variant="2"
-          onClick={() => setCurrentPage(profile.history.totalPages)}
-          disabled={currentPage === profile.history.totalPages}
-        >
-          <IconAngleDoubleRight />
-        </ButtonRounded>
-      </div>
+      )}
     </div>
   );
 }

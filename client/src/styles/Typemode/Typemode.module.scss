@@ -7,6 +7,10 @@
   display: flex;
   align-items: center;
   height: 100%;
+
+  @media (max-width: 725px) {
+    flex-direction: column;
+  }
 }
 
 .splitBar {
@@ -16,4 +20,12 @@
   margin-top: 9px;
   margin-bottom: 9px;
   opacity: 0.2;
+
+  @media (max-width: 725px) {
+    align-self: center;
+    height: 2px;
+    width: 35px;
+    margin-top: 3px;
+    margin-bottom: 3px;
+  }
 }

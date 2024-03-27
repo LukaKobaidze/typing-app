@@ -13,7 +13,7 @@ export default function useForm<T extends ReadonlyArray<string>[number]>(
     return obj;
   });
   const [error, setError] = useState<{
-    field: T;
+    field?: T;
     message: string;
   } | null>(null);
 

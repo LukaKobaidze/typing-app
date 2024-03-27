@@ -3,7 +3,7 @@ import { TypingState } from '../typing.reducer';
 
 export default function result(state: TypingState, time?: number): TypingState {
   // Calculate results
-  if (state.result.timeline.length === 0 || !state.dateTypingStarted) {
+  if (state.result.timeline.length === 0 || !state.dateTypingStarted || state.result.showResult) {
     return state;
   }
 
@@ -27,7 +27,7 @@ export default function result(state: TypingState, time?: number): TypingState {
     ...state,
     result: {
       ...state.result,
-      showResults: true,
+      showResult: true,
       timeline,
       date: currentDate,
     },

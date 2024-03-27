@@ -1,5 +1,5 @@
-import { data } from '@/data';
 import { TypingResult } from '@/types';
+import { data } from '@/data';
 
 export async function httpTypingStarted() {
   const res = await fetch(data.apiUrl + '/typing/started', {

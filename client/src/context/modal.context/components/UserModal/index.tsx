@@ -1,10 +1,10 @@
-import { IconAccount } from '@/assets/image';
-import Modal from '@/components/Modal';
-import styles from './UserModal.module.scss';
 import { useContext, useEffect, useState } from 'react';
 import { ProfileContext } from '@/context/profile.context';
+import { IconAccount } from '@/assets/image';
+import Modal from '@/components/UI/Modal';
 import Profile from './Profile';
 import AccountSettings from './AccountSettings';
+import styles from './UserModal.module.scss';
 
 interface Props {
   onClose: () => void;

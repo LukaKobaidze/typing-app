@@ -3,7 +3,7 @@ import { TypingState } from '../typing.reducer';
 export default function type(state: TypingState, key: string): TypingState {
   const words = state.words.slice(0);
 
-  if (words.length === 0) return state;
+  if (words.length === 0 || state.result.showResult) return state;
 
   const word = words[state.wordIndex];
 

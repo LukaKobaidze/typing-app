@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import FocusTrap from 'focus-trap-react';
 import { IconClose } from '@/assets/image';
 import { AlertOutsideClick, Tooltip } from '@/components/UI';
-import styles from './Modal.module.scss';
+import styles from '@/styles/UI/Modal.module.scss';
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   onClose: () => void;

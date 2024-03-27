@@ -1,17 +1,10 @@
-import { ButtonRounded } from '@/components/UI';
-import Modal from '@/components/Modal';
-import styles from './AccountModal.module.scss';
-import {
-  IconAccount,
-  IconCustomize,
-  IconHistory,
-  IconStats,
-  IconUsername,
-} from '@/assets/image';
 import { useContext, useEffect, useState } from 'react';
+import { ProfileContext } from '@/context/profile.context';
+import { IconAccount } from '@/assets/image';
+import Modal from '@/components/UI/Modal';
 import CreateAccount from './CreateAccount';
 import LogIn from './LogIn';
-import { ProfileContext } from '@/context/profile.context';
+import styles from './AccountModal.module.scss';
 
 interface Props {
   onClose: () => void;

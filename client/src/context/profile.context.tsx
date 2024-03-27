@@ -1,14 +1,14 @@
 import { createContext, useEffect, useState } from 'react';
+import { TypingResult } from '@/types';
+import { ISOToDate } from '@/helpers';
+import { CaretStyleType, ThemeType } from '@/data/types';
 import {
   GetProfileFilterType,
   httpGetHistory,
   httpGetProfile,
   httpPostCustomize,
 } from '@/api/profile';
-import { CaretStyleType, ThemeType } from '@/data/types';
-import { TypingResult } from '@/types';
 import { httpTypingCompleted, httpTypingStarted } from '@/api/typing';
-import { ISOToDate } from '@/helpers';
 
 interface CustomizeBooleans {
   liveWpm: boolean;
@@ -52,7 +52,7 @@ export interface IProfile {
 interface Context {
   profile: IProfile;
   loading: GetProfileFilterType[] | null;
-  onLoadProfileData: (filter?: GetProfileFilterType[]) => void;
+  onLoadProfileData: () => void;
   onLoadHistory: (...args: Parameters<typeof httpGetHistory>) => void;
   onCustomizeUpdateState: (updatedProperties: Partial<ICustomize>) => void;
   onCustomizeToggleState: (property: keyof CustomizeBooleans) => void;
@@ -60,7 +60,10 @@ interface Context {
   onCustomizeUpdateServer: () => void;
   onTestsStartedUpdate: () => void;
   onTestsCompletedUpdate: (result: TypingResult) => void;
-  onClearProfile: () => void;
+  onUpdateUsername: (username: string) => void;
+  onClearHistory: () => void;
+  onResetStats: () => void;
+  onLogOut: () => void;
 }
 
 const initial: Context = {
@@ -79,7 +82,10 @@ const initial: Context = {
   onCustomizeUpdateServer: () => {},
   onTestsStartedUpdate: () => {},
   onTestsCompletedUpdate: () => {},
-  onClearProfile: () => {},
+  onUpdateUsername: () => {},
+  onClearHistory: () => {},
+  onResetStats: () => {},
+  onLogOut: () => {},
 };
 
 export const ProfileContext = createContext(initial);
@@ -93,10 +99,24 @@ export function ProfileContextProvider({ children }: { children: React.ReactNode
 
   useEffect(() => {
     onLoadProfileData();
+
+    setProfile((state) => {
+      const localStorageCustomize = localStorage.getItem('customize');
+
+      if (!localStorageCustomize) return state;
+
+      return { ...state, customize: JSON.parse(localStorageCustomize) };
+    });
   }, []);
 
-  const onLoadProfileData: Context['onLoadProfileData'] = (filter) => {
-    httpGetProfile(filter).then((data: any) => {
+  useEffect(() => {
+    if (profile.customize === initial.profile.customize) return;
+
+    localStorage.setItem('customize', JSON.stringify(profile.customize));
+  }, [profile.customize]);
+
+  const onLoadProfileData: Context['onLoadProfileData'] = () => {
+    httpGetProfile().then((data: any) => {
       const filteredData: any = {};
 
       Object.keys(data).forEach((key) => {
@@ -104,13 +124,6 @@ export function ProfileContextProvider({ children }: { children: React.ReactNode
           filteredData[key] = data[key];
         }
       });
-
-      if (filteredData.history) {
-        filteredData.history = filteredData.history.map((result: any) => ({
-          ...result,
-          date: ISOToDate(result.date),
-        }));
-      }
 
       setProfile((state) => ({
         ...state,
@@ -129,8 +142,6 @@ export function ProfileContextProvider({ children }: { children: React.ReactNode
     historyAbortController = new AbortController();
 
     httpGetHistory(page, limit, historyAbortController).then((data) => {
-      console.log(data);
-
       setProfile((state) => ({
         ...state,
         history: {
@@ -205,6 +216,8 @@ export function ProfileContextProvider({ children }: { children: React.ReactNode
   };
 
   const onTestsCompletedUpdate: Context['onTestsCompletedUpdate'] = (result) => {
+    if (!profile.username) return;
+
     httpTypingCompleted(result);
 
     const resultLatest = result.timeline[result.timeline.length - 1];
@@ -252,8 +265,23 @@ export function ProfileContextProvider({ children }: { children: React.ReactNode
     });
   };
 
-  const onClearProfile: Context['onClearProfile'] = () => {
-    setProfile(initial.profile);
+  const onUpdateUsername: Context['onUpdateUsername'] = (username) => {
+    setProfile((state) => ({
+      ...state,
+      username,
+    }));
+  };
+
+  const onClearHistory: Context['onClearHistory'] = () => {
+    setProfile((state) => ({ ...state, history: initial.profile.history }));
+  };
+
+  const onResetStats: Context['onResetStats'] = () => {
+    setProfile((state) => ({ ...state, stats: initial.profile.stats }));
+  };
+
+  const onLogOut: Context['onLogOut'] = () => {
+    setProfile((state) => ({ ...initial.profile, customize: state.customize }));
   };
 
   useEffect(() => {
@@ -280,8 +308,11 @@ export function ProfileContextProvider({ children }: { children: React.ReactNode
         onCustomizeToggleState,
         onCustomizeResetState,
         onCustomizeUpdateServer,
-        onClearProfile,
+        onLogOut,
         onTestsStartedUpdate,
+        onUpdateUsername,
+        onClearHistory,
+        onResetStats,
         onTestsCompletedUpdate,
       }}
     >

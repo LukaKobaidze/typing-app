@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { TypingContext } from '@/context/typing.context';
-import styles from '@/styles/Typing/Caret.module.scss';
 import { ProfileContext } from '@/context/profile.context';
+import styles from '@/styles/Typing/Caret.module.scss';
 
 interface Props {
   lineHeight: number;

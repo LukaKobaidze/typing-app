@@ -1,11 +1,11 @@
 import { useContext, useEffect, useState } from 'react';
-import { IconEmail, IconPassword, IconUsername } from '@/assets/image';
-import { ButtonRounded } from '@/components/UI';
-import Input from './Input';
-import styles from './LogIn.module.scss';
-import useForm from './useForm';
-import { logIn } from '@/api/auth';
 import { ProfileContext } from '@/context/profile.context';
+import { httpLogIn } from '@/api/auth';
+import { IconEmail, IconPassword, IconUsername } from '@/assets/image';
+import useForm from '@/hooks/useForm';
+import { ButtonRounded } from '@/components/UI';
+import InputField from '@/components/UI/InputField';
+import styles from './LogIn.module.scss';
 
 const logInAbortController = new AbortController();
 
@@ -31,7 +31,7 @@ export default function LogIn() {
       return setSubmitLoading(false);
     }
 
-    logIn(
+    httpLogIn(
       logInWith === 'email'
         ? { logInWith: 'email', email: fields.email, password: fields.password }
         : {
@@ -41,15 +41,18 @@ export default function LogIn() {
           },
       logInAbortController
     )
-      .then((data) => {
-        if (data.error) {
+      .then(() => {
+        onLoadProfileData();
+      })
+      .catch((err) => {
+        const parsedError = JSON.parse(err.message);
+
+        if (parsedError?.message) {
           setError({
-            message: data.message,
-            field: data.status === 404 ? logInWith : 'password',
+            message: parsedError.message,
+            field: parsedError.field,
           });
         }
-
-        onLoadProfileData(['username', 'customize']);
       })
       .finally(() => {
         setSubmitLoading(false);
@@ -63,7 +66,7 @@ export default function LogIn() {
   return (
     <form className={styles.container} onSubmit={handleSubmit}>
       {logInWith === 'username' ? (
-        <Input
+        <InputField
           type="text"
           Icon={IconUsername}
           placeholder="username"
@@ -73,7 +76,7 @@ export default function LogIn() {
           classNameContainer={styles.input}
         />
       ) : (
-        <Input
+        <InputField
           type="email"
           Icon={IconEmail}
           placeholder="email"
@@ -83,7 +86,7 @@ export default function LogIn() {
           classNameContainer={styles.input}
         />
       )}
-      <Input
+      <InputField
         type="password"
         Icon={IconPassword}
         placeholder="password"

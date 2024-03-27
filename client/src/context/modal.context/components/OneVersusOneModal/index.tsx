@@ -2,17 +2,17 @@ import { useState, useEffect } from 'react';
 import { QuoteLengthType } from '@/types';
 import socket from '@/api/socket';
 import { data } from '@/data';
-import { IconAlertCircle } from '@/assets/image';
-import { ButtonRounded } from '@/components/UI';
+import { Icon1v1, IconAlertCircle } from '@/assets/image';
 import { useLocalStorageState } from '@/hooks';
-import styles from './RaceModal.module.scss';
-import Modal from '@/components/Modal';
+import { ButtonRounded } from '@/components/UI';
+import Modal from '@/components/UI/Modal';
+import styles from './OneVersusOneModal.module.scss';
 
 interface Props {
   onClose: () => void;
 }
 
-export default function RaceModal(props: Props) {
+export default function OneVersusOneModal(props: Props) {
   const { onClose } = props;
 
   const [isSocketConnected, setIsSocketConnected] = useState(socket.connected);
@@ -20,7 +20,7 @@ export default function RaceModal(props: Props) {
   const [codeError, setCodeError] = useState(false);
   const [codeLoading, setCodeLoading] = useState(false);
   const [quoteLength, setQuoteLength] = useLocalStorageState<QuoteLengthType>(
-    'race-quote-length',
+    '1v1-quote-length',
     'medium'
   );
 
@@ -66,7 +66,12 @@ export default function RaceModal(props: Props) {
   }, [isSocketConnected]);
 
   return (
-    <Modal heading="Race 1v1" className={styles.modal} onClose={onClose}>
+    <Modal
+      HeadingIcon={Icon1v1}
+      heading="1v1"
+      className={styles.modal}
+      onClose={onClose}
+    >
       {!isSocketConnected && (
         <div className={styles.serverErrorMessage}>
           <IconAlertCircle className={styles.serverErrorMessageIcon} />

@@ -1,8 +1,8 @@
 import { createContext, useEffect, useState } from 'react';
-import { TypemodeTime, TypemodeType, TypemodeWords } from '@/data/types';
-import { useLocalStorageState } from '@/hooks';
-import { QuoteLengthType } from '@/types';
 import { getQuoteTagList } from '@/services/quotable';
+import { QuoteLengthType } from '@/types';
+import { useLocalStorageState } from '@/hooks';
+import { TypemodeTime, TypemodeType, TypemodeWords } from '@/data/types';
 
 type QuoteTagsType = { name: string; isSelected: boolean }[];
 type QuoteTagsModeType = 'all' | 'only selected';
