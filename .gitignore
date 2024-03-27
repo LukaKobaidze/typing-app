@@ -7,7 +7,3 @@ server/.env
 
 client/build
 server/build
-
-server/fly.toml
-server/Dockerfile
-server/.dockerignore
