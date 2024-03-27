@@ -1,5 +1,4 @@
 import { useContext, useEffect } from 'react';
-import { TypingContext } from '@/context/typing.context';
 import {
   ResponsiveContainer,
   LineChart,
@@ -11,16 +10,20 @@ import {
   Legend,
   Line,
 } from 'recharts';
-import { IconKeyboardArrowLeft, IconLoop } from '@/assets/image';
-import { addColorOpacity, getTimeSince } from '@/helpers';
-import { ButtonRounded, PercentCircleChart, Tooltip } from '@/components/UI';
+import { TypingContext } from '@/context/typing.context';
 import { TypingResult } from '@/types';
+import { addColorOpacity, getTimeSince } from '@/helpers';
+import { IconKeyboardArrowLeft, IconLoop } from '@/assets/image';
+import { ButtonRounded, PercentCircleChart, Tooltip } from '@/components/UI';
 import ResultCustomTooltip from './ResultCustomTooltip';
 import styles from '@/styles/Typing/Result.module.scss';
 
-interface Props {
-  result: TypingResult;
+export type ResultOptions = {
   includeDate?: boolean;
+};
+
+interface Props extends ResultOptions {
+  result: TypingResult;
   onRestart?: () => void;
   onRepeat?: () => void;
   onGoBack?: () => void;
@@ -58,11 +61,7 @@ export default function Result(props: Props) {
   return (
     <div className={styles['result__wrapper']}>
       {includeDate && result.date && (
-        <Tooltip
-          text={new Date(result.date).toLocaleString()}
-          position="top"
-          showOnHover
-        >
+        <Tooltip text={result.date.toLocaleString()} position="top" showOnHover>
           <div className={styles.date}>{getTimeSince(result.date)}</div>
         </Tooltip>
       )}

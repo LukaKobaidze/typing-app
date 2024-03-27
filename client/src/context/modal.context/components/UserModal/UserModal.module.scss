@@ -1,0 +1,53 @@
+.modal {
+  width: 600px;
+  @media (max-width: 535px) {
+    font-size: 15px;
+  }
+  @media (max-width: 485px) {
+    font-size: 14px;
+  }
+  @media (max-width: 450px) {
+    font-size: 13px;
+  }
+}
+
+.tabs {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 25px;
+
+  &Button {
+    position: relative;
+    padding: 10px;
+    font-size: 1.1em;
+    opacity: 0.75;
+    transition: color 125ms, opacity 175ms;
+
+    &:hover,
+    &:focus-visible {
+      opacity: 1;
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 50%;
+      height: 2px;
+      background-color: var(--clr-main);
+      opacity: 0;
+      transition: opacity 200ms;
+    }
+
+    &.active {
+      color: var(--clr-main);
+      opacity: 1;
+
+      &::before {
+        opacity: 1;
+      }
+    }
+  }
+}

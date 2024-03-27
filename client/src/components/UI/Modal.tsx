@@ -5,7 +5,7 @@ import { AlertOutsideClick, Tooltip } from '@/components/UI';
 import styles from '@/styles/UI/Modal.module.scss';
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
-  onCloseModal: () => void;
+  onClose: () => void;
   ignoreKeyboardEscape?: boolean;
   initialFocus?: boolean;
   heading?: string;
@@ -18,7 +18,7 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
 
 export default function Modal(props: Props) {
   const {
-    onCloseModal,
+    onClose,
     ignoreKeyboardEscape,
     initialFocus,
     heading,
@@ -31,7 +31,7 @@ export default function Modal(props: Props) {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
-        onCloseModal();
+        onClose();
       }
     };
 
@@ -44,7 +44,7 @@ export default function Modal(props: Props) {
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [ignoreKeyboardEscape, onCloseModal]);
+  }, [ignoreKeyboardEscape, onClose]);
 
   return (
     <FocusTrap
@@ -53,7 +53,7 @@ export default function Modal(props: Props) {
       <div className={styles['wrapper-backdrop']}>
         <AlertOutsideClick
           event="mousedown"
-          onOutsideClick={onCloseModal}
+          onOutsideClick={onClose}
           className={`${styles.modal} ${className}`}
           id="modal"
           {...restProps}
@@ -70,7 +70,7 @@ export default function Modal(props: Props) {
             <Tooltip text="close" showOnHover>
               <button
                 className={styles.buttonClose}
-                onClick={onCloseModal}
+                onClick={onClose}
                 aria-label="close"
               >
                 <IconClose />

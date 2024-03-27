@@ -1,7 +1,7 @@
 import { TypingState } from '../typing.reducer';
 
 export default function deleteKey(state: TypingState): TypingState {
-  if (state.wordIndex === 0 && state.charIndex === 0) {
+  if ((state.wordIndex === 0 && state.charIndex === 0) || state.result.showResult) {
     return state;
   }
 

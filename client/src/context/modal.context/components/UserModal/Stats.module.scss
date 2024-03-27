@@ -1,0 +1,30 @@
+.testsCountWrapper {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  font-size: 1.1em;
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 15px 15px 10px 15px;
+  border-radius: 10px;
+  gap: 25px;
+}
+
+.averageAndHighestWrapper {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  font-size: 1.1em;
+  margin-top: 30px;
+  padding: 0 10px;
+  gap: 25px;
+
+  @media (max-width: 425px) {
+    justify-content: space-between;
+  }
+}
+
+.testStatsWrapper {
+  & > * {
+    margin-bottom: 15px;
+  }
+}

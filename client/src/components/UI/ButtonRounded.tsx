@@ -1,6 +1,6 @@
 import { forwardRef } from 'react';
-import styles from '@/styles/UI/ButtonRounded.module.scss';
 import { Loading } from '@/components/UI';
+import styles from '@/styles/UI/ButtonRounded.module.scss';
 
 interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: '1' | '2';

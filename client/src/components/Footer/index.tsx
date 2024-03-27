@@ -3,7 +3,6 @@ import { TypingContext } from '@/context/typing.context';
 import { TypingResult } from '@/types';
 import { IconGithub, IconRedirect } from '@/assets/image';
 import { Tooltip } from '../UI';
-import RecentResults from '../RecentResults';
 import styles from '@/styles/Footer/Footer.module.scss';
 
 interface Props {
@@ -44,13 +43,6 @@ export default function Footer(props: Props) {
           </a>
         </Tooltip>
       </div>
-
-      {!roomCode && (
-        <RecentResults
-          className={`opacity-transition ${typingFocused ? 'hide' : ''}`}
-          onPreviewResult={onPreviewResult}
-        />
-      )}
     </footer>
   );
 }

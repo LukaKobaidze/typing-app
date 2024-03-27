@@ -1,61 +1,24 @@
-import { useContext, useEffect, useState } from 'react';
-import socket from '@/socket-connection';
+import { useContext } from 'react';
+import { ProfileContext } from '@/context/profile.context';
 import { TypingContext } from '@/context/typing.context';
+import { ModalContext } from '@/context/modal.context';
+import { Icon1v1, IconAccount, IconCustomize, IconLeave } from '@/assets/image';
 import { ButtonRounded, Logo } from '../UI';
-import Customize from '../Customize';
-import Stats from '../Stats';
-import RaceButtonAndModal from '../RaceButtonAndModal';
-import Typemode from '../Typemode';
 import styles from '@/styles/Header/Header.module.scss';
 
 interface Props {
   windowWidth: number;
   roomCode: string | null;
-  isSocketConnected: boolean;
   onLogoClick: () => void;
-  onUpdateRoomCode: (roomCode: string | null) => void;
+  onLeaveRoom: () => void;
 }
 
-type ModalOpenType = 'customize' | 'stats' | 'race' | null;
-
 export default function Header(props: Props) {
-  const { windowWidth, isSocketConnected, roomCode, onLogoClick, onUpdateRoomCode } =
-    props;
+  const { windowWidth, roomCode, onLogoClick, onLeaveRoom } = props;
 
-  const { typingFocused, onTypingDisable, onTypingAllow } =
-    useContext(TypingContext);
-  const [modalOpen, setModalOpen] = useState<ModalOpenType>(null);
-
-  const updateModalOpen = (newState: ModalOpenType) => {
-    if (typingFocused) return;
-
-    setModalOpen(newState);
-  };
-
-  const isRaceModalOpen = modalOpen === 'race';
-
-  useEffect(() => {
-    if (isRaceModalOpen) {
-      socket.on('has-joined-room', (roomCode: string) => {
-        onUpdateRoomCode(roomCode);
-        setModalOpen(null);
-      });
-    }
-  }, [isRaceModalOpen]);
-
-  useEffect(() => {
-    if (modalOpen) {
-      onTypingDisable();
-    } else {
-      onTypingAllow();
-    }
-  }, [modalOpen]);
-
-  useEffect(() => {
-    if (typingFocused) {
-      setModalOpen(null);
-    }
-  }, [typingFocused]);
+  const { activeModal, onOpenModal } = useContext(ModalContext);
+  const { typingFocused } = useContext(TypingContext);
+  const { profile } = useContext(ProfileContext);
 
   return (
     <header className={styles.header}>
@@ -68,43 +31,55 @@ export default function Header(props: Props) {
             styles.headerButtons
           }`}
         >
-          <Customize
-            classNameButton={`${styles.headerBtn} ${styles.customize}`}
-            isOpen={modalOpen === 'customize'}
-            onOpen={() => updateModalOpen('customize')}
-            onClose={() => updateModalOpen(null)}
-            windowWidth={windowWidth}
-          />
-          <Stats
-            classNameButton={`${styles.headerBtn} ${styles.customize}`}
-            isOpen={modalOpen === 'stats'}
-            onOpen={() => updateModalOpen('stats')}
-            onClose={() => updateModalOpen(null)}
-            windowWidth={windowWidth}
-          />
+          <ButtonRounded
+            className={styles.headerBtn}
+            onClick={() => onOpenModal('customize')}
+            active={activeModal === 'customize'}
+          >
+            <IconCustomize />
+            {windowWidth > 600 && <span>Customize</span>}
+          </ButtonRounded>
 
-          {!roomCode && (
-            <RaceButtonAndModal
-              isModalOpen={modalOpen === 'race'}
-              onModalOpen={() => updateModalOpen('race')}
-              onModalClose={() => updateModalOpen(null)}
-              windowWidth={windowWidth}
-              classNameButton={styles.headerBtn}
-              isSocketConnected={isSocketConnected}
-            />
+          {!roomCode ? (
+            <ButtonRounded
+              className={styles.headerBtn}
+              onClick={() => onOpenModal('oneVersusOne')}
+              active={activeModal === 'oneVersusOne'}
+            >
+              <Icon1v1 className={styles.oneVersusOneIcon} />
+              {windowWidth > 510 && <span>1v1 (Multiplayer)</span>}
+            </ButtonRounded>
+          ) : (
+            <ButtonRounded
+              className={styles.headerBtn}
+              onClick={() => onLeaveRoom()}
+            >
+              <IconLeave />
+              {windowWidth > 510 && <span>Leave Room</span>}
+            </ButtonRounded>
+          )}
+
+          {profile.username ? (
+            <ButtonRounded
+              className={`${styles.headerBtn} ${styles.accountBtn}`}
+              onClick={() => onOpenModal('user')}
+            >
+              <IconAccount className={styles.accountBtnIcon} />
+              <span className={styles.accountBtnText}>{profile.username}</span>
+            </ButtonRounded>
+          ) : (
+            <ButtonRounded
+              className={`${styles.headerBtn} ${styles.accountBtn}`}
+              onClick={() => onOpenModal('account')}
+              active={activeModal === 'account'}
+            >
+              <IconAccount className={styles.accountBtnIcon} />
+
+              {windowWidth > 575 && <span>Account</span>}
+            </ButtonRounded>
           )}
         </div>
       </div>
-      {roomCode ? (
-        <ButtonRounded variant="2" onClick={() => onUpdateRoomCode(null)}>
-          Leave Room
-        </ButtonRounded>
-      ) : (
-        <Typemode
-          className={`opacity-transition ${typingFocused ? 'hide' : ''}`}
-          hidden={typingFocused}
-        />
-      )}
     </header>
   );
 }

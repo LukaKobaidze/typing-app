@@ -1,0 +1,33 @@
+.container {
+  position: relative;
+  transition: width 200ms;
+  overflow: hidden;
+  width: max-content;
+}
+
+.contentWrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+}
+
+.button {
+  padding: 0.6rem 0.5rem;
+
+  &:first-child {
+    padding-left: 1rem;
+  }
+
+  &:last-child {
+    padding-right: 1rem;
+  }
+
+
+  &Icon {
+    margin-top: 3px;
+    height: 0.9rem;
+    width: 0.9rem;
+    margin-right: 5px;
+  }
+}

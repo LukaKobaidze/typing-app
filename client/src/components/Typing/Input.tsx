@@ -1,6 +1,6 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 import { TypingContext } from '@/context/typing.context';
-import { CustomizeContext } from '@/context/customize.context';
+import { ProfileContext } from '@/context/profile.context';
 import { TypingWords } from './types';
 import Caret from './Caret';
 import styles from '@/styles/Typing/Input.module.scss';
@@ -10,15 +10,16 @@ interface Props {
   wordIndex: number;
   charIndex: number;
 
-  /* Used for the Race (1v1) mode */
+  /* Used for the 1v1 mode */
   secondCaret?: { wordIndex: number; charIndex: number };
 }
 
 export default function Input(props: Props) {
   const { words, wordIndex, charIndex, secondCaret } = props;
 
-  const { typingStarted, typingFocused } = useContext(TypingContext);
-  const { caretStyle } = useContext(CustomizeContext);
+  const { typingStarted, typingFocused, lineHeight, setLineHeight } =
+    useContext(TypingContext);
+  const { profile } = useContext(ProfileContext);
   const [wordsOffset, setWordsOffset] = useState(0);
 
   const wordWrapperRef = useRef<HTMLDivElement>(null);
@@ -41,10 +42,30 @@ export default function Input(props: Props) {
 
   const firstWord = words[0]?.chars.join('');
 
+  useEffect(() => {
+    setLineHeight((state) => wordWrapperRef.current?.clientHeight || state);
+
+    const interval = setInterval(function () {
+      setLineHeight((state) => {
+        if (state === 0 || wordWrapperRef.current?.clientHeight !== state) {
+          return wordWrapperRef.current?.clientHeight || state;
+        }
+
+        clearInterval(interval);
+        return state;
+      });
+    }, 200);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [profile.customize.fontSize]);
+
   return (
-    <div className={styles.wrapper}>
-      {words.length !== 0 && caretStyle !== 'off' && (
+    <div className={styles.wrapper} style={{ height: lineHeight * 3 }}>
+      {words.length !== 0 && profile.customize.caretStyle !== 'off' && (
         <Caret
+          lineHeight={lineHeight}
           wordIndex={wordIndex}
           charIndex={charIndex}
           wordsOffset={wordsOffset}
@@ -56,6 +77,7 @@ export default function Input(props: Props) {
 
       {typingStarted && secondCaret && (
         <Caret
+          lineHeight={lineHeight}
           wordIndex={secondCaret.wordIndex}
           charIndex={secondCaret.charIndex}
           wordRef={secondCaretWordRef}
@@ -77,11 +99,13 @@ export default function Input(props: Props) {
       />
       <div
         className={styles.words}
-        style={
-          secondCaret || typingStarted
-            ? { transform: `translateY(-${wordsOffset}px)` }
-            : {}
-        }
+        style={{
+          transform:
+            secondCaret || typingStarted
+              ? `translateY(-${wordsOffset}px)`
+              : undefined,
+          fontSize: profile.customize.fontSize,
+        }}
       >
         {words.map((word, index) => {
           const isCurrentWord = index === wordIndex;

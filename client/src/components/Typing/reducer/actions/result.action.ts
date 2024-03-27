@@ -3,15 +3,15 @@ import { TypingState } from '../typing.reducer';
 
 export default function result(state: TypingState, time?: number): TypingState {
   // Calculate results
-  if (state.result.timeline.length === 0 || !state.dateTypingStarted) {
+  if (state.result.timeline.length === 0 || !state.dateTypingStarted || state.result.showResult) {
     return state;
   }
 
   const timeline = [...state.result.timeline];
-  const currentDate = new Date().getTime();
+  const currentDate = new Date();
 
   if (!time) {
-    const timeTook = currentDate - state.dateTypingStarted;
+    const timeTook = currentDate.getTime() - state.dateTypingStarted;
     timeline.push({
       second: twoDecimals(timeTook / 1000),
       ...getTypingResults(
@@ -27,7 +27,7 @@ export default function result(state: TypingState, time?: number): TypingState {
     ...state,
     result: {
       ...state.result,
-      showResults: true,
+      showResult: true,
       timeline,
       date: currentDate,
     },

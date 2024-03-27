@@ -13,6 +13,8 @@ import {
   start,
 } from './actions';
 
+export type TypingResultReducer = TypingResult & { showResult: boolean };
+
 export type TypingState = {
   wordIndex: number;
   charIndex: number;
@@ -20,7 +22,7 @@ export type TypingState = {
   mistype: number;
   typed: number;
   typedCorrectly: number;
-  result: TypingResult;
+  result: TypingResultReducer;
   dateTypingStarted: number | null;
 };
 
@@ -32,7 +34,7 @@ export const initialState: TypingState = {
   typed: 0,
   typedCorrectly: 0,
   result: {
-    showResults: false,
+    showResult: false,
     timeline: [],
     errors: 0,
     testType: null,
@@ -46,7 +48,7 @@ export type TypingActions =
   | { type: 'NEXT_WORD' }
   | { type: 'DELETE_KEY' }
   | { type: 'DELETE_WORD' }
-  | { type: 'ADD_WORDS'; payload: number }
+  | { type: 'ADD_WORDS'; payload: TypingWords }
   | { type: 'RESTART'; payload?: TypingWords }
   | { type: 'TIMELINE' }
   | { type: 'RESULT'; payload?: number }

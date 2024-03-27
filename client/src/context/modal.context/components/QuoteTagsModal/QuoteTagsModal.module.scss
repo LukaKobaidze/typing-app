@@ -1,0 +1,92 @@
+@use '../../../../styles/UI/ButtonRounded.module.scss';
+
+.modeContainer {
+  margin-bottom: 24px;
+
+  &Button {
+    font-size: 16px;
+    border: 2px solid var(--clr-char);
+    opacity: 0.5;
+
+    &First {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+      border-right-width: 1px;
+    }
+
+    &Second {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+      border-left-width: 1px;
+    }
+  }
+}
+
+.quoteTagsForm {
+  transition: opacity 175ms;
+
+  &.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+}
+
+.quoteTagsContainer {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.quoteTag {
+  @extend .button;
+  background-color: #000;
+  color: var(--clr-tooltip-text);
+  opacity: 0.5;
+  margin-right: 5px;
+  margin-top: 5px;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  padding: 8px;
+
+  &:hover {
+    opacity: 0.5 !important;
+  }
+
+  &Checkbox {
+    appearance: none;
+    width: 15px;
+    height: 15px;
+    border-radius: 4px;
+    background-color: #fff;
+    margin-right: 7px;
+  }
+
+  &.checked {
+    @extend .active;
+
+    &:hover {
+      opacity: 1 !important;
+    }
+
+    .quoteTagCheckbox {
+      background-color: var(--clr-bg) !important;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      &:after {
+        content: '';
+        display: block;
+        width: 5px;
+        height: 10px;
+        border: solid var(--clr-main);
+        border-width: 0 3px 3px 0;
+        transform: rotate(45deg);
+      }
+    }
+  }
+}
+
+.buttonClearTags {
+  margin-top: 24px;
+}

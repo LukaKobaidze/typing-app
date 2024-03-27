@@ -1,7 +1,7 @@
 .spinner {
-  width: 35px;
-  height: 35px;
-  border: 5px solid var(--clr-main);
+  width: 2em;
+  height: 2em;
+  border: 0.3em solid var(--clr-main);
   border-bottom-color: transparent;
   border-radius: 50%;
   display: inline-block;
@@ -27,8 +27,9 @@
   animation: animationDotFlashing 1s infinite linear alternate;
   animation-delay: 0.5s;
 }
-.dot-flashing::before, .dot-flashing::after {
-  content: "";
+.dot-flashing::before,
+.dot-flashing::after {
+  content: '';
   display: inline-block;
   position: absolute;
   top: 0;
@@ -58,7 +59,8 @@
   0% {
     background-color: var(--clr-main);
   }
-  50%, 100% {
+  50%,
+  100% {
     background-color: rgba(255, 255, 255, 0.2);
   }
 }
