@@ -2,7 +2,7 @@ import { TypingResult } from '@/types';
 import { data } from '@/data';
 
 export async function httpTypingStarted() {
-  const res = await fetch(data.apiUrl + '/typing/started', {
+  const res = await fetch('/typing/started', {
     method: 'POST',
     credentials: 'include',
   });
@@ -19,7 +19,7 @@ export async function httpTypingCompleted(result: TypingResult) {
 
   delete transformedResult.date;
 
-  const res = await fetch(data.apiUrl + '/typing/completed', {
+  const res = await fetch('/typing/completed', {
     method: 'POST',
     headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
     body: JSON.stringify(transformedResult),

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { QuoteLengthType } from './types';
-import { Server } from 'socket.io';
+import { Namespace, Server } from 'socket.io';
 
 export function generateCode(length: number) {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -33,19 +33,19 @@ export async function fetchQuote(length: QuoteLengthType) {
   return res;
 }
 
-export function startCountdown(roomCode: string, io: Server) {
+export function startCountdown(roomCode: string, io1v1: Namespace) {
   const startsIn = 5000;
 
   const startsAt = new Date().getTime() + startsIn;
 
-  io.sockets.to(roomCode).emit('typing-starts-in', startsIn);
+  io1v1.to(roomCode).emit('typing-starts-in', startsIn);
   const interval = setInterval(() => {
     const remaining = startsAt - new Date().getTime();
 
     if (remaining > 0) {
-      io.sockets.to(roomCode).emit('typing-starts-in', remaining);
+      io1v1.to(roomCode).emit('typing-starts-in', remaining);
     } else {
-      io.sockets.to(roomCode).emit('typing-started');
+      io1v1.to(roomCode).emit('typing-started');
       clearInterval(interval);
     }
   }, 1000);

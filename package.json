@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "install-all": "concurrently \"npm install\" \"cd client && npm install\" \"cd server && npm install\"",
+    "start": "cd server && npm run build-all && npm start",
     "dev": "concurrently \"cd client && npm run dev\" \"cd server && npm run dev\""
   },
   "repository": {

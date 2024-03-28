@@ -19,10 +19,13 @@
 
 ### Built with
 
-- [![React][react-image]][react-url]
 - [![TypeScript][typescript-image]][typescript-url]
+- [![React][react-image]][react-url]
 - [![Sass][sass-image]][sass-url]
 - [![Node.js][nodejs-image]][nodejs-url]
+- [![Express][express-image]][express-url]
+- [![MongoDB][mongodb-image]][mongodb-url]
+- [![Mongoose][mongoose-image]][mongoose-url]
 - [![Socket.io][socketio-image]][socketio-url]
 
 ### Description
@@ -47,17 +50,28 @@
 git clone https://github.com/LukaKobaidze/typing-app
 ```
 
-2. Install NPM packages (handles both client & server packages)
+2. Add required environment variables to server
 
-```sh
-npm install
+   Create .env file in server directory
+
+```
+  MONGODB_CONNECTION=<your-mongodb-connection-string>
+  JWT_SECRET=<your-jwt-secret>
 ```
 
-3. Run the app (handles both client & server)
+3. Install NPM packages (handles both client & server packages)
+
+```sh
+npm run install-all
+```
+
+4. Run the app (using express to serve client & server on the same port)
 
 ```sh
 npm start
 ```
+
+Visit http://localhost:8080
 
 ## Acknowledgments
 
@@ -65,13 +79,19 @@ npm start
 - [quotable API](https://github.com/lukePeavey/quotable)
 - Inspired by [monkeytype](https://monkeytype.com/)
 
-[react-image]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
 [typescript-image]: https://shields.io/badge/TypeScript-3178C6?logo=TypeScript&logoColor=FFF&style=for-the-badge
+[react-image]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
 [sass-image]: https://img.shields.io/badge/Sass-CC6699?style=for-the-badge&logo=sass&logoColor=white
 [nodejs-image]: https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white
+[express-image]: https://img.shields.io/badge/Express-f5f5f5?&style=for-the-badge&logo=Express&logoColor=black
+[mongodb-image]: https://img.shields.io/badge/MongoDB-011e2c?&style=for-the-badge&logo=mongodb&logoColor=01ed64
+[mongoose-image]: https://img.shields.io/badge/Mongoose-880000?&style=for-the-badge&logo=mongoose&logoColor=ffffff
 [socketio-image]: https://img.shields.io/badge/Socket.io-010101?&style=for-the-badge&logo=Socket.io&logoColor=white
-[react-url]: https://react.dev/
 [typescript-url]: https://www.typescriptlang.org/
+[react-url]: https://react.dev/
 [sass-url]: https://sass-lang.com/
 [nodejs-url]: https://nodejs.org/en
+[express-url]: https://expressjs.com/
+[mongodb-url]: https://www.mongodb.com/
+[mongoose-url]: https://mongoosejs.com/
 [socketio-url]: https://socket.io/

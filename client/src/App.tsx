@@ -12,8 +12,13 @@ import Typemode from '@/components/Typemode';
 import styles from '@/styles/App.module.scss';
 
 export default function App() {
-  const { typingFocused, resultPreview, typemodeVisible, onPreviewResult } =
-    useContext(TypingContext);
+  const {
+    typingFocused,
+    resultPreview,
+    typemodeVisible,
+    onPreviewResult,
+    setTypemodeVisible,
+  } = useContext(TypingContext);
   const { activeModal, onOpenModal } = useContext(ModalContext);
   const [roomCode, setRoomCode] = useState<string | null>(null);
   const [windowWidth] = useWindowDimensions();
@@ -30,6 +35,10 @@ export default function App() {
       socket.off('has-joined-room');
     };
   }, [activeModal]);
+
+  useEffect(() => {
+    setTypemodeVisible(!roomCode);
+  }, [roomCode]);
 
   return (
     <>

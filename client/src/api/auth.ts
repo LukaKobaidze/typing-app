@@ -6,7 +6,7 @@ export async function httpCreateAccount(
   password: string,
   abortController?: AbortController
 ) {
-  const res = await fetch(data.apiUrl + '/auth/create-account', {
+  const res = await fetch('/auth/create-account', {
     method: 'POST',
     headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
     body: JSON.stringify({ username, email, password }),
@@ -38,7 +38,7 @@ export async function httpLogIn(
       : { username: args.username, password: args.password }
   );
 
-  const res = await fetch(data.apiUrl + '/auth/login', {
+  const res = await fetch('/auth/login', {
     method: 'POST',
     headers: {
       Accept: 'application/json',
@@ -59,7 +59,7 @@ export async function httpLogIn(
 }
 
 export async function httpLogOut() {
-  const res = await fetch(data.apiUrl + '/auth/logout', {
+  const res = await fetch('/auth/logout', {
     method: 'POST',
     credentials: 'include',
   });
@@ -74,7 +74,7 @@ export async function httpLogOut() {
 }
 
 export async function httpChangeUsername(newUsername: string, password: string) {
-  const res = await fetch(data.apiUrl + '/auth/change-username', {
+  const res = await fetch('/auth/change-username', {
     method: 'POST',
     headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
     body: JSON.stringify({ newUsername, password }),
@@ -91,7 +91,7 @@ export async function httpChangeUsername(newUsername: string, password: string) 
 }
 
 export async function httpChangePassword(oldPassword: string, newPassword: string) {
-  const res = await fetch(data.apiUrl + '/auth/change-password', {
+  const res = await fetch('/auth/change-password', {
     method: 'POST',
     headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
     body: JSON.stringify({ oldPassword, newPassword }),

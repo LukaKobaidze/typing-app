@@ -1,10 +1,6 @@
 import { QuoteLengthType } from '@/types';
 
 export const data = {
-  apiUrl: import.meta.env.PROD
-    ? 'https://typing-app.fly.dev'
-    : 'http://localhost:8080',
-
   theme: ['default', 'midnight', 'retro', 'superuser', 'vscode'],
 
   typemode: {

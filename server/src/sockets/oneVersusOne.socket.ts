@@ -13,7 +13,9 @@ export function startSocketOneVersusOne(server: any) {
   const clientRooms: { [key: string]: string } = {};
   const roomState: { [key: string]: OneVersusOneStateType } = {};
 
-  io.on('connection', (socket) => {
+  const io1v1 = io.of('/1v1');
+
+  io1v1.on('connection', (socket) => {
     console.log('New Connection: ', socket.id);
 
     socket.on('create-room', (quoteLength: QuoteLengthType) => {
@@ -27,7 +29,7 @@ export function startSocketOneVersusOne(server: any) {
 
       socket.join(roomCode);
       socket.emit('has-joined-room', roomCode);
-      io.sockets.to(roomCode).emit('room-state', roomState[roomCode]);
+      io1v1.to(roomCode).emit('room-state', roomState[roomCode]);
     });
 
     socket.on('join-room', (roomCode: string) => {
@@ -48,13 +50,13 @@ export function startSocketOneVersusOne(server: any) {
       fetchQuote(roomState[roomCode].quoteLength)
         .then((quote: string) => {
           roomState[roomCode].testText = quote;
-          io.sockets.to(roomCode).emit('test-text', quote);
+          io1v1.to(roomCode).emit('test-text', quote);
         })
         .then(() => {
-          startCountdown(roomCode, io);
+          startCountdown(roomCode, io1v1);
         });
 
-      io.sockets.to(roomCode).emit('room-state', roomState[roomCode]);
+      io1v1.to(roomCode).emit('room-state', roomState[roomCode]);
     });
 
     socket.on(
@@ -100,7 +102,7 @@ export function startSocketOneVersusOne(server: any) {
         roomState[roomCode].players[player]!.result = result;
 
         const typedWords = roomState[roomCode].testText?.split(' ')!;
-        io.sockets.to(roomCode).emit('caret-position-change', {
+        io1v1.to(roomCode).emit('caret-position-change', {
           player,
           wordIndex: typedWords.length - 1,
           charIndex: typedWords[typedWords.length - 1].length,
@@ -108,7 +110,7 @@ export function startSocketOneVersusOne(server: any) {
       }
 
       if (roomState[roomCode].players[opponentPlayer]?.result) {
-        io.sockets.to(roomCode).emit('players-state', roomState[roomCode].players);
+        io1v1.to(roomCode).emit('players-state', roomState[roomCode].players);
       }
     });
 
@@ -136,15 +138,15 @@ export function startSocketOneVersusOne(server: any) {
           },
         };
 
-        io.sockets.to(roomCode).emit('room-state', roomState[roomCode]);
+        io1v1.to(roomCode).emit('room-state', roomState[roomCode]);
 
         fetchQuote(state.quoteLength)
           .then((quote: string) => {
             roomState[roomCode].testText = quote;
-            io.sockets.to(roomCode).emit('test-text', quote);
+            io1v1.to(roomCode).emit('test-text', quote);
           })
           .then(() => {
-            startCountdown(roomCode, io);
+            startCountdown(roomCode, io1v1);
           });
       } else {
         roomState[roomCode].players[player]!.playAgain = true;

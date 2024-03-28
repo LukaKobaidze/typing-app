@@ -1,4 +1,5 @@
 import express from 'express';
+import path from 'path';
 import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
@@ -23,6 +24,8 @@ app.use(express.json());
 app.use('/auth', authRouter);
 app.use('/profile', profileRouter);
 app.use('/typing', typingRouter);
+
+app.use(express.static(path.join(__dirname, '..', 'client-build')));
 
 app.all('*', (req, res, next) => {
   next(new NotFoundError(`Invalid path: ${req.originalUrl}`));
