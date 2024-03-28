@@ -7,3 +7,4 @@ server/.env
 
 client/build
 server/build
+server/client-build
