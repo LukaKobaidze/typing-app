@@ -30,15 +30,15 @@
 
 ### Description
 
-- Custom made input with random words.
+- Custom made smooth typing input that displays live errors.
 - Different typing modes, such as 'time', 'words', 'quote'.
 - Multiplayer 1v1 mode to play against your friends.
 - Fetches Random quotes using 'quotable' API.
-- Displays live errors while typing.
 - Results after typing is done, including WPM, Accuracy, Errors, Interactive Dashboard.
 - User can customize the app to their liking.
-- Various app themes.
-- App tracks your overall typing stats, including average wpm, accuracy and more.
+- Various app color themes.
+- User can create account that will be saved on database.
+- Personal stats, history and customizations will be saved to the account. 
 
 ![Project image](screenshot-two.png)
 
