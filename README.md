@@ -38,9 +38,9 @@
 - User can customize the app to their liking.
 - Various app color themes.
 - User can create account that will be saved on database.
-- Personal stats, history and customizations will be saved to the account. 
+- Personal stats, history and customizations will be saved to the account.
 
-![Project image](screenshot-two.png)
+[Project image](screenshot-two.png)
 
 ## Getting Started
 
