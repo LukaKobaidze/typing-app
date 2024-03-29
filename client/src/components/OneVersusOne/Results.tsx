@@ -15,17 +15,14 @@ interface Props {
 export default function Results(props: Props) {
   const { playersState, currentPlayer, opponentPlayer, onPlayAgain } = props;
 
-  const opponentDisconnected = playersState[opponentPlayer]?.disconnected;
-
   const wpmYou =
     playersState[currentPlayer]!.result!.timeline[
       playersState[currentPlayer]!.result!.timeline.length - 1
     ].wpm;
-  const wpmOpponent = !opponentDisconnected
-    ? playersState[opponentPlayer]!.result!.timeline[
-        playersState[opponentPlayer]!.result!.timeline.length - 1
-      ].wpm
-    : -1;
+  const wpmOpponent =
+    playersState[opponentPlayer]!.result!.timeline[
+      playersState[opponentPlayer]!.result!.timeline.length - 1
+    ].wpm;
 
   const [showPlayerResult, setShowPlayerResult] = useState<'player1' | 'player2'>(
     currentPlayer
@@ -65,7 +62,7 @@ export default function Results(props: Props) {
             <span>You</span>
           </ButtonRounded>
 
-          {playersState[opponentPlayer]?.disconnected ? (
+          {!playersState[opponentPlayer]?.result ? (
             <Tooltip
               className={styles.playerResultButtonsBtnTooltip}
               text={
@@ -95,7 +92,7 @@ export default function Results(props: Props) {
                 styles.playerResultButtonsBtnSecond
               } ${opponentPlayer === showPlayerResult ? styles.active : ''}`}
               onClick={() => setShowPlayerResult(opponentPlayer)}
-              disabled={playersState[opponentPlayer]?.disconnected}
+              disabled={!playersState[opponentPlayer]?.result}
             >
               {winner === opponentPlayer && (
                 <IconTrophy className={styles.iconTrophy} />
