@@ -332,7 +332,7 @@ export default function Typing(props: Props) {
 
   return (
     <div className={styles.typing}>
-      {!state.result.showResult ? (
+      {!state.result.showResult || oneVersusOne ? (
         <>
           <div className={styles.liveResult}>
             {profile.customize.liveWpm && (

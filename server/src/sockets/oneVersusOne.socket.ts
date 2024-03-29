@@ -151,7 +151,7 @@ export function startSocketOneVersusOne(server: any) {
       } else {
         roomState[roomCode].players[player]!.playAgain = true;
 
-        io.to(state.players[opponentPlayer]!.id).emit('opponent-play-again');
+        io1v1.to(state.players[opponentPlayer]!.id).emit('opponent-play-again');
       }
     });
 
@@ -174,7 +174,7 @@ export function startSocketOneVersusOne(server: any) {
         delete roomState[roomCode];
       } else {
         roomState[roomCode].players[player]!.disconnected = true;
-        io.to(opponentPlayerState.id).emit('opponent-disconnected');
+        io1v1.to(opponentPlayerState.id).emit('opponent-disconnected');
       }
     };
 

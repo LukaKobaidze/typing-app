@@ -28,10 +28,14 @@ export default function OneVersusOne(props: Props) {
   const currentPlayer = useMemo(() => {
     return roomState?.players.player1?.id === socket.id ? 'player1' : 'player2';
   }, [roomState?.players.player1?.id]);
+
   const opponentPlayer = useMemo(
     () => (currentPlayer === 'player1' ? 'player2' : 'player1'),
     [currentPlayer]
   );
+
+  const currentPlayerState = roomState?.players[currentPlayer];
+  const opponentPlayerState = roomState?.players[opponentPlayer];
 
   useEffect(() => {
     return () => {
@@ -177,9 +181,9 @@ export default function OneVersusOne(props: Props) {
     });
   }, [currentPlayer]);
 
-  const opponentPlayerState = roomState?.players[opponentPlayer];
   const showResult =
-    roomState?.players.player1?.result && roomState?.players.player2?.result;
+    currentPlayerState?.result &&
+    (opponentPlayerState?.result || opponentPlayerState?.disconnected);
 
   useEffect(() => {
     if (showResult) {
@@ -190,10 +194,7 @@ export default function OneVersusOne(props: Props) {
   return (
     <>
       {roomState?.players.player2 ? (
-        (roomState.players.player1?.result ||
-          roomState.players.player1?.disconnected) &&
-        (roomState.players.player2.result ||
-          roomState.players.player2.disconnected) ? (
+        showResult ? (
           <Results
             playersState={roomState.players}
             currentPlayer={currentPlayer}

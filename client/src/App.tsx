@@ -12,13 +12,8 @@ import Typemode from '@/components/Typemode';
 import styles from '@/styles/App.module.scss';
 
 export default function App() {
-  const {
-    typingFocused,
-    resultPreview,
-    typemodeVisible,
-    onPreviewResult,
-    setTypemodeVisible,
-  } = useContext(TypingContext);
+  const { typingFocused, resultPreview, typemodeVisible, onPreviewResult } =
+    useContext(TypingContext);
   const { activeModal, onOpenModal } = useContext(ModalContext);
   const [roomCode, setRoomCode] = useState<string | null>(null);
   const [windowWidth] = useWindowDimensions();
