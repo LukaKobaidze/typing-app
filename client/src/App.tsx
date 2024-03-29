@@ -36,10 +36,6 @@ export default function App() {
     };
   }, [activeModal]);
 
-  useEffect(() => {
-    setTypemodeVisible(!roomCode);
-  }, [roomCode]);
-
   return (
     <>
       <Header
@@ -49,7 +45,7 @@ export default function App() {
         onLeaveRoom={() => setRoomCode(null)}
       />
 
-      {typemodeVisible && (
+      {!roomCode && typemodeVisible && (
         <Typemode
           className={`opacity-transition ${typingFocused ? 'hide' : ''} ${
             styles.typemode
@@ -59,7 +55,7 @@ export default function App() {
 
       <main
         className={`${styles.main} ${
-          typemodeVisible ? styles.mainMarginBottom : ''
+          !roomCode && typemodeVisible ? styles.mainMarginBottom : ''
         }`}
       >
         {roomCode ? (

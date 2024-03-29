@@ -15,7 +15,7 @@ function startServer() {
   startSocketOneVersusOne(server);
 
   server.listen(PORT, () => {
-    console.log(`Listening on port ${PORT}...`);
+    console.log(`Server listening on port ${PORT}...`);
   });
 
   /* Log every missing environment variable that's required */
