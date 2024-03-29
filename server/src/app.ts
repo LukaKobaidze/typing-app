@@ -10,10 +10,9 @@ import error from './middlewares/error.middleware';
 import NotFoundError from './errors/NotFoundError';
 
 const app = express();
-
 app.use(
   cors({
-    origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
+    origin: process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '',
     credentials: true,
   })
 );

@@ -65,13 +65,11 @@ git clone https://github.com/LukaKobaidze/typing-app
 npm run install-all
 ```
 
-4. Run the app (using express to serve client & server on the same port)
+4. Run the app locally
 
 ```sh
-npm start
+npm run dev
 ```
-
-Visit http://localhost:8080
 
 ## Acknowledgments
 

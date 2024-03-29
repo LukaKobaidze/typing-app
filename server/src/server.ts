@@ -7,14 +7,16 @@ import { startSocketOneVersusOne } from './sockets/oneVersusOne.socket';
 
 const PORT = process.env.PORT || 8080;
 
-const httpServer = createServer(app);
+const server = createServer(app);
 
 function startServer() {
   databaseConnect();
   databaseListeners();
-  startSocketOneVersusOne(httpServer);
+  startSocketOneVersusOne(server);
 
-  httpServer.listen(PORT);
+  server.listen(PORT, () => {
+    console.log(`Listening on port ${PORT}...`);
+  });
 
   /* Log every missing environment variable that's required */
   const envRequired = ['MONGODB_CONNECTION', 'JWT_SECRET'];

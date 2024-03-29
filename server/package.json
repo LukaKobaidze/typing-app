@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node build/server.js",
     "build": "tsc",
-    "build-all": "cd ../client && npm run build && cd ../server && tsc",
+    "build-client": "cd ../client && npm run build",
     "dev": "cross-env NODE_ENV=development nodemon src/server.ts"
   },
   "keywords": [],

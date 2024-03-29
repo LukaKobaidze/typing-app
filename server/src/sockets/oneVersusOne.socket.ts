@@ -5,7 +5,7 @@ import { QuoteLengthType, OneVersusOneStateType } from './types';
 export function startSocketOneVersusOne(server: any) {
   const io = new Server(server, {
     cors: {
-      origin: process.env.CORS_ORIGIN || '*',
+      origin: process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '',
       methods: ['GET', 'POST'],
     },
   });

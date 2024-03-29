@@ -4,7 +4,7 @@ import { data } from '@/data';
 export type GetProfileFilterType = 'username' | 'customize' | 'stats';
 
 export async function httpGetProfile() {
-  const res = await fetch('/profile', { credentials: 'include' });
+  const res = await fetch(data.apiUrl + '/profile', { credentials: 'include' });
 
   if (!res.ok) {
     throw new Error();
@@ -19,7 +19,7 @@ export async function httpGetHistory(
   abortController?: AbortController
 ) {
   const res = await fetch(
-    `/profile/history?page=${page}&limit=${limit}`,
+    data.apiUrl + `/profile/history?page=${page}&limit=${limit}`,
     {
       credentials: 'include',
       signal: abortController?.signal,
@@ -34,7 +34,7 @@ export async function httpGetHistory(
 }
 
 export async function httpPostCustomize(customize: Partial<ICustomize>) {
-  const res = await fetch('/profile/customize', {
+  const res = await fetch(data.apiUrl + '/profile/customize', {
     method: 'POST',
     headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
     body: JSON.stringify(customize),
@@ -45,7 +45,7 @@ export async function httpPostCustomize(customize: Partial<ICustomize>) {
 }
 
 export async function httpClearHistory(password: string) {
-  const res = await fetch('/profile/clear-history', {
+  const res = await fetch(data.apiUrl + '/profile/clear-history', {
     method: 'POST',
     headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
     body: JSON.stringify({ password }),
@@ -62,7 +62,7 @@ export async function httpClearHistory(password: string) {
 }
 
 export async function httpResetStats(password: string) {
-  const res = await fetch('/profile/reset-stats', {
+  const res = await fetch(data.apiUrl + '/profile/reset-stats', {
     method: 'POST',
     headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
     body: JSON.stringify({ password }),
