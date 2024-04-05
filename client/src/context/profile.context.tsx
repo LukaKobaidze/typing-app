@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import { TypingResult } from '@/types';
 import { ISOToDate } from '@/helpers';
 import { CaretStyleType, ThemeType } from '@/data/types';
@@ -9,6 +9,8 @@ import {
   httpPostCustomize,
 } from '@/api/profile';
 import { httpTypingCompleted, httpTypingStarted } from '@/api/typing';
+import { ModalContext } from './modal.context';
+import { OauthFinalStepsModalOptions } from './modal.context/components/OauthFinalStepsModal';
 
 interface CustomizeBooleans {
   liveWpm: boolean;
@@ -47,11 +49,14 @@ export interface IProfile {
     highest?: StatsAverageType;
   };
   history: { items: Record<number, TypingResult[]>; totalPages: number };
+  isOauth: boolean;
 }
 
 interface Context {
   profile: IProfile;
-  loading: GetProfileFilterType[] | null;
+  loadingUser: boolean;
+  oauthFinalSteps: OauthFinalStepsModalOptions['platform'] | null;
+  onOauthFinalStepsComplete: (username: string) => void;
   onLoadProfileData: () => void;
   onLoadHistory: (...args: Parameters<typeof httpGetHistory>) => void;
   onCustomizeUpdateState: (updatedProperties: Partial<ICustomize>) => void;
@@ -72,8 +77,11 @@ const initial: Context = {
     customize: customizeInitial,
     stats: { testsStarted: 0, testsCompleted: 0 },
     history: { items: {}, totalPages: 1 },
+    isOauth: false,
   },
-  loading: null,
+  loadingUser: false,
+  oauthFinalSteps: null,
+  onOauthFinalStepsComplete: () => {},
   onLoadProfileData: () => {},
   onLoadHistory: () => {},
   onCustomizeUpdateState: () => {},
@@ -94,12 +102,11 @@ let historyAbortController: AbortController;
 let customizeServerLatest: ICustomize;
 
 export function ProfileContextProvider({ children }: { children: React.ReactNode }) {
+  const [oauthFinalSteps, setOauthFinalSteps] = useState(initial.oauthFinalSteps);
   const [profile, setProfile] = useState(initial.profile);
-  const [loading, setLoading] = useState(initial.loading);
+  const [loadingUser, setLoadingUser] = useState(initial.loadingUser);
 
   useEffect(() => {
-    onLoadProfileData();
-
     setProfile((state) => {
       const localStorageCustomize = localStorage.getItem('customize');
 
@@ -107,6 +114,9 @@ export function ProfileContextProvider({ children }: { children: React.ReactNode
 
       return { ...state, customize: JSON.parse(localStorageCustomize) };
     });
+
+    setLoadingUser(true);
+    onLoadProfileData();
   }, []);
 
   useEffect(() => {
@@ -116,25 +126,39 @@ export function ProfileContextProvider({ children }: { children: React.ReactNode
   }, [profile.customize]);
 
   const onLoadProfileData: Context['onLoadProfileData'] = () => {
-    httpGetProfile().then((data: any) => {
-      const filteredData: any = {};
+    httpGetProfile()
+      .then((data: any) => {
+        const filteredData: any = {};
 
-      Object.keys(data).forEach((key) => {
-        if (Object.keys(data[key]).length !== 0) {
+        Object.keys(data).forEach((key) => {
+          if (
+            data[key].constructor.name === 'Object' &&
+            Object.keys(data[key]).length === 0
+          ) {
+            return;
+          }
+
           filteredData[key] = data[key];
+        });
+
+        setProfile((state) => ({
+          ...state,
+          ...filteredData,
+        }));
+        if (filteredData.customize) {
+          customizeServerLatest = filteredData.customize;
         }
+      })
+      .catch((err) => {
+        const { platform } = JSON.parse(err.message);
+
+        if (platform) {
+          setOauthFinalSteps(platform);
+        }
+      })
+      .finally(() => {
+        setLoadingUser(false);
       });
-
-      setProfile((state) => ({
-        ...state,
-        ...filteredData,
-      }));
-      if (filteredData.customize) {
-        customizeServerLatest = filteredData.customize;
-      }
-
-      setLoading(null);
-    });
   };
 
   const onLoadHistory: Context['onLoadHistory'] = (page, limit) => {
@@ -284,6 +308,14 @@ export function ProfileContextProvider({ children }: { children: React.ReactNode
     setProfile((state) => ({ ...initial.profile, customize: state.customize }));
   };
 
+  const onOauthFinalStepsComplete: Context['onOauthFinalStepsComplete'] = (
+    username
+  ) => {
+    setOauthFinalSteps(null);
+    setProfile((state) => ({ ...state, username, isOauth: true }));
+    onUpdateUsername(username);
+  };
+
   useEffect(() => {
     const classList = document.body.classList;
 
@@ -301,7 +333,9 @@ export function ProfileContextProvider({ children }: { children: React.ReactNode
     <ProfileContext.Provider
       value={{
         profile,
-        loading,
+        loadingUser,
+        oauthFinalSteps,
+        onOauthFinalStepsComplete,
         onLoadProfileData,
         onLoadHistory,
         onCustomizeUpdateState,

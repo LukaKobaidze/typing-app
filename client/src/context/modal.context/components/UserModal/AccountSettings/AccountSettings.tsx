@@ -17,7 +17,7 @@ import ChangePassword from './ChangePassword';
 import styles from './AccountSettings.module.scss';
 
 export default function AccountSettings() {
-  const { onLogOut } = useContext(ProfileContext);
+  const { profile, onLogOut } = useContext(ProfileContext);
 
   const [currentTab, setCurrentTab] = useState<keyof typeof tabs | null>(null);
 
@@ -31,29 +31,49 @@ export default function AccountSettings() {
     setCurrentTab(null);
   };
 
-  const tabs = {
-    'Clear history': {
-      icon: (
-        <IconHistory
-          viewBox="0 0 39 39"
-          className={`${styles.buttonIcon} ${styles.iconHistory}`}
-        />
-      ),
-      content: <ClearHistory onGoBack={handleGoBack} />,
-    },
-    'Reset stats': {
-      icon: <IconStats className={styles.buttonIcon} />,
-      content: <ResetStats onGoBack={handleGoBack} />,
-    },
-    'Change username': {
-      icon: <IconUsername className={styles.buttonIcon} />,
-      content: <ChangeUsername onGoBack={handleGoBack} />,
-    },
-    'Change password': {
-      icon: <IconPassword className={styles.buttonIcon} />,
-      content: <ChangePassword onGoBack={handleGoBack} />,
-    },
-  };
+  const tabs = profile.isOauth
+    ? {
+        'Clear history': {
+          icon: (
+            <IconHistory
+              viewBox="0 0 39 39"
+              className={`${styles.buttonIcon} ${styles.iconHistory}`}
+            />
+          ),
+          content: <ClearHistory onGoBack={handleGoBack} />,
+        },
+        'Reset stats': {
+          icon: <IconStats className={styles.buttonIcon} />,
+          content: <ResetStats onGoBack={handleGoBack} />,
+        },
+        'Change username': {
+          icon: <IconUsername className={styles.buttonIcon} />,
+          content: <ChangeUsername onGoBack={handleGoBack} />,
+        },
+      }
+    : {
+        'Clear history': {
+          icon: (
+            <IconHistory
+              viewBox="0 0 39 39"
+              className={`${styles.buttonIcon} ${styles.iconHistory}`}
+            />
+          ),
+          content: <ClearHistory onGoBack={handleGoBack} passwordRequired />,
+        },
+        'Reset stats': {
+          icon: <IconStats className={styles.buttonIcon} />,
+          content: <ResetStats onGoBack={handleGoBack} passwordRequired />,
+        },
+        'Change username': {
+          icon: <IconUsername className={styles.buttonIcon} />,
+          content: <ChangeUsername onGoBack={handleGoBack} passwordRequired />,
+        },
+        'Change password': {
+          icon: <IconPassword className={styles.buttonIcon} />,
+          content: <ChangePassword onGoBack={handleGoBack} />,
+        },
+      };
 
   const tabKeys = Object.keys(tabs) as (keyof typeof tabs)[];
 
@@ -66,7 +86,7 @@ export default function AccountSettings() {
               className={styles.button}
               onClick={() => setCurrentTab(tab)}
             >
-              {tabs[tab].icon}
+              {tabs[tab]?.icon}
               <span>{tab}</span>
             </ButtonRounded>
           ))}
@@ -94,12 +114,12 @@ export default function AccountSettings() {
             </Tooltip>
 
             <h2 className={styles.heading}>
-              {tabs[currentTab].icon}
+              {tabs[currentTab]?.icon}
               <span>{currentTab}</span>
             </h2>
           </div>
 
-          {tabs[currentTab].content}
+          {tabs[currentTab]?.content}
         </>
       )}
     </div>

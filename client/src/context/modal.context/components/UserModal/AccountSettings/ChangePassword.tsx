@@ -3,8 +3,8 @@ import { httpChangePassword } from '@/api/auth';
 import { IconPassword } from '@/assets/image';
 import useForm from '@/hooks/useForm';
 import InputField from '@/components/UI/InputField';
-import FormWrapper from './FormWrapper';
 import styles from './ChangePassword.module.scss';
+import SubmitForm from '@/components/UI/SubmitForm';
 
 interface Props {
   onGoBack: () => void;
@@ -50,7 +50,7 @@ export default function ChangePassword({ onGoBack }: Props) {
   };
 
   return (
-    <FormWrapper onSubmit={handleFormSubmit} errorMessage={error?.message}>
+    <SubmitForm onSubmit={handleFormSubmit} errorMessage={error?.message}>
       <InputField
         Icon={IconPassword}
         placeholder="Old password"
@@ -84,6 +84,6 @@ export default function ChangePassword({ onGoBack }: Props) {
         error={error?.field === 'repeatNewPassword'}
         onChange={(e) => onFieldChange(e, 'repeatNewPassword')}
       />
-    </FormWrapper>
+    </SubmitForm>
   );
 }

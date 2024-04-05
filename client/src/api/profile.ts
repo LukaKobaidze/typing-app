@@ -7,7 +7,9 @@ export async function httpGetProfile() {
   const res = await fetch(data.apiUrl + '/profile', { credentials: 'include' });
 
   if (!res.ok) {
-    throw new Error();
+    return res.text().then((text) => {
+      throw new Error(text);
+    });
   }
 
   return res.json();

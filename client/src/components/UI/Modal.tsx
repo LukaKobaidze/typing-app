@@ -14,6 +14,7 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
       title?: string | undefined;
     }
   >;
+  ignoreOutsideClick?: boolean;
 }
 
 export default function Modal(props: Props) {
@@ -23,6 +24,7 @@ export default function Modal(props: Props) {
     initialFocus,
     heading,
     HeadingIcon,
+    ignoreOutsideClick,
     className,
     children,
     ...restProps
@@ -56,6 +58,7 @@ export default function Modal(props: Props) {
           onOutsideClick={onClose}
           className={`${styles.modal} ${className}`}
           id="modal"
+          handleWhen={!ignoreOutsideClick}
           {...restProps}
         >
           <div className={styles.header}>

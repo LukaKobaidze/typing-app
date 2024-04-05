@@ -1,16 +1,17 @@
 import InputField from '@/components/UI/InputField';
 import { IconPassword, IconUsername } from '@/assets/image';
-import FormWrapper from './FormWrapper';
 import useForm from '@/hooks/useForm';
 import { httpChangeUsername } from '@/api/auth';
 import { useContext, useState } from 'react';
 import { ProfileContext } from '@/context/profile.context';
+import SubmitForm from '@/components/UI/SubmitForm';
 
 interface Props {
   onGoBack: () => void;
+  passwordRequired: boolean;
 }
 
-export default function ChangeUsername({ onGoBack }: Props) {
+export default function ChangeUsername({ onGoBack, passwordRequired }: Props) {
   const { onUpdateUsername } = useContext(ProfileContext);
 
   const { fields, error, onFieldChange, validateEmpty, setError } = useForm([
@@ -25,7 +26,11 @@ export default function ChangeUsername({ onGoBack }: Props) {
     e.preventDefault();
 
     try {
-      validateEmpty();
+      if (passwordRequired) {
+        validateEmpty();
+      } else {
+        validateEmpty(['newUsername']);
+      }
 
       setLoading(true);
 
@@ -50,7 +55,7 @@ export default function ChangeUsername({ onGoBack }: Props) {
   };
 
   return (
-    <FormWrapper
+    <SubmitForm
       onSubmit={handleFormSubmit}
       errorMessage={error?.message}
       submitLoading={loading}
@@ -62,18 +67,21 @@ export default function ChangeUsername({ onGoBack }: Props) {
         error={error?.field === 'newUsername'}
         onChange={(e) => onFieldChange(e, 'newUsername')}
       />
-      <InputField
-        Icon={IconPassword}
-        placeholder="Confirm password"
-        type={'password'}
-        value={fields.password}
-        error={error?.field === 'password'}
-        showPassword={{
-          bool: showPassword,
-          onToggle: () => setShowPassword((state) => !state),
-        }}
-        onChange={(e) => onFieldChange(e, 'password')}
-      />
-    </FormWrapper>
+
+      {passwordRequired && (
+        <InputField
+          Icon={IconPassword}
+          placeholder="Confirm password"
+          type={'password'}
+          value={fields.password}
+          error={error?.field === 'password'}
+          showPassword={{
+            bool: showPassword,
+            onToggle: () => setShowPassword((state) => !state),
+          }}
+          onChange={(e) => onFieldChange(e, 'password')}
+        />
+      )}
+    </SubmitForm>
   );
 }

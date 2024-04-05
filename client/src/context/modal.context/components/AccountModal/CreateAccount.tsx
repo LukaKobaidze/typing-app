@@ -112,20 +112,7 @@ export default function CreateAccount() {
       <ButtonRounded type="submit" variant="2" loading={submitLoading}>
         Create Account
       </ButtonRounded>
-      <ul className={styles.benefits}>
-        <li className={styles.benefitsItem}>
-          <IconStats className={styles.benefitsItemIcon} />
-          <span>Personal Stats.</span>
-        </li>
-        <li className={styles.benefitsItem}>
-          <IconHistory className={styles.benefitsItemIcon} />
-          <span>Previous results (History).</span>
-        </li>
-        <li className={styles.benefitsItem}>
-          <IconCustomize className={styles.benefitsItemIcon} />
-          <span>Customizations saved to the account.</span>
-        </li>
-      </ul>
+      
     </form>
   );
 }

@@ -64,7 +64,7 @@ export default function Typemode({ className }: Props) {
           {
             Icon: IconTags,
             text: 'tags',
-            action: () => onOpenModal('quoteTags'),
+            action: () => onOpenModal({ modal: 'quoteTags' }),
             active: quoteTagsMode === 'only selected',
           },
         ];

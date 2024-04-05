@@ -78,7 +78,7 @@ export default function LoadingError({ status }: Props) {
               <ButtonRounded
                 variant="2"
                 className={styles.typemodeButton}
-                onClick={() => onOpenModal('quoteTags')}
+                onClick={() => onOpenModal({ modal: 'quoteTags' })}
               >
                 <IconTags className={styles.typemodeButtonIcon} />
                 <span>Update Tags</span>

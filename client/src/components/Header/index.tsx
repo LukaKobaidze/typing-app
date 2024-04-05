@@ -3,7 +3,7 @@ import { ProfileContext } from '@/context/profile.context';
 import { TypingContext } from '@/context/typing.context';
 import { ModalContext } from '@/context/modal.context';
 import { Icon1v1, IconAccount, IconCustomize, IconLeave } from '@/assets/image';
-import { ButtonRounded, Logo } from '../UI';
+import { ButtonRounded, Loading, Logo } from '../UI';
 import styles from '@/styles/Header/Header.module.scss';
 
 interface Props {
@@ -18,7 +18,7 @@ export default function Header(props: Props) {
 
   const { activeModal, onOpenModal } = useContext(ModalContext);
   const { typingFocused } = useContext(TypingContext);
-  const { profile } = useContext(ProfileContext);
+  const { profile, loadingUser } = useContext(ProfileContext);
 
   return (
     <header className={styles.header}>
@@ -33,8 +33,8 @@ export default function Header(props: Props) {
         >
           <ButtonRounded
             className={styles.headerBtn}
-            onClick={() => onOpenModal('customize')}
-            active={activeModal === 'customize'}
+            onClick={() => onOpenModal({ modal: 'customize' })}
+            active={activeModal?.modal === 'customize'}
           >
             <IconCustomize />
             {windowWidth > 600 && <span>Customize</span>}
@@ -43,8 +43,8 @@ export default function Header(props: Props) {
           {!roomCode ? (
             <ButtonRounded
               className={styles.headerBtn}
-              onClick={() => onOpenModal('oneVersusOne')}
-              active={activeModal === 'oneVersusOne'}
+              onClick={() => onOpenModal({ modal: 'oneVersusOne' })}
+              active={activeModal?.modal === 'oneVersusOne'}
             >
               <Icon1v1 className={styles.oneVersusOneIcon} />
               {windowWidth > 510 && <span>1v1 (Multiplayer)</span>}
@@ -62,7 +62,7 @@ export default function Header(props: Props) {
           {profile.username ? (
             <ButtonRounded
               className={`${styles.headerBtn} ${styles.accountBtn}`}
-              onClick={() => onOpenModal('user')}
+              onClick={() => onOpenModal({ modal: 'user' })}
             >
               <IconAccount className={styles.accountBtnIcon} />
               <span className={styles.accountBtnText}>{profile.username}</span>
@@ -70,12 +70,18 @@ export default function Header(props: Props) {
           ) : (
             <ButtonRounded
               className={`${styles.headerBtn} ${styles.accountBtn}`}
-              onClick={() => onOpenModal('account')}
-              active={activeModal === 'account'}
+              onClick={() => onOpenModal({ modal: 'account' })}
+              active={activeModal?.modal === 'account'}
+              disabled={loadingUser}
             >
               <IconAccount className={styles.accountBtnIcon} />
 
-              {windowWidth > 575 && <span>Account</span>}
+              {windowWidth > 575 &&
+                (loadingUser ? (
+                  <Loading type="spinner" className={styles.loadingUserSpinner} />
+                ) : (
+                  <span>Account</span>
+                ))}
             </ButtonRounded>
           )}
         </div>

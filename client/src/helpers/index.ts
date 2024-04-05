@@ -125,7 +125,7 @@ export function getTypingResults(
 
   return {
     wpm: Math.round(typedCorrectly / 5 / timeTookInMin),
-    accuracy: Number((((typed - mistype) / typed) * 100).toFixed(2)) || 100,
+    accuracy: Math.max(Number((((typed - mistype) / typed) * 100).toFixed(2)), 0),
     raw: Math.round(typed / 5 / timeTookInMin),
   };
 }

@@ -4,14 +4,15 @@ import { httpClearHistory } from '@/api/profile';
 import useForm from '@/hooks/useForm';
 import { IconPassword } from '@/assets/image';
 import InputField from '@/components/UI/InputField';
-import FormWrapper from './FormWrapper';
 import styles from './ClearHistory.module.scss';
+import SubmitForm from '@/components/UI/SubmitForm';
 
 interface Props {
   onGoBack: () => void;
+  passwordRequired: boolean;
 }
 
-export default function ClearHistory({ onGoBack }: Props) {
+export default function ClearHistory({ onGoBack, passwordRequired }: Props) {
   const { onClearHistory } = useContext(ProfileContext);
   const { fields, error, onFieldChange, validateEmpty, setError } = useForm([
     'password',
@@ -25,7 +26,10 @@ export default function ClearHistory({ onGoBack }: Props) {
 
     try {
       setLoading(true);
-      validateEmpty();
+
+      if (passwordRequired) {
+        validateEmpty();
+      }
 
       httpClearHistory(fields.password)
         .then(() => {
@@ -53,24 +57,27 @@ export default function ClearHistory({ onGoBack }: Props) {
       <p className={styles.warningMessage}>
         This action CANNOT be undone. This will clear the history completely.
       </p>
-      <FormWrapper
+
+      <SubmitForm
         onSubmit={handleFormSubmit}
         errorMessage={error?.message}
         submitLoading={loading}
       >
-        <InputField
-          Icon={IconPassword}
-          type="password"
-          placeholder="Password"
-          value={fields.password}
-          error={error?.field === 'password'}
-          onChange={(e) => onFieldChange(e, 'password')}
-          showPassword={{
-            bool: showPassword,
-            onToggle: () => setShowPassword((state) => !state),
-          }}
-        />
-      </FormWrapper>
+        {passwordRequired && (
+          <InputField
+            Icon={IconPassword}
+            type="password"
+            placeholder="Password"
+            value={fields.password}
+            error={error?.field === 'password'}
+            onChange={(e) => onFieldChange(e, 'password')}
+            showPassword={{
+              bool: showPassword,
+              onToggle: () => setShowPassword((state) => !state),
+            }}
+          />
+        )}
+      </SubmitForm>
     </>
   );
 }

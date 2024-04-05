@@ -1,12 +1,12 @@
 import { ButtonRounded } from '@/components/UI';
-import styles from './FormWrapper.module.scss';
+import styles from '@/styles/UI/SubmitForm.module.scss';
 
 interface Props extends React.FormHTMLAttributes<HTMLFormElement> {
   errorMessage?: string;
   submitLoading?: boolean;
 }
 
-export default function FormWrapper(props: Props) {
+export default function SubmitForm(props: Props) {
   const { errorMessage, submitLoading, className, children, ...restProps } = props;
 
   return (

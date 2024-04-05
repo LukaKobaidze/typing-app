@@ -2,7 +2,6 @@ import { NextFunction, Response } from 'express';
 import { AuthenticatedRequest } from '../../types';
 import Profile, { ProfileProperties } from '../../models/Profile.model';
 import User from '../../models/User.model';
-import NotFoundError from '../../errors/NotFoundError';
 import PropertyMissingError from '../../errors/PropertyMissingError';
 
 export async function httpTypingStarted(

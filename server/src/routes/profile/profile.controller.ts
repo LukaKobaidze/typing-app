@@ -2,6 +2,8 @@ import { NextFunction, Response } from 'express';
 import { AuthenticatedRequest } from '../../types';
 import Profile from '../../models/Profile.model';
 import User from '../../models/User.model';
+import OauthUser from '../../models/OauthUser.model';
+import UnauthorizedError from '../../errors/UnauthorizedError';
 
 export async function httpGetProfile(
   req: AuthenticatedRequest,
@@ -11,10 +13,16 @@ export async function httpGetProfile(
   const username = req.user!.username;
 
   try {
-    const user = (await User.findOne({ username }))!;
+    if (!username) {
+      throw new Error();
+    }
+
+    const user = req.user?.platform
+      ? (await OauthUser.findOne({ username }))!
+      : (await User.findOne({ username }))!;
     const profile = (await Profile.findOne({ _id: user._id }))!;
 
-    const obj: any = {};
+    const obj: any = { isOauth: !!req.user?.platform };
 
     obj.username = user.username;
 
@@ -39,7 +47,10 @@ export async function httpGetHistory(
   try {
     const username = req.user!.username;
 
-    const user = (await User.findOne({ username }))!;
+    const user = req.user?.platform
+      ? (await OauthUser.findOne({ username }))!
+      : (await User.findOne({ username }))!;
+
     const history = (await Profile.findOne({ _id: user._id }))!.history;
     const items = history.slice(limit * (page - 1), limit * (page - 1) + limit);
 
@@ -68,7 +79,10 @@ export async function httpPostCustomize(
       updateSet[`customize.${key}`] = update[key];
     });
 
-    const user = (await User.findOne({ username }))!;
+    const user = req.user?.platform
+      ? (await OauthUser.findOne({ username }))!
+      : (await User.findOne({ username }))!;
+
     await Profile.updateOne({ _id: user._id }, { $set: updateSet });
     res.json({ message: 'Success!' });
   } catch (err) {
@@ -85,14 +99,16 @@ export async function httpClearHistory(
   const username = req.user!.username;
 
   try {
-    const user = (await User.findOne({ username }))!;
+    const user = req.user?.platform
+      ? (await OauthUser.findOne({ username }))!
+      : (await User.findOne({ username }))!;
 
-    const passwordMatches = await user.comparePassword(password);
+    if (user instanceof User) {
+      const passwordMatches = await user.comparePassword(password);
 
-    if (!passwordMatches) {
-      return res
-        .status(401)
-        .json({ error: true, status: 401, message: 'Incorrect password!' });
+      if (!passwordMatches) {
+        throw new UnauthorizedError('Incorrect password!');
+      }
     }
 
     await Profile.findOneAndUpdate({ _id: user._id }, { history: [] });
@@ -111,14 +127,16 @@ export async function httpResetStats(
   const username = req.user!.username;
 
   try {
-    const user = (await User.findOne({ username }))!;
+    const user = req.user?.platform
+      ? (await OauthUser.findOne({ username }))!
+      : (await User.findOne({ username }))!;
 
-    const passwordMatches = await user.comparePassword(password);
+    if (user instanceof User) {
+      const passwordMatches = await user.comparePassword(password);
 
-    if (!passwordMatches) {
-      return res
-        .status(401)
-        .json({ error: true, status: 401, message: 'Incorrect password!' });
+      if (!passwordMatches) {
+        throw new UnauthorizedError('Incorrect password!');
+      }
     }
 
     await Profile.findOneAndUpdate({ _id: user._id }, { stats: {} });
