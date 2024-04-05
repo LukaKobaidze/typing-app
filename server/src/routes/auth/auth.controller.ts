@@ -81,7 +81,7 @@ export async function httpGithubAccessToken(
           }
         );
 
-        res.redirect('http://localhost:3000');
+        res.redirect('https://typing-app.fly.dev');
       });
   } catch (err) {
     next(err);

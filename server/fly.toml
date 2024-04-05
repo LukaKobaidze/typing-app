@@ -10,7 +10,6 @@ primary_region = "ams"
 
 [env]
   PORT = "8080"
-  CORS_ORIGIN = "https://lukakobaidze-typingapp.netlify.app"
 
 [http_service]
   internal_port = 8080
