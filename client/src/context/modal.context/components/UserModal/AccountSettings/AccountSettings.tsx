@@ -40,15 +40,17 @@ export default function AccountSettings() {
               className={`${styles.buttonIcon} ${styles.iconHistory}`}
             />
           ),
-          content: <ClearHistory onGoBack={handleGoBack} />,
+          content: <ClearHistory onGoBack={handleGoBack} passwordRequired={false} />,
         },
         'Reset stats': {
           icon: <IconStats className={styles.buttonIcon} />,
-          content: <ResetStats onGoBack={handleGoBack} />,
+          content: <ResetStats onGoBack={handleGoBack} passwordRequired={false} />,
         },
         'Change username': {
           icon: <IconUsername className={styles.buttonIcon} />,
-          content: <ChangeUsername onGoBack={handleGoBack} />,
+          content: (
+            <ChangeUsername onGoBack={handleGoBack} passwordRequired={false} />
+          ),
         },
       }
     : {
