@@ -1,25 +1,6 @@
 import { data } from '@/data';
 
-export async function httpOauthAccessToken(platform: 'GitHub', code: string) {
-  const res = await fetch(
-    `${data.apiUrl}/auth/${platform}/access-token?code=${code}`,
-    {
-      method: 'GET',
-      headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
-      credentials: 'include',
-    }
-  );
-
-  if (!res.ok) {
-    return res.text().then((text) => {
-      throw new Error(text);
-    });
-  }
-
-  return res.json();
-}
-
-export async function httpOauthFinalSteps(platform: 'GitHub', username: string) {
+export async function httpOauthFinalSteps(platform: 'GitHub' | 'Google', username: string) {
   const res = await fetch(`${data.apiUrl}/auth/${platform}/final-steps`, {
     method: 'POST',
     headers: { Accept: 'application/json', 'Content-Type': 'application/json' },

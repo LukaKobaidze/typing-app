@@ -1,18 +1,20 @@
 import mongoose, { Schema } from 'mongoose';
-import NotFoundError from '../errors/NotFoundError';
 import ValidationError from '../errors/ValidationError';
-
-export type OauthPlatformType = 'GitHub';
+import { PlatformType } from '../types';
 
 interface OauthUserProperties {
   userId: number;
-  platform: 'GitHub';
+  platform: PlatformType;
   username?: string;
 }
 
 const oauthUserSchema = new Schema({
   userId: { type: Number, required: true },
-  platform: { type: String, enum: ['GitHub'], required: true },
+  platform: {
+    type: String,
+    enum: ['GitHub', 'Google'] as PlatformType[],
+    required: true,
+  },
   username: {
     type: String,
     unique: true,

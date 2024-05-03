@@ -16,7 +16,36 @@ export default async function auth(req: Request, res: Response, next: NextFuncti
       throw new UnauthorizedError('Authentication required!');
     }
 
-    if (token.platform === 'GitHub') {
+    if (token.platform === 'Google') {
+      const dataResponse = await axios.get(
+        'https://www.googleapis.com/oauth2/v3/userinfo',
+        { headers: { Authorization: `Bearer ${token.value}` } }
+      );
+      const id = dataResponse.data.sub;
+
+      if (!id) {
+        throw new UnauthorizedError('Authentication required!');
+      }
+
+      const oauthUser = await OauthUser.findOne({
+        userId: id,
+        platform: 'Google',
+      });
+
+      if (!oauthUser) {
+        throw new NotFoundError('User not found!');
+      }
+
+      if (!oauthUser.username) {
+        throw new OauthUsernameError('Google');
+      }
+
+      (req as AuthenticatedRequest).user = {
+        username: oauthUser.username,
+        platform: 'GitHub',
+      };
+      next();
+    } else if (token.platform === 'GitHub') {
       const { data } = await axios.get('https://api.github.com/user', {
         headers: { Authorization: `Bearer ${token.value}` },
       });

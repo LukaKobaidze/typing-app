@@ -1,5 +1,7 @@
 import { Request } from 'express';
 
+export type PlatformType = 'GitHub' | 'Google';
+
 export interface AuthenticatedRequest<
   P = any,
   ResBody = any,
@@ -9,6 +11,6 @@ export interface AuthenticatedRequest<
 > extends Request<P, ResBody, ReqBody, ReqQuery, Locals> {
   user?: {
     username: string;
-    platform?: 'GitHub';
+    platform?: PlatformType;
   };
 }

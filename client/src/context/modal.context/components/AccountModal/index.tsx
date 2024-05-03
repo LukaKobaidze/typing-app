@@ -4,6 +4,7 @@ import {
   IconAccount,
   IconCustomize,
   IconGithub,
+  IconGoogle,
   IconHistory,
   IconStats,
 } from '@/assets/image';
@@ -23,6 +24,7 @@ export default function AccountModal(props: Props) {
   const [tab, setTab] = useState<'create-account' | 'log-in'>('create-account');
 
   const githubClientId: string | undefined = import.meta.env.VITE_GITHUB_CLIENT_ID;
+  const googleClientId: string | undefined = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
   useEffect(() => {
     if (profile.username) {
@@ -57,38 +59,62 @@ export default function AccountModal(props: Props) {
       </div>
 
       {tab === 'create-account' ? <CreateAccount /> : <LogIn />}
-      <div className={styles.orContinueWith}>
-        <div className={styles.orContinueWithText}>
-          <div>or</div>
-          <div>Continue with</div>
-        </div>
-      </div>
 
-      {githubClientId && (
-        <a
-          className={styles.oauthLink}
-          href={`https://github.com/login/oauth/authorize?client_id=${githubClientId}&state=github`}
-        >
-          <IconGithub className={styles.oauthLinkIcon} />
-          <span>GitHub</span>
-        </a>
+      {(googleClientId || githubClientId) && (
+        <>
+          <div className={styles.dividerText}>
+            <div className={styles.dividerTextContent}>
+              <div>or</div>
+              <div>Continue with</div>
+            </div>
+          </div>
+
+          <div className={styles.oauthWrapper}>
+            {googleClientId && (
+              <a
+                className={`${styles.oauthLink} ${styles.oauthLinkGoogle}`}
+                href={`https://accounts.google.com/o/oauth2/v2/auth?client_id=${googleClientId}&redirect_uri=${'https://typing-app.fly.dev/auth/google/access-token'}&response_type=code&scope=https://www.googleapis.com/auth/userinfo.profile&state=google`}
+              >
+                <IconGoogle className={styles.oauthLinkIcon} />
+                <span>Google</span>
+              </a>
+            )}
+            {githubClientId && (
+              <a
+                className={`${styles.oauthLink} ${styles.oauthLinkGithub}`}
+                href={`https://github.com/login/oauth/authorize?client_id=${githubClientId}&state=github`}
+              >
+                <IconGithub className={styles.oauthLinkIcon} />
+                <span>GitHub</span>
+              </a>
+            )}
+          </div>
+        </>
       )}
 
       {tab === 'create-account' && (
-        <ul className={styles.benefits}>
-          <li className={styles.benefitsItem}>
-            <IconStats className={styles.benefitsItemIcon} />
-            <span>Personal Stats.</span>
-          </li>
-          <li className={styles.benefitsItem}>
-            <IconHistory className={styles.benefitsItemIcon} />
-            <span>Previous results (History).</span>
-          </li>
-          <li className={styles.benefitsItem}>
-            <IconCustomize className={styles.benefitsItemIcon} />
-            <span>Customizations saved to the account.</span>
-          </li>
-        </ul>
+        <>
+          <div className={styles.dividerText}>
+            <div className={styles.dividerTextContent}>
+              <div>Account benefits</div>
+            </div>
+          </div>
+
+          <ul className={styles.benefits}>
+            <li className={styles.benefitsItem}>
+              <IconStats className={styles.benefitsItemIcon} />
+              <span>Personal Stats.</span>
+            </li>
+            <li className={styles.benefitsItem}>
+              <IconHistory className={styles.benefitsItemIcon} />
+              <span>Previous results (History).</span>
+            </li>
+            <li className={styles.benefitsItem}>
+              <IconCustomize className={styles.benefitsItemIcon} />
+              <span>Customizations saved to the account.</span>
+            </li>
+          </ul>
+        </>
       )}
     </Modal>
   );

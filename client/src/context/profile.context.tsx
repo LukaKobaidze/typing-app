@@ -120,8 +120,6 @@ export function ProfileContextProvider({ children }: { children: React.ReactNode
   }, []);
 
   useEffect(() => {
-    if (profile.customize === initial.profile.customize) return;
-
     localStorage.setItem('customize', JSON.stringify(profile.customize));
   }, [profile.customize]);
 

@@ -10,7 +10,6 @@ import OneVersusOne from '@/components/OneVersusOne';
 import Footer from '@/components/Footer';
 import Typemode from '@/components/Typemode';
 import styles from '@/styles/App.module.scss';
-import { httpOauthAccessToken } from './api/auth';
 
 export default function App() {
   const { typingFocused, resultPreview, typemodeVisible, onPreviewResult } =

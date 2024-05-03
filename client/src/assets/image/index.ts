@@ -12,6 +12,7 @@ export { default as IconEmail } from './email.svg?react';
 export { default as IconEyeOn } from './eye_on.svg?react';
 export { default as IconEyeOff } from './eye_off.svg?react';
 export { default as IconGithub } from './github.svg?react';
+export { default as IconGoogle } from './google.svg?react';
 export { default as IconHistory } from './history.svg?react';
 export { default as IconKeyboardArrowDown } from './keyboard_arrow_down.svg?react';
 export { default as IconKeyboardArrowLeft } from './keyboard_arrow_left.svg?react';

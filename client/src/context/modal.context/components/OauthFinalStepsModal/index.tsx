@@ -9,7 +9,7 @@ import { ProfileContext } from '@/context/profile.context';
 import useForm from '@/hooks/useForm';
 
 export type OauthFinalStepsModalOptions = {
-  platform: 'GitHub';
+  platform: 'GitHub' | 'Google';
 };
 
 interface Props {
@@ -77,6 +77,7 @@ export default function OauthFinalStepsModal(props: Props) {
           value={fields.username}
           onChange={(e) => onFieldChange(e, 'username')}
           error={error?.field === 'username'}
+          autoFocus
         />
       </SubmitForm>
     </Modal>
