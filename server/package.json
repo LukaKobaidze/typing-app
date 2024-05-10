@@ -21,7 +21,6 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.2.0",
     "morgan": "^1.10.0",
-    "shared": "file:../shared",
     "socket.io": "^4.7.2",
     "ts-node": "^10.9.1"
   },
