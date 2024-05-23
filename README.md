@@ -37,7 +37,7 @@
 - Results after typing is done, including WPM, Accuracy, Errors, Interactive Dashboard.
 - User can customize the app to their liking.
 - Various app color themes.
-- User can create account that will be saved on database.
+- User can create account that will be saved on database, including Google OAuth & GitHub OAuth.
 - Personal stats, history and customizations will be saved to the account.
 
 ![Project image](screenshot-two.png)
