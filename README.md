@@ -51,6 +51,7 @@
 ```sh
 git clone https://github.com/LukaKobaidze/typing-app
 ```
+&nbsp;
 
 2. Add environment variables
 > [!NOTE]  
@@ -64,7 +65,6 @@ For Auth:
 MONGODB_CONNECTION=<your-mongodb-connection-string>
 JWT_SECRET=<your-jwt-secret>
 ```
-&nbsp;
 
 For Google OAuth:
 
@@ -77,7 +77,6 @@ VITE_GOOGLE_CLIENT_ID=<your-google-client-id>
 GOOGLE_CLIENT_ID=<your-google-client-id>
 GOOGLE_CLIENT_SECRET=<your-google-client-secret>
 ```
-&nbsp;
 
 For GitHub OAuth:
 
@@ -90,11 +89,13 @@ VITE_GITHUB_CLIENT_ID=<your-github-client-id>
 GITHUB_CLIENT_ID=<your-github-client-id>
 GITHUB_CLIENT_SECRET=<your-github-client-secret>
 ```
+&nbsp;
 
 3. Install NPM packages (handles both client & server packages)
 ```sh
 npm run install-all
 ```
+&nbsp;
 
 4. Run the app locally
 ```sh
