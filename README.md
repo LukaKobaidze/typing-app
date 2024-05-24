@@ -64,7 +64,7 @@ For Auth:
 MONGODB_CONNECTION=<your-mongodb-connection-string>
 JWT_SECRET=<your-jwt-secret>
 ```
-
+&nbsp;
 
 For Google OAuth:
 
@@ -77,7 +77,7 @@ VITE_GOOGLE_CLIENT_ID=<your-google-client-id>
 GOOGLE_CLIENT_ID=<your-google-client-id>
 GOOGLE_CLIENT_SECRET=<your-google-client-secret>
 ```
-
+&nbsp;
 
 For GitHub OAuth:
 
