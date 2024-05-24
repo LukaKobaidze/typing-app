@@ -57,14 +57,16 @@ git clone https://github.com/LukaKobaidze/typing-app
 > If you only want to run the client, you can skip this step.
 > Authentication will not work unless you add these variables.
 
-For Auth
+For Auth:
+
 `server/.env`:
 ```
 MONGODB_CONNECTION=<your-mongodb-connection-string>
 JWT_SECRET=<your-jwt-secret>
 ```
 
-For Google OAuth
+
+For Google OAuth:
 
 `client/.env`:
 ```
@@ -76,7 +78,8 @@ GOOGLE_CLIENT_ID=<your-google-client-id>
 GOOGLE_CLIENT_SECRET=<your-google-client-secret>
 ```
 
-For GitHub OAuth
+
+For GitHub OAuth:
 
 `client/.env`:
 ```
