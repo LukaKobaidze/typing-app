@@ -65,6 +65,7 @@ JWT_SECRET=<your-jwt-secret>
 ```
 
 For Google OAuth
+
 `client/.env`:
 ```
 VITE_GOOGLE_CLIENT_ID=<your-google-client-id>
@@ -76,6 +77,7 @@ GOOGLE_CLIENT_SECRET=<your-google-client-secret>
 ```
 
 For GitHub OAuth
+
 `client/.env`:
 ```
 VITE_GITHUB_CLIENT_ID=<your-github-client-id>
