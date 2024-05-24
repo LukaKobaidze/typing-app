@@ -23,6 +23,9 @@ export default function AccountModal(props: Props) {
   const { profile } = useContext(ProfileContext);
   const [tab, setTab] = useState<'create-account' | 'log-in'>('create-account');
 
+  const serverUrl = import.meta.env.PROD
+    ? import.meta.env.VITE_SERVER_URL
+    : 'http://localhost:8080';
   const githubClientId: string | undefined = import.meta.env.VITE_GITHUB_CLIENT_ID;
   const googleClientId: string | undefined = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
@@ -73,7 +76,7 @@ export default function AccountModal(props: Props) {
             {googleClientId && (
               <a
                 className={`${styles.oauthLink} ${styles.oauthLinkGoogle}`}
-                href={`https://accounts.google.com/o/oauth2/v2/auth?client_id=${googleClientId}&redirect_uri=${'https://typing-app.fly.dev/auth/google/access-token'}&response_type=code&scope=https://www.googleapis.com/auth/userinfo.profile&state=google`}
+                href={`https://accounts.google.com/o/oauth2/v2/auth?client_id=${googleClientId}&redirect_uri=${serverUrl}/auth/google/access-token&response_type=code&scope=https://www.googleapis.com/auth/userinfo.profile&state=google`}
               >
                 <IconGoogle className={styles.oauthLinkIcon} />
                 <span>Google</span>

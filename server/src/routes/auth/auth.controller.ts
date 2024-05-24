@@ -11,6 +11,11 @@ import UnauthorizedError from '../../errors/UnauthorizedError';
 import NotFoundError from '../../errors/NotFoundError';
 import Profile from '../../models/Profile.model';
 
+const clientOriginalURL =
+  process.env.NODE_ENV === 'development' || !process.env.CLIENT_ORIGINAL_URL
+    ? 'http://localhost:3000'
+    : process.env.CLIENT_ORIGINAL_URL;
+
 export async function httpGithubAccessToken(
   req: Request<any, Response, any, { code: string }>,
   res: Response,
@@ -81,7 +86,7 @@ export async function httpGithubAccessToken(
           }
         );
 
-        res.redirect('https://typing-app.fly.dev');
+        res.redirect(clientOriginalURL);
       });
   } catch (err) {
     next(err);
@@ -145,7 +150,7 @@ export async function httpGoogleAccessToken(
       code,
       client_id: process.env.GOOGLE_CLIENT_ID,
       client_secret: process.env.GOOGLE_CLIENT_SECRET,
-      redirect_uri: 'https://typing-app.fly.dev/auth/google/access-token',
+      redirect_uri: `${clientOriginalURL}/auth/google/access-token`,
       grant_type: 'authorization_code',
     });
 
@@ -180,7 +185,7 @@ export async function httpGoogleAccessToken(
       );
     }
 
-    res.redirect('https://typing-app.fly.dev');
+    res.redirect(clientOriginalURL);
   } catch (err) {
     next(err);
   }

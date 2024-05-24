@@ -52,23 +52,46 @@
 git clone https://github.com/LukaKobaidze/typing-app
 ```
 
-2. Add required environment variables to server
+2. Add environment variables
+> [!NOTE]  
+> If you only want to run the client, you can skip this step.
+> Authentication will not work unless you add these variables.
 
-   Create .env file in server directory
-
+For Auth
+`server/.env`:
 ```
-  MONGODB_CONNECTION=<your-mongodb-connection-string>
-  JWT_SECRET=<your-jwt-secret>
+MONGODB_CONNECTION=<your-mongodb-connection-string>
+JWT_SECRET=<your-jwt-secret>
+```
+
+For Google OAuth
+`client/.env`:
+```
+VITE_GOOGLE_CLIENT_ID=<your-google-client-id>
+```
+`server/.env`:
+```
+GOOGLE_CLIENT_ID=<your-google-client-id>
+GOOGLE_CLIENT_SECRET=<your-google-client-secret>
+```
+
+For GitHub OAuth
+`client/.env`:
+```
+VITE_GITHUB_CLIENT_ID=<your-github-client-id>
+```
+`server/.env`:
+```
+GITHUB_CLIENT_ID=<your-github-client-id>
+GITHUB_CLIENT_SECRET=<your-github-client-secret>
 ```
 
 3. Install NPM packages (handles both client & server packages)
-
 ```sh
 npm run install-all
 ```
 
 4. Run the app locally
-
 ```sh
 npm run dev
 ```
