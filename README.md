@@ -19,16 +19,16 @@
 
 ### Built with
 
-[![TypeScript][typescript-image]][typescript-url]
-[![React][react-image]][react-url]
-[![Sass][sass-image]][sass-url]
-[![Node.js][nodejs-image]][nodejs-url]
-[![Express][express-image]][express-url]
-[![MongoDB][mongodb-image]][mongodb-url]
-[![Mongoose][mongoose-image]][mongoose-url]
-[![Socket.io][socketio-image]][socketio-url]
-[![Google OAuth][google-oauth-image]][google-oauth-url]
-[![GitHub OAuth][github-oauth-image]][github-oauth-url]
+- [![TypeScript][typescript-image]][typescript-url]
+- [![React][react-image]][react-url]
+- [![Sass][sass-image]][sass-url]
+- [![Node.js][nodejs-image]][nodejs-url]
+- [![Express][express-image]][express-url]
+- [![MongoDB][mongodb-image]][mongodb-url]
+- [![Mongoose][mongoose-image]][mongoose-url]
+- [![Socket.io][socketio-image]][socketio-url]
+- [![Google OAuth][google-oauth-image]][google-oauth-url]
+- [![GitHub OAuth][github-oauth-image]][github-oauth-url]
 
 ### Description
 
