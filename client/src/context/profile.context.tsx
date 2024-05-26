@@ -1,15 +1,9 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import { TypingResult } from '@/types';
 import { ISOToDate } from '@/helpers';
 import { CaretStyleType, ThemeType } from '@/data/types';
-import {
-  GetProfileFilterType,
-  httpGetHistory,
-  httpGetProfile,
-  httpPostCustomize,
-} from '@/api/profile';
+import { httpGetHistory, httpGetProfile, httpPostCustomize } from '@/api/profile';
 import { httpTypingCompleted, httpTypingStarted } from '@/api/typing';
-import { ModalContext } from './modal.context';
 import { OauthFinalStepsModalOptions } from './modal.context/components/OAuthFinalStepsModal';
 
 interface CustomizeBooleans {
@@ -29,8 +23,8 @@ export interface ICustomize extends CustomizeBooleans {
 const customizeInitial: ICustomize = {
   liveWpm: false,
   liveAccuracy: false,
-  inputWidth: 85,
-  fontSize: 24,
+  inputWidth: 90,
+  fontSize: 32,
   caretStyle: 'line',
   smoothCaret: true,
   soundOnClick: false,

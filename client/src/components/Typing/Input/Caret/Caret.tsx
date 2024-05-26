@@ -63,7 +63,7 @@ export default function Caret(props: Props) {
   const sizingStyle = (
     caretStyle === 'line'
       ? {
-          width: charWidth / 10,
+          width: charWidth / 9,
           height: lineHeight - fontSize * 0.4,
           left: 0,
           top: 1,

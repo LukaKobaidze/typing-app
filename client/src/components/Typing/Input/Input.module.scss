@@ -7,13 +7,12 @@
 .words {
   display: flex;
   flex-wrap: wrap;
-  font-size: 24px;
   user-select: none;
   transition: transform 50ms;
 }
 
 .wordWrapper {
-  padding: 0.2em 0.3em;
+  padding: 0.2em 0.25em;
 }
 
 .word {
