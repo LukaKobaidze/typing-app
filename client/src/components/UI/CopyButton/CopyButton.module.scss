@@ -1,0 +1,16 @@
+ .copy {
+  &__button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    padding: 4px;
+    border-radius: 5px;
+  }
+
+  &__icon {
+    display: block;
+    height: 100%;
+  }
+}

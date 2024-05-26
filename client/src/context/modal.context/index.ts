@@ -1,3 +1,1 @@
-import { ModalContext, ModalContextProvider } from './modal.context';
-
-export { ModalContext, ModalContextProvider };
+export * from './modal.context';

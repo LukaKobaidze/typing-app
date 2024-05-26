@@ -5,7 +5,7 @@ import { TypingContextProvider } from '@/context/typing.context';
 import { TypemodeContextProvider } from './context/typemode.context';
 import { ModalContextProvider } from './context/modal.context';
 import App from '@/App';
-import '@/styles/styles.scss';
+import './global.scss';
 
 ReactDOM.render(
   <React.StrictMode>

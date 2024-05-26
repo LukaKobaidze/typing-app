@@ -9,7 +9,7 @@ import Typing from '@/components/Typing';
 import OneVersusOne from '@/components/OneVersusOne';
 import Footer from '@/components/Footer';
 import Typemode from '@/components/Typemode';
-import styles from '@/styles/App.module.scss';
+import styles from './App.module.scss';
 
 export default function App() {
   const { typingFocused, resultPreview, typemodeVisible, onPreviewResult } =

@@ -10,7 +10,7 @@ import {
 } from '@/api/profile';
 import { httpTypingCompleted, httpTypingStarted } from '@/api/typing';
 import { ModalContext } from './modal.context';
-import { OauthFinalStepsModalOptions } from './modal.context/components/OauthFinalStepsModal';
+import { OauthFinalStepsModalOptions } from './modal.context/components/OAuthFinalStepsModal';
 
 interface CustomizeBooleans {
   liveWpm: boolean;

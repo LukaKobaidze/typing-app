@@ -8,7 +8,7 @@ import QuoteTagsModal from './components/QuoteTagsModal';
 import UserModal from './components/UserModal';
 import OauthUsernameModal, {
   OauthFinalStepsModalOptions,
-} from './components/OauthFinalStepsModal';
+} from './components/OAuthFinalStepsModal';
 import { ProfileContext } from '../profile.context';
 
 export type ModalType =
